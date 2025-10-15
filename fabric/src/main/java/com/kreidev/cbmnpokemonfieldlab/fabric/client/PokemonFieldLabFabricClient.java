@@ -1,8 +1,8 @@
-package com.kreidev.templatemod.fabric.client;
+package com.kreidev.cbmnpokemonfieldlab.fabric.client;
 
 import net.fabricmc.api.ClientModInitializer;
 
-public final class TemplateModFabricClient implements ClientModInitializer {
+public final class PokemonFieldLabFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         // This entrypoint is suitable for setting up client-specific logic, such as rendering.

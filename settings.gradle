@@ -7,7 +7,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'templatemod'
+rootProject.name = 'cobblemon-pokemon field-lab'
 
 include 'common'
 include 'fabric'

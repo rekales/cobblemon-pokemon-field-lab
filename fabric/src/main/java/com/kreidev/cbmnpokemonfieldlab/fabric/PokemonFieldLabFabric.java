@@ -1,11 +1,11 @@
-package com.kreidev.templatemod.fabric;
+package com.kreidev.cbmnpokemonfieldlab.fabric;
 
 import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.api.ModInitializer;
 
-import com.kreidev.templatemod.TemplateMod;
+import com.kreidev.cbmnpokemonfieldlab.PokemonFieldLab;
 
-public final class TemplateModFabric implements ModInitializer {
+public final class PokemonFieldLabFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
@@ -14,11 +14,11 @@ public final class TemplateModFabric implements ModInitializer {
         // Proceed with mild caution.
 
         // Run our common setup.
-        TemplateMod.init();
+        PokemonFieldLab.init();
         loadConfigs();
     }
 
     public static void loadConfigs() {
-        MidnightConfig.init(TemplateMod.MOD_ID, CommonConfigFabric.class);
+        MidnightConfig.init(PokemonFieldLab.MOD_ID, CommonConfigFabric.class);
     }
 }

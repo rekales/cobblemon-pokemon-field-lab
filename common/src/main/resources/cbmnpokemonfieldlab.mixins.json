@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.kreidev.templatemod.mixin",
+  "package": "com.kreidev.cbmnpokemonfieldlab.mixin",
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [

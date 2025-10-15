@@ -1,4 +1,4 @@
-package com.kreidev.templatemod.fabric;
+package com.kreidev.cbmnpokemonfieldlab.fabric;
 
 import eu.midnightdust.lib.config.MidnightConfig;
 

@@ -1,4 +1,4 @@
-package com.kreidev.templatemod.neoforge;
+package com.kreidev.cbmnpokemonfieldlab.neoforge;
 
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
