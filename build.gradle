@@ -16,6 +16,7 @@ allprojects {
     mod_authors = rootProject.mod_authors
     mod_group = rootProject.mod_group
     mod_description = rootProject.mod_description
+    cobblemon_dependency = rootProject.cobblemon_dependency
 
     repositories {
         maven {
@@ -44,12 +45,8 @@ subprojects {
         maven { url = "https://api.modrinth.com/maven" }
         maven { url = "https://www.cursemaven.com" }
         maven { url = "https://maven.blamejared.com" }  // JEI, Vazkii's Mods
-
-        // Add repositories to retrieve artifacts from in here.
-        // You should only use this when depending on other mods because
-        // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-        // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-        // for more information about repositories.
+        maven { url = "https://maven.impactdev.net/repository/development/" } // Cobblemon
+        maven { url = "https://thedarkcolour.github.io/KotlinForForge/"} // Kotlin
     }
 
     dependencies {
@@ -58,8 +55,6 @@ subprojects {
             officialMojangMappings()
             parchment("org.parchmentmc.data:parchment-${rootProject.minecraft_version}:${rootProject.parchment_mappings_version}@zip")
         }
-
-        // owo-lib dependency on fabric side only
     }
 
     java {

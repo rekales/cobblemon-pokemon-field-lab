@@ -38,8 +38,9 @@ dependencies {
 
     // TODO: Figure out why jei is being fucky wucky
 //    runtimeOnly ("mezz.jei:jei-$rootProject.minecraft_version-fabric:$rootProject.jei_version")
+    implementation ("com.cobblemon:fabric:$rootProject.cobblemon_version")
+    implementation("net.fabricmc:fabric-language-kotlin:$rootProject.fabric_kotlin_version")
 
-//    modImplementation "io.wispforest:owo-lib:${rootProject.owo_version}"
     modImplementation "curse.maven:modmenu-308702:5810603"
     modImplementation include ("maven.modrinth:midnightlib:${rootProject.midnightlib_version}")
 }

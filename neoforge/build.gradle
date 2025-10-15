@@ -40,8 +40,12 @@ dependencies {
     common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 
-    runtimeOnly ("mezz.jei:jei-$rootProject.minecraft_version-neoforge:$rootProject.jei_version")
+    implementation ("com.cobblemon:neoforge:$rootProject.cobblemon_version")
+    runtimeOnly ("thedarkcolour:kotlinforforge-neoforge:$rootProject.kotlin_for_forge_version") {
+        exclude group: "net.neoforged.fancymodloader", module: "loader"
+    }
 
+    runtimeOnly ("mezz.jei:jei-$rootProject.minecraft_version-neoforge:$rootProject.jei_version")
     runtimeOnly "curse.maven:configured-457570:7076243"
 }
 
