@@ -1,0 +1,36 @@
+# Project exclude paths
+/.gradle/
+/build/
+/common/.gradle/
+/common/build/
+/fabric/.gradle/
+/fabric/build/
+/neoforge/.gradle/
+/neoforge/build/
+
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+
+# other
+eclipse
+run
+runs
+run-data
+
+repo
