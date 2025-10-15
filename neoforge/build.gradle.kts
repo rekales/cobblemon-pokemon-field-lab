@@ -64,21 +64,21 @@ tasks.processResources {
 tasks {
 
     jar {
-        archiveBaseName.set("${rootProject.property("archives_base_name")}-${project.name}")
+        archiveBaseName.set("${rootProject.property("mod_id")}-${project.name}")
         archiveClassifier.set("dev-slim")
     }
 
     shadowJar {
         exclude("fabric.mod.json")
         archiveClassifier.set("dev-shadow")
-        archiveBaseName.set("${rootProject.property("archives_base_name")}-${project.name}")
+        archiveBaseName.set("${rootProject.property("mod_id")}-${project.name}")
         configurations = listOf(shadowBundle)
     }
 
     remapJar {
         dependsOn(shadowJar)
         inputFile.set(shadowJar.flatMap { it.archiveFile })
-        archiveBaseName.set("${rootProject.property("archives_base_name")}-${project.name}")
+        archiveBaseName.set("${rootProject.property("mod_id")}-${project.name}")
         archiveVersion.set("${rootProject.version}")
     }
 }

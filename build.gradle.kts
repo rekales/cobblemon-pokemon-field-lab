@@ -12,10 +12,11 @@ allprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
 
     version = project.properties["mod_version"]!!
-    group = project.properties["maven_group"]!!
+    group = project.properties["mod_group"]!!
 
     repositories {
         mavenCentral()
+        maven("https://www.cursemaven.com")
         maven("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
         maven("https://maven.impactdev.net/repository/development/")
         maven("https://maven.neoforged.net/releases")

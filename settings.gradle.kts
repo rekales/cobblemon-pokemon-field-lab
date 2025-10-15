@@ -1,4 +1,4 @@
-rootProject.name = "Multi-Platform"
+rootProject.name = "cobblemon-pokemon-field-lab"
 
 pluginManagement {
     repositories {

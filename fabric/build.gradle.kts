@@ -14,7 +14,7 @@ loom {
     silentMojangMappingsLicense()
 
     mixin {
-        defaultRefmapName.set("mixins.${project.name}.refmap.json")
+        defaultRefmapName.set("mixins.${property("mod_id")}.refmap.json")
     }
 }
 val shadowCommon = configurations.create("shadowCommon")
@@ -37,6 +37,8 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${property("junit_version")}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${property("junit_version")}")
+
+    modRuntimeOnly("curse.maven:modmenu-308702:5810603")
 }
 
 tasks.getByName<Test>("test") {
@@ -55,20 +57,20 @@ tasks.processResources {
 tasks {
 
     jar {
-        archiveBaseName.set("${rootProject.property("archives_base_name")}-${project.name}")
+        archiveBaseName.set("${rootProject.property("mod_id")}-${project.name}")
         archiveClassifier.set("dev-slim")
     }
 
     shadowJar {
         archiveClassifier.set("dev-shadow")
-        archiveBaseName.set("${rootProject.property("archives_base_name")}-${project.name}")
+        archiveBaseName.set("${rootProject.property("mod_id")}-${project.name}")
         configurations = listOf(shadowCommon)
     }
 
     remapJar {
         dependsOn(shadowJar)
         inputFile.set(shadowJar.flatMap { it.archiveFile })
-        archiveBaseName.set("${rootProject.property("archives_base_name")}-${project.name}")
+        archiveBaseName.set("${rootProject.property("mod_id")}-${project.name}")
         archiveVersion.set("${rootProject.version}")
     }
 }

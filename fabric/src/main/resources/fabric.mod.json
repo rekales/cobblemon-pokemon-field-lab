@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "id": "cobblemon_multiplatform_mdk",
-  "version": "${version}",
-  "name": "Cobblemon Multi-platform Fabric MDK",
-  "description": "A MDK useful for Fabric Development",
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
   "authors": [
-    "The Cobblemon Team"
+    "${mod_authors}"
   ],
-  "license": "MIT License",
+  "license": "${mod_license}",
   "icon": "assets/example/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.cobblemon.fabric.example.FabricModExample"
+      "com.kreidev.cbmnfieldlab.fabric.PokemonFieldLabFabric"
     ]
   },
   "depends": {
