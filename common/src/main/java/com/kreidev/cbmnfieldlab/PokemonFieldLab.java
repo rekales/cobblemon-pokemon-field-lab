@@ -38,18 +38,13 @@ public class PokemonFieldLab {
         ITEMS.register();
         MENUS.register();
         registerToCreativeTab();
-        registerMenusToScreens();
     }
 
     private static void registerToCreativeTab() {
 //        CreativeTabRegistry.append(CreativeModeTabs.INGREDIENTS, PFL_BLOCK_ITEM.get());
     }
 
-    private static void registerMenusToScreens() {
-        ClientLifecycleEvent.CLIENT_SETUP.register((client) -> MenuRegistry.registerScreenFactory(FIELD_LAB_MENU.get(), FieldLabScreen::new));
-    }
-
-    public static ResourceLocation resLoc(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    public static ResourceLocation resLoc(String path, Object... args) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, String.format(path, args));
     }
 }

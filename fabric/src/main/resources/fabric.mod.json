@@ -13,6 +13,9 @@
   "entrypoints": {
     "main": [
       "com.kreidev.cbmnfieldlab.fabric.PokemonFieldLabFabric"
+    ],
+    "client": [
+      "com.kreidev.cbmnfieldlab.fabric.PokemonFieldLabFabricClient"
     ]
   },
   "depends": {
