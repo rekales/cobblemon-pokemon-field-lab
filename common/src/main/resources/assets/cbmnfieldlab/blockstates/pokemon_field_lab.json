@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=south": {
+      "model": "cobblemon:block/monitor"
+    },
+    "facing=west": {
+      "model": "cobblemon:block/monitor",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "cobblemon:block/monitor",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "cobblemon:block/monitor",
+      "y": 270
+    }
+  }
+}
