@@ -1,18 +1,33 @@
 {
   "variants": {
-    "facing=south": {
-      "model": "cobblemon:block/monitor"
+    "facing=south,half=lower": {
+      "model": "cbmnfieldlab:block/pokemon_field_lab_bottom"
     },
-    "facing=west": {
-      "model": "cobblemon:block/monitor",
+    "facing=west,half=lower": {
+      "model": "cbmnfieldlab:block/pokemon_field_lab_bottom",
       "y": 90
     },
-    "facing=north": {
-      "model": "cobblemon:block/monitor",
+    "facing=north,half=lower": {
+      "model": "cbmnfieldlab:block/pokemon_field_lab_bottom",
       "y": 180
     },
-    "facing=east": {
-      "model": "cobblemon:block/monitor",
+    "facing=east,half=lower": {
+      "model": "cbmnfieldlab:block/pokemon_field_lab_bottom",
+      "y": 270
+    },
+    "facing=south,half=upper": {
+      "model": "cbmnfieldlab:block/pokemon_field_lab_top"
+    },
+    "facing=west,half=upper": {
+      "model": "cbmnfieldlab:block/pokemon_field_lab_top",
+      "y": 90
+    },
+    "facing=north,half=upper": {
+      "model": "cbmnfieldlab:block/pokemon_field_lab_top",
+      "y": 180
+    },
+    "facing=east,half=upper": {
+      "model": "cbmnfieldlab:block/pokemon_field_lab_top",
       "y": 270
     }
   }
