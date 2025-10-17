@@ -75,7 +75,7 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
         );
 
         GuiUtilsKt.blitk(
-                matrices, RIGHT_SPACER_RES, (x+275.5)/PCGUI.SCALE, (y+189)/PCGUI.SCALE,
+                matrices, RIGHT_SPACER_RES, (x+275.5)/PCGUI.SCALE, (y+184)/PCGUI.SCALE,
                 24, 64, 0, 0,
                 64, 24, 0, 1, 1, 1, 1f, true,
                 PCGUI.SCALE
