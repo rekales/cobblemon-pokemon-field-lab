@@ -3,13 +3,16 @@ package com.kreidev.cbmnfieldlab;
 import com.cobblemon.mod.common.api.gui.GuiUtilsKt;
 import com.cobblemon.mod.common.api.moves.Move;
 import com.cobblemon.mod.common.api.text.TextKt;
+import com.cobblemon.mod.common.client.CobblemonClient;
 import com.cobblemon.mod.common.client.CobblemonResources;
 import com.cobblemon.mod.common.client.gui.ExitButton;
 import com.cobblemon.mod.common.client.gui.TypeIcon;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.summary.Summary;
+import com.cobblemon.mod.common.client.gui.summary.widgets.ModelWidget;
 import com.cobblemon.mod.common.client.gui.summary.widgets.common.NatureInfoUtilsKt;
 import com.cobblemon.mod.common.client.render.RenderHelperKt;
+import com.cobblemon.mod.common.client.storage.ClientParty;
 import com.cobblemon.mod.common.pokemon.Gender;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus;
@@ -35,8 +38,6 @@ import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
 public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
 
     public static final ResourceLocation TEXTURE = resLoc("textures/gui/%s.png", FIELD_LAB_NAME);
-    public static final int TEXTURE_WIDTH = 349;
-    public static final int TEXTURE_HEIGHT = 205;
 
     private static final ResourceLocation BASE_RES = cobblemonResource("textures/gui/pc/pc_base.png");
     private static final ResourceLocation PORTRAIT_BACKGROUND_RES = cobblemonResource("textures/gui/pc/portrait_background.png");
@@ -47,12 +48,14 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
     private static final ResourceLocation TYPE_SPACER_SINGLE_RES = cobblemonResource("textures/gui/pc/type_spacer_single.png");
     private static final ResourceLocation TYPE_SPACER_DOUBLE_RES = cobblemonResource("textures/gui/pc/type_spacer_double.png");
 
-
-
+    public @Nullable PartyPanelWidget partyPanelWidget;  // No lateinit for java, rip
+    public @Nullable ModelWidget modelWidget = null;
     public @Nullable Pokemon previewPokemon = null;
+    public ClientParty party;
 
     public FieldLabScreen(FieldLabMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
+        this.party = CobblemonClient.INSTANCE.getStorage().getMyParty();
     }
 
     @Override
@@ -62,13 +65,18 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
 
         this.addRenderableWidget(new ExitButton(x+320, y+186, conf->{}));
 
-        this.previewPokemon = null;
+        this.partyPanelWidget = new PartyPanelWidget(x+85, y+27, this, party);
+        this.addRenderableWidget(this.partyPanelWidget);
+
+        this.setPreviewPokemon(null);
         super.init();
     }
 
-    //NOTE: mouseX and mouseY might be reversed
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float delta, int mouseX, int mouseY) {
+    protected void renderBg(GuiGraphics guiGraphics, float i, int j, int k) {}
+
+    @Override
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         PoseStack matrices = guiGraphics.pose();
         int x = (width - PCGUI.BASE_WIDTH) / 2;
         int y = (height - PCGUI.BASE_HEIGHT) / 2;
@@ -76,7 +84,10 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
         // Render Portrait Background
         GuiUtilsKt.blitk(matrices, PORTRAIT_BACKGROUND_RES, x+6, y+27, PCGUI.PORTRAIT_SIZE, PCGUI.PORTRAIT_SIZE);
 
-        // TODO: Render Model Portrait
+        // Render Model Portrait
+        if (modelWidget != null) {
+            modelWidget.render(guiGraphics, mouseX, mouseY, delta);
+        }
 
         // Render Base Resource
         GuiUtilsKt.blitk(matrices, BASE_RES, x, y, PCGUI.BASE_HEIGHT, PCGUI.BASE_WIDTH);
@@ -101,11 +112,14 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
         );
 
         // TODO: remove debugging thing
+        Pokemon pokemon = null;
+        Pokemon poketemp = CobblemonClient.INSTANCE.getStorage().getMyParty().get(0);
+        if (poketemp != null) {
+            pokemon = poketemp;
+        }
 
         // Render Pokemon Info
-        Pokemon pokemon = previewPokemon;
-
-
+//        Pokemon pokemon = previewPokemon;
         if (pokemon != null) {
 
             // Status
@@ -161,10 +175,10 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
 
             if (pokemon.getGender() != Gender.GENDERLESS) {
                 boolean isMale = pokemon.getGender() == Gender.MALE;
-                MutableComponent textSymbol = TextKt.bold(TextKt.text(isMale?"♂":"♀"));
+                MutableComponent textSymbol = TextKt.bold(TextKt.text(isMale ? "♂" : "♀" ));
                 RenderHelperKt.drawScaledText(
                         guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(), textSymbol,
-                        x, y, 1F, 1F,
+                        x+69, y+11.5, 1F, 1F,
                         Integer.MAX_VALUE, isMale ? 0x32CBFF : 0xFC5454,
                         false, true, null, null
                 );
@@ -182,7 +196,7 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
             RenderHelperKtExt.drawScaledText(
                     guiGraphics, null,
                     LocalizationUtilsKt.lang("held_item"),
-                    x+12, y+11.5, true
+                    x+27, y+108.5, false, false, PCGUI.SCALE
             );
 
             // Shine Icon
@@ -254,17 +268,39 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
                 24, 64, PCGUI.SCALE
         );
 
-    }
+        super.render(guiGraphics, mouseX, mouseY, delta);
 
-    @Override
-    public void render(GuiGraphics guiGraphics, int i, int j, float f) {
-        super.render(guiGraphics, i, j, f);
+        // TODO: Item tooltips
     }
 
     @Override
     public void renderBackground(GuiGraphics guiGraphics, int i, int j, float f) {
         this.renderBg(guiGraphics, f, i, j);
     }
+
+    public void setPreviewPokemon(@Nullable Pokemon pokemon) {
+        if (pokemon != null) {
+            previewPokemon = pokemon;
+
+            int x = (width - PCGUI.BASE_WIDTH) / 2;
+            int y = (height - PCGUI.BASE_HEIGHT) / 2;
+            modelWidget = new ModelWidget(
+                    x+6,
+                    y+27,
+                    PCGUI.PORTRAIT_SIZE,
+                    PCGUI.PORTRAIT_SIZE,
+                    pokemon.asRenderablePokemon(),
+                    2F,
+                    325F,
+                    -10.0,
+                    false
+            );
+        } else {
+            previewPokemon = null;
+            modelWidget = null;
+        }
+    }
+
 
     @SuppressWarnings("SameParameterValue")
     static class GuiUtilsKtExt {
@@ -275,6 +311,14 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
                     height, width, 0, 0,
                     width, height, 0, 1, 1, 1, 1f, true,
                     scale
+            );
+        }
+
+        static void blitk(PoseStack matrixStack, ResourceLocation texture,
+                          Number x, Number y, Number height, Number width) {
+            GuiUtilsKtExt.blitk(
+                    matrixStack, texture, x, y,
+                    height, width, 1F
             );
         }
     }

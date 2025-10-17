@@ -1,0 +1,80 @@
+package com.kreidev.cbmnfieldlab;
+
+import com.cobblemon.mod.common.api.storage.party.PartyPosition;
+import com.cobblemon.mod.common.api.text.TextKt;
+import com.cobblemon.mod.common.client.CobblemonResources;
+import com.cobblemon.mod.common.client.gui.pc.PCGUI;
+import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget;
+import com.cobblemon.mod.common.client.storage.ClientParty;
+import com.cobblemon.mod.common.util.LocalizationUtilsKt;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.cobblemon.mod.common.util.MiscUtilsKt.cobblemonResource;
+import static com.kreidev.cbmnfieldlab.FieldLabScreen.GuiUtilsKtExt;
+import static com.kreidev.cbmnfieldlab.FieldLabScreen.RenderHelperKtExt;
+
+public class PartyPanelWidget extends SoundlessWidget {
+
+    private static final ResourceLocation PARTY_PANEL_RES = cobblemonResource("textures/gui/pc/party_panel.png");
+
+    public final List<PartyPanelSlot> partySlots = new ArrayList<>();
+    public final FieldLabScreen flsRef;
+    public final ClientParty party;
+
+    public PartyPanelWidget(int pX, int pY, FieldLabScreen flsRef, ClientParty party) {
+        super(pX, pY, 263, 155, Component.literal("FLSWidget"));
+        this.flsRef = flsRef;
+        this.party = party;
+        setupPartySlot();
+    }
+
+    private void setupPartySlot() {
+        for (int partyIndex = 0; partyIndex < 6; partyIndex++) {
+            int partyX = this.getX() + 193;
+            int partyY = this.getY() + 8;
+
+            if (partyIndex > 0) {
+                boolean isEven = partyIndex % 2 == 0;
+                int offsetIndex = (partyIndex - (isEven ? 0 : 1)) / 2;
+                int offsetX = isEven ? 0 : 31;
+                int offsetY = isEven ? 0 : 8;
+
+                partyX += offsetX;
+                partyY += 31*offsetIndex + offsetY;
+            }
+
+            // TODO: either override the storage widget or reimplement PartyStorageSlot
+            PartyPanelSlot slot = new PartyPanelSlot(
+                    partyX, partyY, this, party, new PartyPosition(partyIndex), button -> {}
+            );
+            this.addWidget(slot);
+            this.partySlots.add(slot);
+        }
+    }
+
+    @Override
+    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        PoseStack matrices = guiGraphics.pose();
+
+        GuiUtilsKtExt.blitk(matrices, PARTY_PANEL_RES,
+                this.getX()+182, this.getY()-19,
+                PCGUI.RIGHT_PANEL_HEIGHT, PCGUI.RIGHT_PANEL_WIDTH);
+
+        RenderHelperKtExt.drawScaledText(guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
+                TextKt.bold(LocalizationUtilsKt.lang("ui.party")),
+                this.getX()+213, this.getY()-15.5, true, true
+        );
+
+        for (PartyPanelSlot slot : this.partySlots) {
+            slot.render(guiGraphics, mouseX, mouseY, delta);
+        }
+    }
+
+    // TODO: mouse clicked to set active pokemon
+}
