@@ -51,7 +51,7 @@ public class PartyPanelSlot extends Button implements CobblemonRenderable {
 
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        // NOTE: no need to copy shouldRender as pokemons aren't "grabbed"
+        // no need to copy shouldRender as pokemons aren't "grabbed"
         this.renderSlot(guiGraphics, this.getX(), this.getY(), delta);
     }
 
@@ -122,15 +122,17 @@ public class PartyPanelSlot extends Button implements CobblemonRenderable {
             // Arrow pointer
             GuiUtilsKtExt.blitk(
                     matrices, SELECT_POINTER_RES,
-                    (posX+10)/PCGUI.SCALE, (posY-3)/PCGUI.SCALE,  // TODO: subtract selectPointerOffsetY
+                    (posX+10)/PCGUI.SCALE, (posY-3)/PCGUI.SCALE - parent.parent.selectPointerOffsetY,
                     8, 11, PCGUI.SCALE
             );
         }
         matrices.popPose();
+
+        // TODO: maybe white translucent overlay when hovered for feedback?
     }
 
     @Override
     public boolean isHoveredOrFocused() {
-        return getPokemon() == parent.flsRef.previewPokemon;
+        return getPokemon() == parent.parent.previewPokemon;
     }
 }

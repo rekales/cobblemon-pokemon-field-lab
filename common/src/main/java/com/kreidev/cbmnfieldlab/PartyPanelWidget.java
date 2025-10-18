@@ -6,9 +6,11 @@ import com.cobblemon.mod.common.client.CobblemonResources;
 import com.cobblemon.mod.common.client.gui.pc.PCGUI;
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget;
 import com.cobblemon.mod.common.client.storage.ClientParty;
+import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.util.LocalizationUtilsKt;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -24,12 +26,12 @@ public class PartyPanelWidget extends SoundlessWidget {
     private static final ResourceLocation PARTY_PANEL_RES = cobblemonResource("textures/gui/pc/party_panel.png");
 
     public final List<PartyPanelSlot> partySlots = new ArrayList<>();
-    public final FieldLabScreen flsRef;
+    public final FieldLabScreen parent;
     public final ClientParty party;
 
     public PartyPanelWidget(int pX, int pY, FieldLabScreen flsRef, ClientParty party) {
         super(pX, pY, 263, 155, Component.literal("FLSWidget"));
-        this.flsRef = flsRef;
+        this.parent = flsRef;
         this.party = party;
         setupPartySlot();
     }
@@ -49,9 +51,9 @@ public class PartyPanelWidget extends SoundlessWidget {
                 partyY += 31*offsetIndex + offsetY;
             }
 
-            // TODO: either override the storage widget or reimplement PartyStorageSlot
+            // NOTE: either override the storage widget or reimplement PartyStorageSlot, did the latter
             PartyPanelSlot slot = new PartyPanelSlot(
-                    partyX, partyY, this, party, new PartyPosition(partyIndex), button -> {}
+                    partyX, partyY, this, party, new PartyPosition(partyIndex), this::onSlotClicked
             );
             this.addWidget(slot);
             this.partySlots.add(slot);
@@ -76,5 +78,17 @@ public class PartyPanelWidget extends SoundlessWidget {
         }
     }
 
-    // TODO: mouse clicked to set active pokemon
+
+    public void onSlotClicked(Button button) {
+        if (!(button instanceof PartyPanelSlot slot)) return;
+
+        Pokemon pokemon = slot.getPokemon();
+
+        // Unselect if clicked again
+        if (pokemon == parent.previewPokemon) {
+            pokemon = null;
+        }
+
+        parent.setPreviewPokemon(pokemon);
+    }
 }

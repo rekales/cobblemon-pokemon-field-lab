@@ -1,5 +1,6 @@
 package com.kreidev.cbmnfieldlab;
 
+import com.cobblemon.mod.common.CobblemonSounds;
 import com.cobblemon.mod.common.api.gui.GuiUtilsKt;
 import com.cobblemon.mod.common.api.moves.Move;
 import com.cobblemon.mod.common.api.text.TextKt;
@@ -22,9 +23,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -52,9 +55,13 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
     public @Nullable ModelWidget modelWidget = null;
     public @Nullable Pokemon previewPokemon = null;
     public ClientParty party;
+    public int ticksElapsed = 0;
+    public int selectPointerOffsetY = 0;
+    public boolean selectPointerOffsetIncrement = false;
 
+    @SuppressWarnings("unused")  // I wish there's a way to elegantly not need this
     public FieldLabScreen(FieldLabMenu menu, Inventory inventory, Component component) {
-        super(menu, inventory, component);
+        super(menu, inventory, Component.empty());
         this.party = CobblemonClient.INSTANCE.getStorage().getMyParty();
     }
 
@@ -63,7 +70,7 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
         int x = (width - PCGUI.BASE_WIDTH) / 2;
         int y = (height - PCGUI.BASE_HEIGHT) / 2;
 
-        this.addRenderableWidget(new ExitButton(x+320, y+186, conf->{}));
+        this.addRenderableWidget(new ExitButton(x+320, y+186, button->this.closeNormally()));
 
         this.partyPanelWidget = new PartyPanelWidget(x+85, y+27, this, party);
         this.addRenderableWidget(this.partyPanelWidget);
@@ -111,15 +118,8 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
                 x+39, y+163.5, true, false, PCGUI.SCALE
         );
 
-        // TODO: remove debugging thing
-        Pokemon pokemon = null;
-        Pokemon poketemp = CobblemonClient.INSTANCE.getStorage().getMyParty().get(0);
-        if (poketemp != null) {
-            pokemon = poketemp;
-        }
-
         // Render Pokemon Info
-//        Pokemon pokemon = previewPokemon;
+        Pokemon pokemon = previewPokemon;
         if (pokemon != null) {
 
             // Status
@@ -270,12 +270,34 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
 
         super.render(guiGraphics, mouseX, mouseY, delta);
 
-        // TODO: Item tooltips
+        // Item tooltips
+        if (pokemon != null && !pokemon.heldItemNoCopy$common().isEmpty()) {
+            int itemX = x + 3;
+            int itemY = y + 98;
+            if ((mouseX >= itemX && mouseX <= itemX + 16) && (mouseY >= itemY && mouseY <= itemY + 16)) {
+                guiGraphics.renderTooltip(
+                        Minecraft.getInstance().font,
+                        pokemon.getHeldItem$common(),
+                        mouseX,
+                        mouseY
+                );
+            }
+        }
     }
 
     @Override
     public void renderBackground(GuiGraphics guiGraphics, int i, int j, float f) {
         this.renderBg(guiGraphics, f, i, j);
+    }
+
+    @Override
+    protected void containerTick() {
+        ticksElapsed++;
+
+        // Calculate select pointer offset
+        int delayFactor = 3;
+        if (ticksElapsed % (2 * delayFactor) == 0) selectPointerOffsetIncrement = !selectPointerOffsetIncrement;
+        if (ticksElapsed % delayFactor == 0) selectPointerOffsetY += selectPointerOffsetIncrement ? 1 : -1;
     }
 
     public void setPreviewPokemon(@Nullable Pokemon pokemon) {
@@ -301,6 +323,20 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
         }
     }
 
+    public void playSound(SoundEvent soundEvent) {
+        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(soundEvent, 1.0F));
+    }
+
+    public void closeNormally() {
+        playSound(CobblemonSounds.PC_OFF);
+        Minecraft.getInstance().setScreen(null);
+    }
+
+    @Override
+    public void onClose() {
+        playSound(CobblemonSounds.PC_OFF);
+        super.onClose();
+    }
 
     @SuppressWarnings("SameParameterValue")
     static class GuiUtilsKtExt {
