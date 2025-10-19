@@ -9,14 +9,14 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
+//import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class FieldLabMenu extends AbstractContainerMenu {
 
-    private BlockPos blockPos;
-    private Level level;
+//    private BlockPos blockPos;
+//    private Level level;
     private ContainerLevelAccess access;
 
     protected FieldLabMenu(@Nullable MenuType<?> menuType, int i) {
@@ -29,9 +29,9 @@ public class FieldLabMenu extends AbstractContainerMenu {
 
     public FieldLabMenu(int id, Inventory inventory, BlockPos blockPos) {
         super(PokemonFieldLab.FIELD_LAB_MENU.get(), id);
-        this.blockPos = blockPos;
-        this.level = inventory.player.level();
-        this.access = ContainerLevelAccess.create(level, blockPos);
+//        this.blockPos = blockPos;
+//        this.level = inventory.player.level();
+        this.access = ContainerLevelAccess.create(inventory.player.level(), blockPos);
     }
 
     @Override

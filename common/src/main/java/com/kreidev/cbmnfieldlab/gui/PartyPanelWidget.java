@@ -23,15 +23,15 @@ import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.RenderHelperKtExt;
 
 public class PartyPanelWidget extends SoundlessWidget {
 
-    private static final ResourceLocation PARTY_PANEL_RES = cobblemonResource("textures/gui/pc/party_panel.png");
+    public static final ResourceLocation PARTY_PANEL_RES = cobblemonResource("textures/gui/pc/party_panel.png");
 
     public final List<PartyPanelSlot> partySlots = new ArrayList<>();
     public final FieldLabScreen parent;
     public final ClientParty party;
 
-    public PartyPanelWidget(int pX, int pY, FieldLabScreen flsRef, ClientParty party) {
-        super(pX, pY, 263, 155, Component.literal("FLSWidget"));
-        this.parent = flsRef;
+    public PartyPanelWidget(int pX, int pY, FieldLabScreen parent, ClientParty party) {
+        super(pX, pY, 263, 155, Component.literal("PartyPanelOverlay"));
+        this.parent = parent;
         this.party = party;
         setupPartySlot();
     }
