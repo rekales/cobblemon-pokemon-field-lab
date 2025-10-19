@@ -1,6 +1,6 @@
 package com.kreidev.cbmnfieldlab.neoforge;
 
-import com.kreidev.cbmnfieldlab.FieldLabScreen;
+import com.kreidev.cbmnfieldlab.gui.FieldLabScreen;
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;

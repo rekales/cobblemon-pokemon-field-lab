@@ -1,4 +1,4 @@
-package com.kreidev.cbmnfieldlab;
+package com.kreidev.cbmnfieldlab.gui;
 
 import com.cobblemon.mod.common.api.storage.party.PartyPosition;
 import com.cobblemon.mod.common.api.text.TextKt;
@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.cobblemon.mod.common.util.MiscUtilsKt.cobblemonResource;
-import static com.kreidev.cbmnfieldlab.FieldLabScreen.GuiUtilsKtExt;
-import static com.kreidev.cbmnfieldlab.FieldLabScreen.RenderHelperKtExt;
+import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.GuiUtilsKtExt;
+import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.RenderHelperKtExt;
 
 public class PartyPanelWidget extends SoundlessWidget {
 

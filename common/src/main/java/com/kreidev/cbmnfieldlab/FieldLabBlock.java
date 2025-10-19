@@ -1,5 +1,6 @@
 package com.kreidev.cbmnfieldlab;
 
+import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.core.BlockPos;

@@ -1,4 +1,4 @@
-package com.kreidev.cbmnfieldlab;
+package com.kreidev.cbmnfieldlab.gui;
 
 import com.cobblemon.mod.common.CobblemonSounds;
 import com.cobblemon.mod.common.api.gui.GuiUtilsKt;

@@ -1,8 +1,8 @@
 package com.kreidev.cbmnfieldlab;
 
 
+import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
 import com.mojang.logging.LogUtils;
-import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.registry.menu.MenuRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;

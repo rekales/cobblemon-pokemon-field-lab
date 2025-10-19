@@ -1,5 +1,6 @@
-package com.kreidev.cbmnfieldlab;
+package com.kreidev.cbmnfieldlab.gui;
 
+import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
