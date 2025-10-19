@@ -25,6 +25,7 @@ public class PartyPanelWidget extends SoundlessWidget {
 
     public static final ResourceLocation PARTY_PANEL_RES = cobblemonResource("textures/gui/pc/party_panel.png");
 
+    public final SubmitButton submitButton;
     public final List<PartyPanelSlot> partySlots = new ArrayList<>();
     public final FieldLabScreen parent;
     public final ClientParty party;
@@ -34,6 +35,7 @@ public class PartyPanelWidget extends SoundlessWidget {
         this.parent = parent;
         this.party = party;
         setupPartySlot();
+        this.submitButton = new SubmitButton(this.getX()+194, this.getY()+124, this::onSubmit);
     }
 
     private void setupPartySlot() {
@@ -76,6 +78,8 @@ public class PartyPanelWidget extends SoundlessWidget {
         for (PartyPanelSlot slot : this.partySlots) {
             slot.render(guiGraphics, mouseX, mouseY, delta);
         }
+
+        this.submitButton.render(guiGraphics, mouseX, mouseY, delta);
     }
 
 
@@ -90,5 +94,9 @@ public class PartyPanelWidget extends SoundlessWidget {
         }
 
         parent.setPreviewPokemon(pokemon);
+    }
+
+    public void onSubmit(Button button) {
+
     }
 }

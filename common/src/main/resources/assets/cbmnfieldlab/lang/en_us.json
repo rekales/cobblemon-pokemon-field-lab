@@ -1,5 +1,8 @@
 {
   "block.cbmnfieldlab.pokemon_field_lab": "Field Lab",
-  "menu.cbmnfieldlab.pokemon_field_lab": "Field Lab"
+  "menu.cbmnfieldlab.pokemon_field_lab": "Field Lab",
+
+  "cbmnfieldlab.ui.field_lab.title": "Poké-Field Lab",
+  "cbmnfieldlab.ui.field_lab.submit": "Submit"
 
 }

@@ -253,6 +253,13 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
             );
         }
 
+        // Title
+        RenderHelperKtExt.drawScaledText(
+                guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
+                TextKt.bold(Component.translatable("cbmnfieldlab.ui.field_lab.title")),
+                x+172, y+15, true, false
+        );
+
         GuiUtilsKtExt.blitk(
                 matrices, TOP_SPACER_RES, (x+86.5)/PCGUI.SCALE, (y+13)/PCGUI.SCALE,
                 PCGUI.PC_SPACER_HEIGHT, PCGUI.PC_SPACER_WIDTH, PCGUI.SCALE
@@ -284,6 +291,9 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
             }
         }
     }
+
+    @Override
+    protected void renderLabels(GuiGraphics guiGraphics, int i, int j) {}
 
     @Override
     public void renderBackground(GuiGraphics guiGraphics, int i, int j, float f) {
