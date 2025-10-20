@@ -39,18 +39,18 @@ public class PartyPanelWidget extends SoundlessWidget {
         this.parent = parent;
         this.party = party;
         setupPartySlot();
-        this.submitButton = new SubmitButton(
-                this.getX()+194, this.getY()+124,
-                button -> PokemonFieldLab.LOGGER.info("clicks")
-        );
+        this.submitButton = new SubmitButton(this.getX()+194, this.getY()+124, this::onSubmit);
+        this.addWidget(submitButton);
         this.submitYesButton = new SubmitConfirmButton(
                 this.getX()+190, this.getY()+131,
                 LocalizationUtilsKt.lang("ui.generic.yes"), this::onSubmit
         );
+        this.addWidget(submitYesButton);
         this.submitNoButton = new SubmitConfirmButton(
                 this.getX()+226, this.getY()+131,
                 LocalizationUtilsKt.lang("ui.generic.no"), this::onSubmit
         );
+        this.addWidget(submitNoButton);
     }
 
     private void setupPartySlot() {
