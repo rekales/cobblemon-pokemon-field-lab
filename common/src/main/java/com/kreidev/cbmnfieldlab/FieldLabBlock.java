@@ -2,6 +2,7 @@ package com.kreidev.cbmnfieldlab;
 
 import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
 import com.kreidev.cbmnfieldlab.quest.Quest;
+import com.kreidev.cbmnfieldlab.quest.QuestManager;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.core.BlockPos;
@@ -9,7 +10,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -36,6 +36,8 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.FIELD_LAB_NAME;
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.MOD_ID;
@@ -70,11 +72,18 @@ public class FieldLabBlock extends Block {
                     else
                         buf.writeBlockPos(blockPos);
 
+                    List<Quest> quests = QuestManager.getQuests(serverPlayer);
+
                     CompoundTag tag = new CompoundTag();
-                    Quest.save(tag, Quest.getRandomQuest((ServerLevel) level));
+                    Quest.save(tag, quests.get(0));
                     buf.writeNbt(tag);
+
                     tag = new CompoundTag();
-                    Quest.save(tag, Quest.getRandomQuest((ServerLevel) level));
+                    Quest.save(tag, quests.get(1));
+                    buf.writeNbt(tag);
+
+                    tag = new CompoundTag();
+                    Quest.save(tag, quests.get(2));
                     buf.writeNbt(tag);
                 }
 
@@ -86,7 +95,7 @@ public class FieldLabBlock extends Block {
 
                 @Override
                 public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-                    return new FieldLabMenu(i, inventory, blockPos);
+                    return new FieldLabMenu(i, inventory, blockPos, (ServerPlayer) player);
                 }
             });
         }

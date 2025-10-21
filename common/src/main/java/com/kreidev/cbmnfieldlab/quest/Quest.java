@@ -86,6 +86,13 @@ public abstract class Quest {
         return "Quest{" + "timeStamp=" + timeStamp + ", type=" + type + '}';
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Quest quest)) return false;
+        // good enough for practical purposes
+        return this.type == quest.type && this.timeStamp == quest.timeStamp;
+    }
+
     public abstract boolean isEligible(Pokemon pokemon);
 
     // TODO: Maybe use codecs for these

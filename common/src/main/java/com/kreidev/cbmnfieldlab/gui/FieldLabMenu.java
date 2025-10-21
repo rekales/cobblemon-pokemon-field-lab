@@ -2,51 +2,62 @@ package com.kreidev.cbmnfieldlab.gui;
 
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import com.kreidev.cbmnfieldlab.quest.Quest;
+import com.kreidev.cbmnfieldlab.quest.QuestManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
-//import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FieldLabMenu extends AbstractContainerMenu {
 
-//    private BlockPos blockPos;
-//    private Level level;
-    private ContainerLevelAccess access;
-
-    protected FieldLabMenu(@Nullable MenuType<?> menuType, int i) {
-        super(menuType, i);
-    }
+    public final List<Quest> quests;
+    private final ContainerLevelAccess access;
 
     public FieldLabMenu(int id, Inventory inventory, FriendlyByteBuf extraData) {
-        this(id, inventory, extraData.readBlockPos());
+        super(PokemonFieldLab.FIELD_LAB_MENU.get(), id);
+
+        BlockPos blockPos = extraData.readBlockPos();
+
+        List<Quest> quests = new ArrayList<>(3);
         CompoundTag tag = extraData.readNbt();
         if (tag != null) {
             PokemonFieldLab.LOGGER.info(tag.getAsString());
             Quest quest = Quest.load(tag);
-            PokemonFieldLab.LOGGER.info(quest+"");
+            if (quest == null) throw new IllegalArgumentException("Invalid packet data");
+            quests.add(quest);
         }
-
         tag = extraData.readNbt();
         if (tag != null) {
             PokemonFieldLab.LOGGER.info(tag.getAsString());
             Quest quest = Quest.load(tag);
-            PokemonFieldLab.LOGGER.info(quest+"");
+            if (quest == null) throw new IllegalArgumentException("Invalid packet data");
+            quests.add(quest);
         }
+        tag = extraData.readNbt();
+        if (tag != null) {
+            PokemonFieldLab.LOGGER.info(tag.getAsString());
+            Quest quest = Quest.load(tag);
+            if (quest == null) throw new IllegalArgumentException("Invalid packet data");
+            quests.add(quest);
+        }
+
+        this.access = ContainerLevelAccess.create(inventory.player.level(), blockPos);
+        this.quests =  quests;
     }
 
-    public FieldLabMenu(int id, Inventory inventory, BlockPos blockPos) {
+    public FieldLabMenu(int id, Inventory inventory, BlockPos blockPos, ServerPlayer player) {
         super(PokemonFieldLab.FIELD_LAB_MENU.get(), id);
-//        this.blockPos = blockPos;
-//        this.level = inventory.player.level();
         this.access = ContainerLevelAccess.create(inventory.player.level(), blockPos);
+        this.quests = QuestManager.getQuests(player);
     }
 
     @Override
