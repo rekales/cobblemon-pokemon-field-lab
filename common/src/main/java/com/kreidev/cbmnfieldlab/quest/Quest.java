@@ -7,6 +7,7 @@ import com.cobblemon.mod.common.api.types.ElementalType;
 import com.cobblemon.mod.common.api.types.ElementalTypes;
 import com.cobblemon.mod.common.pokemon.Nature;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.quest.type.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;

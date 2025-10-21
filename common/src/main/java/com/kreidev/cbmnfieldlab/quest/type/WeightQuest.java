@@ -1,27 +1,27 @@
-package com.kreidev.cbmnfieldlab.quest;
+package com.kreidev.cbmnfieldlab.quest.type;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.quest.Quest;
 import net.minecraft.server.level.ServerLevel;
 
-public class SizeQuest extends Quest {
+public class WeightQuest extends Quest {
 
-    public final float size;
+    public final float weight;
 
-    public SizeQuest(ServerLevel level, float size) {
-        super(Type.SIZE, level);
-        this.size = size;
+    public WeightQuest(ServerLevel level, float weight) {
+        super(Type.WEIGHT, level);
+        this.weight = weight;
     }
 
     @Override
     public boolean isEligible(Pokemon pokemon) {
-        // NOTE: didn't find any "size" attribute but I did find height
-        return pokemon.getForm().getHeight() < this.size;
+        return pokemon.getForm().getWeight() < this.weight;
     }
 
     public static Quest createRandom(ServerLevel level) {
         float lowerBound = 0.5F;
         float upperBound = 2F;
         float threshold = level.getRandom().nextFloat() * (upperBound-lowerBound) + lowerBound;
-        return new SizeQuest(level, threshold);
+        return new WeightQuest(level, threshold);
     }
 }

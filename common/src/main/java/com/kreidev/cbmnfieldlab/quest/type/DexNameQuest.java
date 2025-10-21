@@ -1,6 +1,7 @@
-package com.kreidev.cbmnfieldlab.quest;
+package com.kreidev.cbmnfieldlab.quest.type;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.quest.Quest;
 import net.minecraft.server.level.ServerLevel;
 
 public class DexNameQuest extends Quest {

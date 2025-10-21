@@ -1,8 +1,9 @@
-package com.kreidev.cbmnfieldlab.quest;
+package com.kreidev.cbmnfieldlab.quest.type;
 
 import com.cobblemon.mod.common.api.abilities.Abilities;
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.quest.Quest;
 import net.minecraft.server.level.ServerLevel;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class AbilityQuest extends Quest {
         this.ability = abilityTemplate;
     }
 
-    protected AbilityQuest(long timestamp, AbilityTemplate abilityTemplate) {
+    public AbilityQuest(long timestamp, AbilityTemplate abilityTemplate) {
         super(Type.ABILITY, timestamp);
         this.ability = abilityTemplate;
     }

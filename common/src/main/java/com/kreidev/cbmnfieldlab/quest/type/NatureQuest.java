@@ -1,8 +1,9 @@
-package com.kreidev.cbmnfieldlab.quest;
+package com.kreidev.cbmnfieldlab.quest.type;
 
 import com.cobblemon.mod.common.api.pokemon.Natures;
 import com.cobblemon.mod.common.pokemon.Nature;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.quest.Quest;
 import net.minecraft.server.level.ServerLevel;
 
 public class NatureQuest extends Quest {
@@ -14,7 +15,7 @@ public class NatureQuest extends Quest {
         this.nature = nature;
     }
 
-    protected NatureQuest(long timestamp, Nature nature) {
+    public NatureQuest(long timestamp, Nature nature) {
         super(Type.NATURE, timestamp);
         this.nature = nature;
     }

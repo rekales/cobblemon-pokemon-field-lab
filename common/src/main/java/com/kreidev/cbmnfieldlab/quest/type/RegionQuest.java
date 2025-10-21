@@ -1,10 +1,11 @@
-package com.kreidev.cbmnfieldlab.quest;
+package com.kreidev.cbmnfieldlab.quest.type;
 
 import com.cobblemon.mod.common.api.pokedex.Dexes;
 import com.cobblemon.mod.common.api.pokedex.def.PokedexDef;
 import com.cobblemon.mod.common.api.pokedex.entry.DexEntries;
 import com.cobblemon.mod.common.api.pokedex.entry.PokedexEntry;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.quest.Quest;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 

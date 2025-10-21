@@ -1,8 +1,9 @@
-package com.kreidev.cbmnfieldlab.quest;
+package com.kreidev.cbmnfieldlab.quest.type;
 
 import com.cobblemon.mod.common.api.types.ElementalType;
 import com.cobblemon.mod.common.api.types.ElementalTypes;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.quest.Quest;
 import net.minecraft.server.level.ServerLevel;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class TypeQuest extends Quest {
         this.elementalType = elementalType;
     }
 
-    protected TypeQuest(long timestamp, ElementalType elementalType) {
+    public TypeQuest(long timestamp, ElementalType elementalType) {
         super(Type.SINGLE_TYPE, timestamp);
         this.elementalType = elementalType;
     }

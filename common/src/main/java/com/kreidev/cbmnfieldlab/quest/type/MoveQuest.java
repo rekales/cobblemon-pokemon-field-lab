@@ -1,14 +1,15 @@
-package com.kreidev.cbmnfieldlab.quest;
+package com.kreidev.cbmnfieldlab.quest.type;
 
 import com.cobblemon.mod.common.api.moves.Move;
 import com.cobblemon.mod.common.api.moves.MoveTemplate;
 import com.cobblemon.mod.common.api.moves.Moves;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.quest.Quest;
 import net.minecraft.server.level.ServerLevel;
 
 import java.util.List;
 
-public class MoveQuest extends Quest{
+public class MoveQuest extends Quest {
 
     public final MoveTemplate move;
 
