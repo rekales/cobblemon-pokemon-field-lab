@@ -1,7 +1,9 @@
 package com.kreidev.cbmnfieldlab.gui;
 
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
+import com.kreidev.cbmnfieldlab.quest.Quest;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -25,6 +27,19 @@ public class FieldLabMenu extends AbstractContainerMenu {
 
     public FieldLabMenu(int id, Inventory inventory, FriendlyByteBuf extraData) {
         this(id, inventory, extraData.readBlockPos());
+        CompoundTag tag = extraData.readNbt();
+        if (tag != null) {
+            PokemonFieldLab.LOGGER.info(tag.getAsString());
+            Quest quest = Quest.load(tag);
+            PokemonFieldLab.LOGGER.info(quest+"");
+        }
+
+        tag = extraData.readNbt();
+        if (tag != null) {
+            PokemonFieldLab.LOGGER.info(tag.getAsString());
+            Quest quest = Quest.load(tag);
+            PokemonFieldLab.LOGGER.info(quest+"");
+        }
     }
 
     public FieldLabMenu(int id, Inventory inventory, BlockPos blockPos) {

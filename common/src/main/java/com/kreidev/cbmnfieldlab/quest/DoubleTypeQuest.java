@@ -3,7 +3,6 @@ package com.kreidev.cbmnfieldlab.quest;
 import com.cobblemon.mod.common.api.types.ElementalType;
 import com.cobblemon.mod.common.api.types.ElementalTypes;
 import com.cobblemon.mod.common.pokemon.Pokemon;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 
 import java.util.List;
@@ -32,15 +31,6 @@ public class DoubleTypeQuest extends Quest {
             }
         }
         return false;
-    }
-
-    public CompoundTag save(CompoundTag tag) {
-
-        return tag;
-    }
-
-    public Quest load(CompoundTag tag) {
-        return null;
     }
 
     public static Quest createRandom(ServerLevel level) {

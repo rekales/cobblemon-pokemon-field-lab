@@ -4,7 +4,6 @@ import com.cobblemon.mod.common.api.moves.Move;
 import com.cobblemon.mod.common.api.moves.MoveTemplate;
 import com.cobblemon.mod.common.api.moves.Moves;
 import com.cobblemon.mod.common.pokemon.Pokemon;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 
 import java.util.List;
@@ -24,15 +23,6 @@ public class MoveQuest extends Quest{
             if (this.move == move.getTemplate()) return true;
         }
         return false;
-    }
-
-    public CompoundTag save(CompoundTag tag) {
-
-        return tag;
-    }
-
-    public Quest load(CompoundTag tag) {
-        return null;
     }
 
     public static Quest createRandom(ServerLevel level) {

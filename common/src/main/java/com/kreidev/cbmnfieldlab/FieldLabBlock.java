@@ -71,8 +71,11 @@ public class FieldLabBlock extends Block {
                         buf.writeBlockPos(blockPos);
 
                     CompoundTag tag = new CompoundTag();
-                    Quest q = Quest.getRandomQuest((ServerLevel) level);
-                    buf.writeNbt(q.save(tag));
+                    Quest.save(tag, Quest.getRandomQuest((ServerLevel) level));
+                    buf.writeNbt(tag);
+                    tag = new CompoundTag();
+                    Quest.save(tag, Quest.getRandomQuest((ServerLevel) level));
+                    buf.writeNbt(tag);
                 }
 
                 @Override

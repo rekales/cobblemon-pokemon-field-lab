@@ -5,11 +5,8 @@ import com.cobblemon.mod.common.api.pokedex.def.PokedexDef;
 import com.cobblemon.mod.common.api.pokedex.entry.DexEntries;
 import com.cobblemon.mod.common.api.pokedex.entry.PokedexEntry;
 import com.cobblemon.mod.common.pokemon.Pokemon;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-
-
 
 public class RegionQuest extends Quest {
 
@@ -31,15 +28,6 @@ public class RegionQuest extends Quest {
 //        return entry;
 
         // TODO
-    }
-
-    public CompoundTag save(CompoundTag tag) {
-
-        return tag;
-    }
-
-    public Quest load(CompoundTag tag) {
-        return null;
     }
 
     public static Quest createRandom(ServerLevel level) {

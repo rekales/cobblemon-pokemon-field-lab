@@ -3,7 +3,6 @@ package com.kreidev.cbmnfieldlab.quest;
 import com.cobblemon.mod.common.api.pokemon.stats.Stat;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.pokemon.Pokemon;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 
 import java.util.Map;
@@ -28,15 +27,6 @@ public class StatQuest extends Quest {
         stats += baseStats.get(Stats.SPECIAL_DEFENCE);
         stats += baseStats.get(Stats.SPEED);
         return stats < this.statTotal;
-    }
-
-    public CompoundTag save(CompoundTag tag) {
-
-        return tag;
-    }
-
-    public Quest load(CompoundTag tag) {
-        return null;
     }
 
     public static Quest createRandom(ServerLevel level) {
