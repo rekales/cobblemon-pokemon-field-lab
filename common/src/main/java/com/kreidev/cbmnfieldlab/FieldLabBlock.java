@@ -1,12 +1,15 @@
 package com.kreidev.cbmnfieldlab;
 
 import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
+import com.kreidev.cbmnfieldlab.quest.Quest;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -66,6 +69,10 @@ public class FieldLabBlock extends Block {
                         buf.writeBlockPos(blockPos.below());
                     else
                         buf.writeBlockPos(blockPos);
+
+                    CompoundTag tag = new CompoundTag();
+                    Quest q = Quest.getRandomQuest((ServerLevel) level);
+                    buf.writeNbt(q.save(tag));
                 }
 
                 @Override

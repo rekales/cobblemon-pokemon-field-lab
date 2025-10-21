@@ -1,8 +1,12 @@
 package com.kreidev.cbmnfieldlab.quest;
 
 import com.cobblemon.mod.common.api.types.ElementalType;
+import com.cobblemon.mod.common.api.types.ElementalTypes;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+
+import java.util.List;
 
 public class DoubleTypeQuest extends Quest {
 
@@ -30,9 +34,19 @@ public class DoubleTypeQuest extends Quest {
         return false;
     }
 
+    public CompoundTag save(CompoundTag tag) {
+
+        return tag;
+    }
+
+    public Quest load(CompoundTag tag) {
+        return null;
+    }
+
     public static Quest createRandom(ServerLevel level) {
-        // TODO: figure out how to get all types of ElementalTypes
-//        ElementalType eType = null;
-        return new DoubleTypeQuest(level, null, null);
+        List<ElementalType> types = ElementalTypes.INSTANCE.all();
+        ElementalType fType = types.get(level.getRandom().nextInt(types.size()));
+        ElementalType sType = types.get(level.getRandom().nextInt(types.size()));
+        return new DoubleTypeQuest(level, fType, sType);
     }
 }

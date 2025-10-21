@@ -12,14 +12,14 @@ public abstract class Quest {
     public enum Type {
         SINGLE_TYPE("single_type", TypeQuest::createRandom),
         DOUBLE_TYPE("double_type", DoubleTypeQuest::createRandom),
-        DEX_NAME("dex_name", DexNameQuest::createRandom),
+//        DEX_NAME("dex_name", DexNameQuest::createRandom),
         ABILITY("ability", AbilityQuest::createRandom),
         MOVE("move", MoveQuest::createRandom),
         NATURE("nature", NatureQuest::createRandom),
-        EVO_STAGE("evo_stage", TypeQuest::createRandom),  // TODO
-        BIOME("spawn_biome", TypeQuest::createRandom),  // TODO
-        STATS_TOTAL("stats_total", TypeQuest::createRandom),  // TODO
-        REGION("region", TypeQuest::createRandom),  // TODO
+//        EVO_STAGE("evo_stage", TypeQuest::createRandom),  // TODO
+//        BIOME("spawn_biome", TypeQuest::createRandom),  // TODO
+        STATS_TOTAL("stats_total", StatQuest::createRandom),
+//        REGION("region", RegionQuest::createRandom),
         SIZE("size", SizeQuest::createRandom),
         WEIGHT("weight", WeightQuest::createRandom);
 
@@ -53,21 +53,32 @@ public abstract class Quest {
         this.timeStamp = level.getGameTime();
     }
 
+    protected Quest(Type type, long timeStamp) {
+        this.type = type;
+        this.timeStamp = timeStamp;
+    }
+
     public abstract boolean isEligible(Pokemon pokemon);
 
-    // TODO: consider making a codec
-    public CompoundTag save(CompoundTag tag) {
-        return tag;
-    }
-
-    public Quest load(CompoundTag tag) {
+    public static Quest save(CompoundTag tag) {
         return null;
     }
+
+    public static Quest load(CompoundTag tag) {
+        return null;
+    }
+
+
 
     // TODO: implementation
     // TODO: configs
     // NOTE: The ServerLevel is really just to get the timestamp
     public static Quest getRandomQuest(ServerLevel level) {
-        return null;
+        int i = level.getRandom().nextInt(2);
+        return switch (i) {
+            case 0 -> Type.SINGLE_TYPE.getRandomQuest(level);
+            case 1 -> Type.ABILITY.getRandomQuest(level);
+            default -> Type.NATURE.getRandomQuest(level);
+        };
     }
 }
