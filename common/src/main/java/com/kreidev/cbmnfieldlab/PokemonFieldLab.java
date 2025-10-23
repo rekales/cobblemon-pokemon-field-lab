@@ -2,17 +2,22 @@ package com.kreidev.cbmnfieldlab;
 
 
 import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
+import com.kreidev.cbmnfieldlab.quest.QuestManager;
 import com.mojang.logging.LogUtils;
+import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.registry.menu.MenuRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
+import net.minecraft.world.level.saveddata.SavedData;
 import org.slf4j.Logger;
 
 @SuppressWarnings("unused")
@@ -38,6 +43,15 @@ public class PokemonFieldLab {
         ITEMS.register();
         MENUS.register();
         registerToCreativeTab();
+
+        LifecycleEvent.SERVER_STARTING.register(instance -> {
+            ServerLevel level = instance.getLevel(Level.OVERWORLD);
+            if(level != null && !level.isClientSide()) {
+                QuestManager.INSTANCE = level.getDataStorage().computeIfAbsent(
+                        new SavedData.Factory<>(QuestManager::new, QuestManager::new, null), "cobblemon_field_lab_data"
+                );
+            }
+        });
     }
 
     private static void registerToCreativeTab() {
