@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.api.pokemon.Natures;
 import com.cobblemon.mod.common.pokemon.Nature;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kreidev.cbmnfieldlab.quest.Quest;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 
 public class NatureQuest extends Quest {
@@ -23,6 +24,11 @@ public class NatureQuest extends Quest {
     @Override
     public boolean isEligible(Pokemon pokemon) {
         return pokemon.getNature() == this.nature;
+    }
+
+    @Override
+    public String getModifierString() {
+        return Component.translatable(this.nature.getDisplayName()).getString();
     }
 
     public static Quest createRandom(ServerLevel level) {

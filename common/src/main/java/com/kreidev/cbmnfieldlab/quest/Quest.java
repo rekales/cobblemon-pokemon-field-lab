@@ -17,6 +17,7 @@ import java.util.function.Function;
 
 // TODO: actually, maybe you could do some comparative quest using and abstract subclass that uses generics
 // NOTE: scratch comment above, each would need their own nbt serializers anyway.
+@SuppressWarnings("unused")
 public abstract class Quest {
     public enum Type {
         SINGLE_TYPE("single_type", TypeQuest::createRandom),
@@ -94,6 +95,8 @@ public abstract class Quest {
     }
 
     public abstract boolean isEligible(Pokemon pokemon);
+
+    public abstract String getModifierString();
 
     // TODO: Maybe use codecs for these
     public static CompoundTag save(CompoundTag tag, Quest quest) {

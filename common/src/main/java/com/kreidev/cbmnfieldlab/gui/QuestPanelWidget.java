@@ -4,10 +4,16 @@ import com.cobblemon.mod.common.api.text.TextKt;
 import com.cobblemon.mod.common.client.CobblemonResources;
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget;
 import com.cobblemon.mod.common.client.storage.ClientParty;
+import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,15 +33,13 @@ public class QuestPanelWidget extends SoundlessWidget {
     public final FieldLabScreen parent;
     public final ClientParty party;
     public int finishedQuests = 4;
-    public final List<Quest> questList = new ArrayList<>(3);
+    public final List<Quest> questList;
 
     public QuestPanelWidget(int pX, int pY, FieldLabScreen parent, ClientParty party) {
         super(pX, pY, 208, 189, Component.literal("QuestOverlay"));
         this.parent = parent;
         this.party = party;
-        questList.add(new Quest());
-        questList.add(new Quest());
-        questList.add(new Quest());
+        this.questList = parent.getMenu().quests;
     }
 
     @Override
@@ -79,25 +83,52 @@ public class QuestPanelWidget extends SoundlessWidget {
             );
 
             // TODO: multiline text rendering
-            RenderHelperKtExt.drawScaledText(
-                    guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
-                    Component.literal("test test test test test test"),
-                    this.getX()+32, this.getY()+36+questOffsetY, false, true
-            );
+            String str = Component
+                    .translatable("cbmnfieldlab.ui.field_lab.quest." + questList.get(i).getType().getKey())
+                    .getString();
+
+            String[] parts = str.split("\\n");
+            if (parts.length > 1) {
+                RenderHelperKtExt.drawScaledText(
+                        guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
+                        strToCompWithModifier(parts[0], questList.get(i).getModifierString()),
+                        this.getX()+32, this.getY()+30+questOffsetY,
+                        false, true, 1F, 0.9F
+                );
+                RenderHelperKtExt.drawScaledText(
+                        guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
+                        strToCompWithModifier(parts[1], questList.get(i).getModifierString()),
+                        this.getX()+32, this.getY()+42+questOffsetY,
+                        false, true, 1F, 0.9F
+                );
+            } else {
+                RenderHelperKtExt.drawScaledText(
+                        guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
+                        strToCompWithModifier(str, questList.get(i).getModifierString()),
+                        this.getX()+32, this.getY()+36+questOffsetY,
+                        false, true, 1F, 0.9F
+                );
+            }
 
             RenderHelperKtExt.drawScaledText(
                     guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
                     TextKt.bold(Component.literal("5x")),
-                    this.getX()+154, this.getY()+48.5+questOffsetY, true, true
+                    this.getX()+154, this.getY()+48.5+questOffsetY,
+                    true, true, 1F, 0.9F
             );
         }
 
     }
 
-    // NOTE: Temporary quest class
-    public static class Quest {
-        public Quest() {
+    public static MutableComponent strToCompWithModifier(String str, String modifier) {
+        if (str.contains("___")) {
+            String[] parts = str.split("___", -1);
 
+            return Component.literal(parts[0])
+                    .append(Component.literal(modifier).withStyle(ChatFormatting.BOLD))
+                    .append(parts[1]);
+        } else {
+            return Component.literal(str);
         }
     }
 }

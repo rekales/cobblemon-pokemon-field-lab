@@ -30,6 +30,11 @@ public class TypeQuest extends Quest {
         return false;
     }
 
+    @Override
+    public String getModifierString() {
+        return this.elementalType.getDisplayName().getString();
+    }
+
     public static Quest createRandom(ServerLevel level) {
         List<ElementalType> types = ElementalTypes.INSTANCE.all();
         ElementalType type = types.get(level.getRandom().nextInt(types.size()));

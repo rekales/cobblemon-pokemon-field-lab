@@ -18,6 +18,11 @@ public class WeightQuest extends Quest {
         return pokemon.getForm().getWeight() < this.weight;
     }
 
+    @Override
+    public String getModifierString() {
+        return Float.toString(weight);
+    }
+
     public static Quest createRandom(ServerLevel level) {
         float lowerBound = 0.5F;
         float upperBound = 2F;

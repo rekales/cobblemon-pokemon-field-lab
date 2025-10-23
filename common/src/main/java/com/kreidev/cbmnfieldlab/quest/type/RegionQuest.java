@@ -31,6 +31,11 @@ public class RegionQuest extends Quest {
         // TODO
     }
 
+    @Override
+    public String getModifierString() {
+        return this.region.toString();  // TODO
+    }
+
     public static Quest createRandom(ServerLevel level) {
         // TODO
         return new WeightQuest(level, 0);

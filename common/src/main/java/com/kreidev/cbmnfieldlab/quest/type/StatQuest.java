@@ -30,6 +30,11 @@ public class StatQuest extends Quest {
         return stats < this.statTotal;
     }
 
+    @Override
+    public String getModifierString() {
+        return Integer.toString(statTotal);
+    }
+
     public static Quest createRandom(ServerLevel level) {
         int lowerBound = 200;
         int upperBound = 400;

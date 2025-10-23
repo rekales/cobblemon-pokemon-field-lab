@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.api.abilities.Abilities;
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kreidev.cbmnfieldlab.quest.Quest;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 
 import java.util.List;
@@ -25,6 +26,11 @@ public class AbilityQuest extends Quest {
     @Override
     public boolean isEligible(Pokemon pokemon) {
         return pokemon.getAbility().getTemplate() == this.ability;
+    }
+
+    @Override
+    public String getModifierString() {
+        return Component.translatable(this.ability.getDisplayName()).getString();
     }
 
     public static Quest createRandom(ServerLevel level) {

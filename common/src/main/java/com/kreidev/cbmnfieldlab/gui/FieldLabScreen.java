@@ -72,7 +72,7 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
         this.partyPanelWidget = new PartyPanelWidget(x+85, y+27, this, party);
         this.addRenderableWidget(this.partyPanelWidget);
 
-        this. questWidget = new QuestPanelWidget(x+85, y=27, this, party);
+        this.questWidget = new QuestPanelWidget(x+85, y+10, this, party);
         this.addRenderableWidget(this.questWidget);
 
         this.setPreviewPokemon(null);
@@ -383,10 +383,16 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
 
         static void drawScaledText(GuiGraphics context, ResourceLocation font,
                                    MutableComponent text, Number x, Number y, boolean centered, boolean shadow, float scale) {
+            RenderHelperKtExt.drawScaledText(context, font, text, x, y, centered, shadow, scale, 1F);
+        }
+
+        static void drawScaledText(GuiGraphics context, ResourceLocation font,
+                                   MutableComponent text, Number x, Number y,
+                                   boolean centered, boolean shadow, float scale, float opacity) {
             RenderHelperKt.drawScaledText(
                     context, font, text,
-                    x, y, scale, 1F,
-                    Integer.MAX_VALUE, 0xFFFFFFFF,
+                    x, y, scale, opacity,
+                    Integer.MAX_VALUE, 0x00FFFFFF + ((int) (opacity * 255) << 24),
                     centered, shadow, null, null
             );
         }

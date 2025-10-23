@@ -19,6 +19,11 @@ public class SizeQuest extends Quest {
         return pokemon.getForm().getHeight() < this.size;
     }
 
+    @Override
+    public String getModifierString() {
+        return Float.toString(size);
+    }
+
     public static Quest createRandom(ServerLevel level) {
         float lowerBound = 0.5F;
         float upperBound = 2F;

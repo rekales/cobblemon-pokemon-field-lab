@@ -18,6 +18,11 @@ public class DexNameQuest extends Quest {
         return pokemon.getDisplayName().toString() == this.name;  // TODO: find a way to get the pokedex entry name
     }
 
+    @Override
+    public String getModifierString() {
+        return this.name;
+    }
+
     public static Quest createRandom(ServerLevel level) {
         // TODO: figure out how to get all types of Abilities
 //        Ability eType = null;

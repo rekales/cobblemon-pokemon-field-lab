@@ -26,6 +26,11 @@ public class MoveQuest extends Quest {
         return false;
     }
 
+    @Override
+    public String getModifierString() {
+        return this.move.getDisplayName().getString();
+    }
+
     public static Quest createRandom(ServerLevel level) {
         List<MoveTemplate> moves = Moves.INSTANCE.all();
         MoveTemplate move = moves.get(level.getRandom().nextInt(moves.size()));

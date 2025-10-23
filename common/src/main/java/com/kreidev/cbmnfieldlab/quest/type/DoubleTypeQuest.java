@@ -34,6 +34,11 @@ public class DoubleTypeQuest extends Quest {
         return false;
     }
 
+    @Override
+    public String getModifierString() {
+        return this.firstType.getDisplayName().getString() + " & " + this.secondType.getDisplayName().getString();
+    }
+
     public static Quest createRandom(ServerLevel level) {
         List<ElementalType> types = ElementalTypes.INSTANCE.all();
         ElementalType fType = types.get(level.getRandom().nextInt(types.size()));
