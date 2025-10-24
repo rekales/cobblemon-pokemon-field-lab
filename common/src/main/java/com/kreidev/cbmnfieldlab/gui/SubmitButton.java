@@ -4,7 +4,6 @@ import com.cobblemon.mod.common.api.gui.GuiUtilsKt;
 import com.cobblemon.mod.common.api.text.TextKt;
 import com.cobblemon.mod.common.client.CobblemonResources;
 import com.cobblemon.mod.common.client.gui.CobblemonRenderable;
-import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.sounds.SoundManager;
@@ -37,9 +36,6 @@ public class SubmitButton extends Button implements CobblemonRenderable {
                 TextKt.bold(Component.translatable("cbmnfieldlab.ui.field_lab.submit")),
                 this.getX()+(WIDTH / 2), this.getY()+3.5, true, true
         );
-
-//        if (this.isHovered)
-//            PokemonFieldLab.LOGGER.info("{} {} {} {}", this.getX(), this.getY(), this.width, this.height);
     }
 
     @Override

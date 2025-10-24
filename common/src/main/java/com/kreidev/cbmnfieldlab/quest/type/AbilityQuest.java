@@ -6,6 +6,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class AbilityQuest extends Quest {
     }
 
     public AbilityQuest(long timestamp, AbilityTemplate abilityTemplate) {
-        super(Type.ABILITY, timestamp);
+        super(Type.ABILITY, timestamp, new ItemStack(Items.STICK));
         this.ability = abilityTemplate;
     }
 

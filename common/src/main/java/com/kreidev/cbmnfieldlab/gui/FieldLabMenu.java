@@ -1,10 +1,12 @@
 package com.kreidev.cbmnfieldlab.gui;
 
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
+import com.kreidev.cbmnfieldlab.quest.PlayerQuestContainer;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtException;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
@@ -19,7 +21,7 @@ import java.util.List;
 
 public class FieldLabMenu extends AbstractContainerMenu {
 
-    public final List<Quest> quests;
+    public final PlayerQuestContainer questContainer;
     private final ContainerLevelAccess access;
 
     public FieldLabMenu(int id, Inventory inventory, FriendlyByteBuf extraData) {
@@ -27,37 +29,18 @@ public class FieldLabMenu extends AbstractContainerMenu {
 
         BlockPos blockPos = extraData.readBlockPos();
 
-        List<Quest> quests = new ArrayList<>(3);
         CompoundTag tag = extraData.readNbt();
-        if (tag != null) {
-            PokemonFieldLab.LOGGER.info(tag.getAsString());
-            Quest quest = Quest.load(tag);
-            if (quest == null) throw new IllegalArgumentException("Invalid packet data");
-            quests.add(quest);
-        }
-        tag = extraData.readNbt();
-        if (tag != null) {
-            PokemonFieldLab.LOGGER.info(tag.getAsString());
-            Quest quest = Quest.load(tag);
-            if (quest == null) throw new IllegalArgumentException("Invalid packet data");
-            quests.add(quest);
-        }
-        tag = extraData.readNbt();
-        if (tag != null) {
-            PokemonFieldLab.LOGGER.info(tag.getAsString());
-            Quest quest = Quest.load(tag);
-            if (quest == null) throw new IllegalArgumentException("Invalid packet data");
-            quests.add(quest);
-        }
+        if (tag == null) throw new NbtException("NBT null for some reason");
+        PlayerQuestContainer questContainer = PlayerQuestContainer.load(tag);
 
         this.access = ContainerLevelAccess.create(inventory.player.level(), blockPos);
-        this.quests =  quests;
+        this.questContainer = questContainer;
     }
 
     public FieldLabMenu(int id, Inventory inventory, BlockPos blockPos, ServerPlayer player) {
         super(PokemonFieldLab.FIELD_LAB_MENU.get(), id);
         this.access = ContainerLevelAccess.create(inventory.player.level(), blockPos);
-        this.quests = QuestManager.getQuests(player);
+        this.questContainer = QuestManager.getQuestContainer(player);
     }
 
     @Override

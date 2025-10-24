@@ -6,6 +6,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 public class NatureQuest extends Quest {
 
@@ -17,7 +19,7 @@ public class NatureQuest extends Quest {
     }
 
     public NatureQuest(long timestamp, Nature nature) {
-        super(Type.NATURE, timestamp);
+        super(Type.NATURE, timestamp, new ItemStack(Items.STICK));
         this.nature = nature;
     }
 

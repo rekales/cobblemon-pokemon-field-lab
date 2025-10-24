@@ -5,6 +5,8 @@ import com.cobblemon.mod.common.api.types.ElementalTypes;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.List;
 
@@ -18,7 +20,7 @@ public class TypeQuest extends Quest {
     }
 
     public TypeQuest(long timestamp, ElementalType elementalType) {
-        super(Type.SINGLE_TYPE, timestamp);
+        super(Type.SINGLE_TYPE, timestamp, new ItemStack(Items.STICK));
         this.elementalType = elementalType;
     }
 

@@ -1,6 +1,7 @@
 package com.kreidev.cbmnfieldlab;
 
 import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
+import com.kreidev.cbmnfieldlab.quest.PlayerQuestContainer;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestManager;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
@@ -10,6 +11,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -63,7 +65,7 @@ public class FieldLabBlock extends Block {
 
     @Override
     protected @NotNull InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos blockPos, Player player, BlockHitResult blockHitResult) {
-        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
+        if (level instanceof ServerLevel serverLevel && player instanceof ServerPlayer serverPlayer) {
             MenuRegistry.openExtendedMenu(serverPlayer, new ExtendedMenuProvider() {
                 @Override
                 public void saveExtraData(FriendlyByteBuf buf) {
@@ -72,18 +74,9 @@ public class FieldLabBlock extends Block {
                     else
                         buf.writeBlockPos(blockPos);
 
-                    List<Quest> quests = QuestManager.getQuests(serverPlayer);
-
                     CompoundTag tag = new CompoundTag();
-                    Quest.save(tag, quests.get(0));
-                    buf.writeNbt(tag);
-
-                    tag = new CompoundTag();
-                    Quest.save(tag, quests.get(1));
-                    buf.writeNbt(tag);
-
-                    tag = new CompoundTag();
-                    Quest.save(tag, quests.get(2));
+                    PlayerQuestContainer container = QuestManager.getQuestContainer(serverPlayer);
+                    PlayerQuestContainer.save(tag, serverLevel.registryAccess(), container);
                     buf.writeNbt(tag);
                 }
 

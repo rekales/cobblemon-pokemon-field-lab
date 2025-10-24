@@ -15,7 +15,7 @@ public class QuestManager extends SavedData {
 
     public static QuestManager INSTANCE;
 
-    private final Map<UUID, List<Quest>> playerQuests = new HashMap<>();
+    private final Map<UUID, PlayerQuestContainer> playerQuests = new HashMap<>();
 
     public QuestManager() {
         super();
@@ -24,28 +24,24 @@ public class QuestManager extends SavedData {
     public QuestManager(CompoundTag tag, HolderLookup.Provider provider) {
         this();
 
-        if (!tag.contains("PlayerCobblemonQuests", CompoundTag.TAG_LIST)) return;
-
-        ListTag list = tag.getList("PlayerCobblemonQuests", Tag.TAG_COMPOUND);
-        for(int i = 0; i < list.size(); i++) {
-            CompoundTag t = list.getCompound(i);
-            UUID id = t.getUUID("UUID");
-            Quest quest1 = Quest.load(t.getCompound("Quest1"));
-            Quest quest2 = Quest.load(t.getCompound("Quest2"));
-            Quest quest3 = Quest.load(t.getCompound("Quest3"));
-            playerQuests.put(id, Arrays.asList(quest1, quest2, quest3));
-        }
+//        if (!tag.contains("PlayerCobblemonQuests", CompoundTag.TAG_LIST)) return;
+//
+//        ListTag list = tag.getList("PlayerCobblemonQuests", Tag.TAG_COMPOUND);
+//        for(int i = 0; i < list.size(); i++) {
+//            CompoundTag t = list.getCompound(i);
+//            UUID id = t.getUUID("UUID");
+//            PlayerQuestContainer container = PlayerQuestContainer.load(t.getCompound("PlayerQuestContainer"));
+//            playerQuests.put(id, container);
+//        }
     }
 
     @Override
     public @NotNull CompoundTag save(@NotNull CompoundTag tag, @NotNull HolderLookup.Provider provider) {
         ListTag list = new ListTag();
-        for (Map.Entry<UUID, List<Quest>> entry : playerQuests.entrySet()) {
+        for (Map.Entry<UUID, PlayerQuestContainer> entry : playerQuests.entrySet()) {
             CompoundTag t = new CompoundTag();
             t.putUUID("UUID", entry.getKey());
-            t.put("Quest1", Quest.save(new CompoundTag(), entry.getValue().get(0)));
-            t.put("Quest2", Quest.save(new CompoundTag(), entry.getValue().get(1)));
-            t.put("Quest3", Quest.save(new CompoundTag(), entry.getValue().get(2)));
+            t.put("PlayerQuestContainer", PlayerQuestContainer.save(new CompoundTag(), provider, entry.getValue()));
             list.add(t);
         }
         tag.put("PlayerCobblemonQuests", list);
@@ -53,45 +49,26 @@ public class QuestManager extends SavedData {
         return tag;
     }
 
-    public Map<UUID, List<Quest>> getPlayerQuests() {
+    public Map<UUID, PlayerQuestContainer> getPlayerQuests() {
         return playerQuests;
     }
 
-    public static List<Quest> getQuests(ServerPlayer player) {
-        List<Quest> quests = INSTANCE.getPlayerQuests().get(player.getUUID());
-        if (quests == null) {
-            quests = new ArrayList<>(3);
-            quests.add(Quest.getRandomQuest((ServerLevel) player.level()));
-            quests.add(Quest.getRandomQuest((ServerLevel) player.level()));
-            quests.add(Quest.getRandomQuest((ServerLevel) player.level()));
-            INSTANCE.getPlayerQuests().put(player.getUUID(), quests);
-            INSTANCE.setDirty();
+    public static @NotNull PlayerQuestContainer getQuestContainer(ServerPlayer player) {
+        PlayerQuestContainer container = INSTANCE.getPlayerQuests().get(player.getUUID());
+        if (container == null) {
+            container = new PlayerQuestContainer((ServerLevel) player.level());
         }
 
-        // NOTE: maybe validate quests here first?
-
-        return quests;
+        return container;
     }
 
     public static boolean replaceQuest(ServerPlayer player, Quest quest) {
-        List<Quest> quests = INSTANCE.getPlayerQuests().get(player.getUUID());
-        for (int i = 0; i < quests.size(); i++) {
-            if (quest.equals(quests.get(i))) {
-                quests.set(i, Quest.getRandomQuest((ServerLevel) player.level()));
-                INSTANCE.setDirty();
-                return true;
-            }
-        }
-        return false;
+        PlayerQuestContainer container = getQuestContainer(player);
+        return container.replaceQuest(quest, Quest.getRandomQuest((ServerLevel) player.level()));
     }
 
     public static boolean hasQuest(ServerPlayer player, Quest quest) {
-        List<Quest> quests = INSTANCE.getPlayerQuests().get(player.getUUID());
-        for (Quest value : quests) {
-            if (quest.equals(value)) {
-                return true;
-            }
-        }
-        return false;
+        PlayerQuestContainer container = getQuestContainer(player);
+        return container.hasQuest(quest);
     }
 }
