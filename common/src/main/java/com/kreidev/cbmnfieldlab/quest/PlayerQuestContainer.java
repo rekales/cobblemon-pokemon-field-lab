@@ -2,35 +2,33 @@ package com.kreidev.cbmnfieldlab.quest;
 
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
-
-// NOTE: Deliberately implemented to only hold 3 quests, might ditch NonNullList
+// NOTE: Deliberately implemented to only hold 3 quests
+// I feel like it's better to do it like this so I can annotate with @NonNull
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public class PlayerQuestContainer {
 
-    private final NonNullList<Quest> quests;
+    @NotNull public Quest quest1;
+    @NotNull public Quest quest2;
+    @NotNull public Quest quest3;
     public int finishedQuests;
 
-    public PlayerQuestContainer(int finishedQuests, Quest quest1, Quest quest2, Quest quest3) {
+    public PlayerQuestContainer(int finishedQuests, @NotNull Quest quest1, @NotNull Quest quest2, @NotNull Quest quest3) {
         this.finishedQuests = finishedQuests;
-        this.quests = NonNullList.of(quest1, quest2, quest3);
-        PokemonFieldLab.LOGGER.warn(this.quests.toString() + " loaded");
+        this.quest1 = quest1;
+        this.quest2 = quest2;
+        this.quest3 = quest3;
     }
 
     public PlayerQuestContainer(ServerLevel level) {
         this.finishedQuests = 0;
-        this.quests = NonNullList.of(
-                Quest.getRandomQuest(level),
-                Quest.getRandomQuest(level),
-                Quest.getRandomQuest(level)
-        );
-        PokemonFieldLab.LOGGER.warn(this.quests.toString() + " new");
+        this.quest1 = Quest.getRandomQuest(level);
+        this.quest2 = Quest.getRandomQuest(level);
+        this.quest3 = Quest.getRandomQuest(level);
     }
 
     public void incrementFinishedQuests() {
@@ -41,16 +39,20 @@ public class PlayerQuestContainer {
         return this.finishedQuests;
     }
 
-    public Quest getQuest(int index) {
-        if (index > 2 || index < 0) return null;
-        return this.quests.get(index);
+    public @Nullable Quest getQuest(int index) {
+        return switch (index) {
+            case 0 -> this.quest1;
+            case 1 -> this.quest2;
+            case 2 -> this.quest3;
+            default -> null;
+        };
     }
 
     // returns -1 if not found
     public int getQuestIndex(Quest quest) {
-        for (int i=0; i<3; i++) {
-            if (quest.equals(quests.get(i))) return i;
-        }
+        if (quest.equals(quest1)) return 0;
+        if (quest.equals(quest2)) return 1;
+        if (quest.equals(quest3)) return 2;
         return -1;
     }
 
@@ -63,9 +65,18 @@ public class PlayerQuestContainer {
     }
 
     public boolean replaceQuest(int index, Quest newQuest) {
-        if (index > 2 || index < 0) return false;
-        this.quests.set(index, newQuest);
-        return true;
+        switch (index) {
+            case 0 :
+                this.quest1 = newQuest;
+                return true;
+            case 1 :
+                this.quest2 = newQuest;
+                return true;
+            case 2 :
+                this.quest3 = newQuest;
+                return true;
+        };
+        return false;
     }
 
     public static CompoundTag save(CompoundTag tag, HolderLookup.Provider provider, PlayerQuestContainer container) {
