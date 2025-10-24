@@ -78,59 +78,5 @@ public class QuestPanelWidget extends SoundlessWidget {
         this.qs1.render(guiGraphics, mouseX, mouseY, delta);
         this.qs2.render(guiGraphics, mouseX, mouseY, delta);
         this.qs3.render(guiGraphics, mouseX, mouseY, delta);
-
-//        for (int i = 0; i < questList.size(); i++) {
-//            int questOffsetY = 39 * i;
-//
-//            // TODO: multiline text rendering
-//            String str = Component
-//                    .translatable("cbmnfieldlab.ui.field_lab.quest." + questList.get(i).getType().getKey())
-//                    .getString();
-//
-//            String[] parts = str.split("\\n");
-//            if (parts.length > 1) {
-//                RenderHelperKtExt.drawScaledText(
-//                        guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
-//                        strToCompWithModifier(parts[0], questList.get(i).getModifierString()),
-//                        this.getX()+32, this.getY()+30+questOffsetY,
-//                        false, true, 1F, 0.9F
-//                );
-//                RenderHelperKtExt.drawScaledText(
-//                        guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
-//                        strToCompWithModifier(parts[1], questList.get(i).getModifierString()),
-//                        this.getX()+32, this.getY()+42+questOffsetY,
-//                        false, true, 1F, 0.9F
-//                );
-//            } else {
-//                RenderHelperKtExt.drawScaledText(
-//                        guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
-//                        strToCompWithModifier(str, questList.get(i).getModifierString()),
-//                        this.getX()+32, this.getY()+36+questOffsetY,
-//                        false, true, 1F, 0.9F
-//                );
-//            }
-//
-//            RenderHelperKtExt.drawScaledText(
-//                    guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
-//                    TextKt.bold(Component.literal("5x")),
-//                    this.getX()+154, this.getY()+48.5+questOffsetY,
-//                    true, true, 1F, 0.9F
-//            );
-//        }
-
     }
-
-    public static MutableComponent strToCompWithModifier(String str, String modifier) {
-        if (str.contains("___")) {
-            String[] parts = str.split("___", -1);
-
-            return Component.literal(parts[0])
-                    .append(Component.literal(modifier).withStyle(ChatFormatting.BOLD))
-                    .append(parts[1]);
-        } else {
-            return Component.literal(str);
-        }
-    }
-
-
 }

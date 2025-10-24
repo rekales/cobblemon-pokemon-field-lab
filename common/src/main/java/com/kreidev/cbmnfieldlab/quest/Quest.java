@@ -13,10 +13,9 @@ import com.kreidev.cbmnfieldlab.quest.type.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
@@ -69,7 +68,7 @@ public abstract class Quest {
 
     public final long timeStamp;  // Timestamp ticks for when the quest started
     public final Type type;
-    public final ItemStack reward;
+    @NotNull public final ItemStack reward;
 
     public Quest(Type type, ServerLevel level) {
         this.type = type;
@@ -78,14 +77,14 @@ public abstract class Quest {
     }
 
     // NOTE: In case there's a need to override reward
-    public Quest(Type type, ServerLevel level, ItemStack reward) {
+    public Quest(Type type, ServerLevel level, @NotNull ItemStack reward) {
         this.type = type;
         this.timeStamp = level.getGameTime();
         this.reward = reward;
     }
 
     // NOTE: for deserialization purposes
-    protected Quest(Type type, long timeStamp, ItemStack reward) {
+    protected Quest(Type type, long timeStamp, @NotNull ItemStack reward) {
         this.type = type;
         this.timeStamp = timeStamp;
         this.reward = reward;
@@ -117,7 +116,7 @@ public abstract class Quest {
 
 //    public abstract float getDifficulty();
 
-     public ItemStack getReward() {
+     public @NotNull ItemStack getReward() {
          // TODO: generate reward relative to getDifficulty()
          return new ItemStack(CobblemonItems.PROTECTOR);
      }

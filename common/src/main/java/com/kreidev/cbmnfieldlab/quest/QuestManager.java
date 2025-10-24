@@ -24,15 +24,15 @@ public class QuestManager extends SavedData {
     public QuestManager(CompoundTag tag, HolderLookup.Provider provider) {
         this();
 
-//        if (!tag.contains("PlayerCobblemonQuests", CompoundTag.TAG_LIST)) return;
-//
-//        ListTag list = tag.getList("PlayerCobblemonQuests", Tag.TAG_COMPOUND);
-//        for(int i = 0; i < list.size(); i++) {
-//            CompoundTag t = list.getCompound(i);
-//            UUID id = t.getUUID("UUID");
-//            PlayerQuestContainer container = PlayerQuestContainer.load(t.getCompound("PlayerQuestContainer"));
-//            playerQuests.put(id, container);
-//        }
+        if (!tag.contains("PlayerCobblemonQuests", CompoundTag.TAG_LIST)) return;
+
+        ListTag list = tag.getList("PlayerCobblemonQuests", Tag.TAG_COMPOUND);
+        for(int i = 0; i < list.size(); i++) {
+            CompoundTag t = list.getCompound(i);
+            UUID id = t.getUUID("UUID");
+            PlayerQuestContainer container = PlayerQuestContainer.load(t.getCompound("PlayerQuestContainer"));
+            playerQuests.put(id, container);
+        }
     }
 
     @Override
@@ -62,8 +62,23 @@ public class QuestManager extends SavedData {
         return container;
     }
 
-    public static boolean replaceQuest(ServerPlayer player, Quest quest) {
+    public static boolean submitQuest(ServerPlayer player, Quest quest) {
         PlayerQuestContainer container = getQuestContainer(player);
+
+        // TODO: validate
+
+        container.incrementFinishedQuests();
+
+        // TODO: do checks for major reward
+
+        return container.replaceQuest(quest, Quest.getRandomQuest((ServerLevel) player.level()));
+    }
+
+    public static boolean rerollQuest(ServerPlayer player, Quest quest) {
+        PlayerQuestContainer container = getQuestContainer(player);
+
+        // TODO: validate
+
         return container.replaceQuest(quest, Quest.getRandomQuest((ServerLevel) player.level()));
     }
 

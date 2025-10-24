@@ -3,12 +3,13 @@ package com.kreidev.cbmnfieldlab.quest;
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtException;
 import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 // NOTE: Deliberately implemented to only hold 3 quests
-// I feel like it's better to do it like this so I can annotate with @NonNull
+// I feel like it's better to do it like this so that I can annotate with @NonNull
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public class PlayerQuestContainer {
 
@@ -60,23 +61,26 @@ public class PlayerQuestContainer {
         return getQuestIndex(quest) != -1;
     }
 
-    public boolean replaceQuest(Quest oldQuest, Quest newQuest) {
+    public boolean replaceQuest(Quest oldQuest, @NotNull Quest newQuest) {
         return this.replaceQuest(this.getQuestIndex(oldQuest), newQuest);
     }
 
-    public boolean replaceQuest(int index, Quest newQuest) {
-        switch (index) {
-            case 0 :
+    public boolean replaceQuest(int index, @NotNull Quest newQuest) {
+        return switch (index) {
+            case 0 -> {
                 this.quest1 = newQuest;
-                return true;
-            case 1 :
+                yield true;
+            }
+            case 1 -> {
                 this.quest2 = newQuest;
-                return true;
-            case 2 :
+                yield true;
+            }
+            case 2 -> {
                 this.quest3 = newQuest;
-                return true;
+                yield true;
+            }
+            default -> false;
         };
-        return false;
     }
 
     public static CompoundTag save(CompoundTag tag, HolderLookup.Provider provider, PlayerQuestContainer container) {
@@ -84,9 +88,9 @@ public class PlayerQuestContainer {
         // Saves just fine on neoforge, not sure what's wrong on fabric
         // nvm, it also has issues with neoforge, I think the issue is caused by replacing type key
         // nvm nvm, still has issues with fabric
-        tag.put("Quest1", Quest.save(new CompoundTag(), provider, container.getQuest(0)));
-        tag.put("Quest2", Quest.save(new CompoundTag(), provider, container.getQuest(1)));
-        tag.put("Quest3", Quest.save(new CompoundTag(), provider, container.getQuest(2)));
+        tag.put("Quest1", Quest.save(new CompoundTag(), provider, container.quest1));
+        tag.put("Quest2", Quest.save(new CompoundTag(), provider, container.quest2));
+        tag.put("Quest3", Quest.save(new CompoundTag(), provider, container.quest3));
         tag.putInt("FinishedQuests", container.getFinishedQuests());
         return tag;
     }
@@ -97,6 +101,7 @@ public class PlayerQuestContainer {
         Quest quest2 = Quest.load(tag.getCompound("Quest2"));
         Quest quest3 = Quest.load(tag.getCompound("Quest3"));
         int finishedQuests = tag.getInt("FinishedQuests");
+        if (quest1==null || quest2==null || quest3==null) throw new NbtException("Null Quest Detected");
         return new PlayerQuestContainer(finishedQuests, quest1, quest2, quest3);
     }
 }
