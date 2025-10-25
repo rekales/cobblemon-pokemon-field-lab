@@ -26,7 +26,7 @@ public class QuestManager extends SavedData {
             Codec.unboundedMap(UUIDUtil.CODEC, PlayerQuestContainer.CODEC.codec());
 
     // TODO: config
-    public static final int REROLL_COOLDOWN = 300 * 20;
+    public static final int REROLL_COOLDOWN = 10 * 20;
 
     public static QuestManager INSTANCE;
 

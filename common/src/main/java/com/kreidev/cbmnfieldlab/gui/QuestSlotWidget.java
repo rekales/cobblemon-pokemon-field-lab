@@ -19,7 +19,7 @@ import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.RenderHelperKtExt;
 public class QuestSlotWidget extends SoundlessWidget {
 
     // TODO: config
-    public static final int REROLL_COOLDOWN = 300 * 20;
+    public static final int REROLL_COOLDOWN = 10 * 20;
 
     public final QuestPanelWidget parent;
     public final Quest quest;
@@ -29,7 +29,7 @@ public class QuestSlotWidget extends SoundlessWidget {
         super(pX, pY, 166, 38, Component.literal("QuestSlot"));
         this.parent = parent;
         this.quest = quest;
-        this.rerollButton = new RerollButton(pX+1, pY+9, this::onReroll);
+        this.rerollButton = new RerollButton(pX+1, pY+9, this, this::onReroll);
         this.addWidget(this.rerollButton);
     }
 

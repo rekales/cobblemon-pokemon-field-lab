@@ -17,9 +17,11 @@ public class RerollButton extends Button implements CobblemonRenderable {
     public static final ResourceLocation REROLL_ICON_RES = resLoc("textures/gui/field_lab_screen_overlay_reroll_icon.png");
     public static final int WIDTH = 23;
     public static final int HEIGHT = 20;
+    public final QuestSlotWidget parent;
 
-    protected RerollButton(int x, int y, OnPress onPress) {
+    protected RerollButton(int x, int y, QuestSlotWidget parent, OnPress onPress) {
         super(x, y, WIDTH-2, HEIGHT, Component.literal("Reroll"), onPress, DEFAULT_NARRATION);
+        this.parent = parent;
     }
 
     @Override
@@ -31,10 +33,26 @@ public class RerollButton extends Button implements CobblemonRenderable {
                 20, 23
         );
 
-        GuiUtilsKtExt.blitk(matrices, REROLL_ICON_RES,
+        float progress = Math.min(1, (parent.parent.parent.getGameTime()-parent.quest.getTimeStamp())/(float) QuestSlotWidget.REROLL_COOLDOWN);
+        int cropWidth = (int) (12*progress);
+
+        if (progress < 1) {
+            guiGraphics.setColor(1.0F, 1.0F, 1.0F, 0.7F);
+        }
+
+        guiGraphics.blit(REROLL_ICON_RES,
                 this.getX()+4, this.getY()+3,
-                14, 12
+                0, 0,
+                cropWidth, 14,
+                12, 14
         );
+
+        guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1F);
+
+//        GuiUtilsKtExt.blitk(matrices, REROLL_ICON_RES,
+//                this.getX()+4, this.getY()+3,
+//                14, 12
+//        );
     }
 
     @Override
