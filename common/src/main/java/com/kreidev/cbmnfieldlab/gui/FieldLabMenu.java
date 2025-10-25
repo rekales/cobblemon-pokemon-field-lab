@@ -54,4 +54,8 @@ public class FieldLabMenu extends AbstractContainerMenu {
     public boolean stillValid(Player player) {
         return stillValid(access, player, PokemonFieldLab.FIELD_LAB_BLOCK.get());
     }
+
+    public void updateQuestContainer(PlayerQuestContainer container) {
+        this.questContainer = container;
+    }
 }

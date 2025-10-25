@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceKey;
 
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
 
-public record QuestType<T extends Quest>(MapCodec<T> codec) {
+public record QuestType<T extends Quest>(String id, MapCodec<T> codec) {
 
     public static final Registry<QuestType<?>> REGISTRY = new MappedRegistry<>(
             ResourceKey.createRegistryKey(resLoc("quest_types")), Lifecycle.stable()

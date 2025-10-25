@@ -1,9 +1,12 @@
 package com.kreidev.cbmnfieldlab.network;
 
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
+import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
+import com.kreidev.cbmnfieldlab.gui.FieldLabScreen;
 import com.kreidev.cbmnfieldlab.quest.QuestManager;
 import com.mojang.serialization.Codec;
 import dev.architectury.networking.NetworkManager;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.FriendlyByteBuf;
@@ -48,6 +51,12 @@ public class FieldLabNetworkManager {
     public static void refreshScreen(RefreshScreenPacket packet, NetworkManager.PacketContext context) {
         PokemonFieldLab.LOGGER.info("refresh");
         PokemonFieldLab.LOGGER.info(packet.container()+"");
+
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.screen instanceof FieldLabScreen screen) {
+            screen.updateQuests(packet.container());
+        }
+
         // TODO: refresh packet sending quest container data, need to do codec first
     }
 

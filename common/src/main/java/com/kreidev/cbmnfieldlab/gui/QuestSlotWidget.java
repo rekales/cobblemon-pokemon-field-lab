@@ -40,7 +40,7 @@ public class QuestSlotWidget extends SoundlessWidget {
 //        guiGraphics.fill(this.getX(), this.getY(), this.width+this.getX(), this.height+this.getY(), 0x30FFFFFF);
 
         String str = Component
-                    .translatable("cbmnfieldlab.ui.field_lab.quest." + quest.getType())
+                    .translatable("cbmnfieldlab.ui.field_lab.quest." + quest.getType().id())
                     .getString();
 
         String[] parts = str.split("\\n");

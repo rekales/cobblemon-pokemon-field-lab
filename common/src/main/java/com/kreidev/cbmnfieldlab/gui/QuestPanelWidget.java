@@ -27,24 +27,17 @@ public class QuestPanelWidget extends SoundlessWidget {
 
     public final FieldLabScreen parent;
     public final ClientParty party;
-    public final PlayerQuestContainer container;
+    public PlayerQuestContainer container;
 
-    public final QuestSlotWidget qs1;
-    public final QuestSlotWidget qs2;
-    public final QuestSlotWidget qs3;
+    public QuestSlotWidget qs1;
+    public QuestSlotWidget qs2;
+    public QuestSlotWidget qs3;
 
     public QuestPanelWidget(int pX, int pY, FieldLabScreen parent, ClientParty party) {
         super(pX, pY, 208, 189, Component.literal("QuestOverlay"));
         this.parent = parent;
         this.party = party;
-        this.container = parent.getMenu().questContainer;
-
-        this.qs1 = new QuestSlotWidget(pX+4, pY+22, this, this.container.getQuest(0));
-        this.qs2 = new QuestSlotWidget(pX+4, pY+61, this, this.container.getQuest(1));
-        this.qs3 = new QuestSlotWidget(pX+4, pY+100, this, this.container.getQuest(2));
-        this.addWidget(this.qs1);
-        this.addWidget(this.qs2);
-        this.addWidget(this.qs3);
+        this.updateQuestContainer(parent.getMenu().questContainer);
     }
 
     @Override
@@ -78,5 +71,16 @@ public class QuestPanelWidget extends SoundlessWidget {
         this.qs1.render(guiGraphics, mouseX, mouseY, delta);
         this.qs2.render(guiGraphics, mouseX, mouseY, delta);
         this.qs3.render(guiGraphics, mouseX, mouseY, delta);
+    }
+
+    public void updateQuestContainer(PlayerQuestContainer container) {
+        this.container = container;
+
+        this.qs1 = new QuestSlotWidget(this.getX()+4, this.getY()+22, this, this.container.getQuest(0));
+        this.qs2 = new QuestSlotWidget(this.getX()+4, this.getY()+61, this, this.container.getQuest(1));
+        this.qs3 = new QuestSlotWidget(this.getX()+4, this.getY()+100, this, this.container.getQuest(2));
+        this.addWidget(this.qs1);
+        this.addWidget(this.qs2);
+        this.addWidget(this.qs3);
     }
 }

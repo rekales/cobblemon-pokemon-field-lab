@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus;
 import com.cobblemon.mod.common.util.LocalizationUtilsKt;
 import com.cobblemon.mod.common.util.MiscUtilsKt;
+import com.kreidev.cbmnfieldlab.quest.PlayerQuestContainer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -47,7 +48,7 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
     public static final ResourceLocation TYPE_SPACER_SINGLE_RES = cobblemonResource("textures/gui/pc/type_spacer_single.png");
     public static final ResourceLocation TYPE_SPACER_DOUBLE_RES = cobblemonResource("textures/gui/pc/type_spacer_double.png");
 
-    public @Nullable QuestPanelWidget questWidget;
+    public @Nullable QuestPanelWidget questPanelWidget;
     public @Nullable PartyPanelWidget partyPanelWidget;  // No lateinit for java, rip
     public @Nullable ModelWidget modelWidget = null;
     public @Nullable Pokemon previewPokemon = null;
@@ -72,8 +73,8 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
         this.partyPanelWidget = new PartyPanelWidget(x+85, y+27, this, party);
         this.addRenderableWidget(this.partyPanelWidget);
 
-        this.questWidget = new QuestPanelWidget(x+85, y+10, this, party);
-        this.addRenderableWidget(this.questWidget);
+        this.questPanelWidget = new QuestPanelWidget(x+85, y+10, this, party);
+        this.addRenderableWidget(this.questPanelWidget);
 
         this.setPreviewPokemon(null);
         super.init();
@@ -346,6 +347,13 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
     public void onClose() {
         playSound(CobblemonSounds.PC_OFF);
         super.onClose();
+    }
+
+    public void updateQuests(PlayerQuestContainer container) {
+        this.getMenu().updateQuestContainer(container);
+        if (questPanelWidget != null) {
+            this.questPanelWidget.updateQuestContainer(container);
+        }
     }
 
     @SuppressWarnings("SameParameterValue")
