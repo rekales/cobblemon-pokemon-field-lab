@@ -3,7 +3,9 @@ package com.kreidev.cbmnfieldlab.gui;
 import com.cobblemon.mod.common.api.text.TextKt;
 import com.cobblemon.mod.common.client.CobblemonResources;
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget;
-import com.kreidev.cbmnfieldlab.FieldLabNetworkManager;
+import com.kreidev.cbmnfieldlab.PokemonFieldLab;
+import com.kreidev.cbmnfieldlab.network.FieldLabNetworkManager;
+import com.kreidev.cbmnfieldlab.network.RerollPacket;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import dev.architectury.networking.NetworkManager;
 import io.netty.buffer.Unpooled;
@@ -15,11 +17,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import org.jetbrains.annotations.NotNull;
 
 import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.RenderHelperKtExt;
-import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.GuiUtilsKtExt;
-import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
 
 // NOTE: "Slot"? maybe there's a better name for this.
 public class QuestSlotWidget extends SoundlessWidget {
@@ -41,7 +40,7 @@ public class QuestSlotWidget extends SoundlessWidget {
 //        guiGraphics.fill(this.getX(), this.getY(), this.width+this.getX(), this.height+this.getY(), 0x30FFFFFF);
 
         String str = Component
-                    .translatable("cbmnfieldlab.ui.field_lab.quest." + quest.getType().getKey())
+                    .translatable("cbmnfieldlab.ui.field_lab.quest." + quest.getType())
                     .getString();
 
         String[] parts = str.split("\\n");
@@ -96,9 +95,8 @@ public class QuestSlotWidget extends SoundlessWidget {
     }
 
     public void onReroll(Button button) {
-        RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(new FriendlyByteBuf(Unpooled.buffer()),
-                Minecraft.getInstance().level.registryAccess());
-        buf.writeInt(this.parent.container.getQuestIndex(quest));
-        NetworkManager.sendToServer(FieldLabNetworkManager.REROLL_ID, buf);
+        // TODO: remove quest and add a loading icon while waiting for a refresh
+        PokemonFieldLab.LOGGER.info("clicked reroll");
+        NetworkManager.sendToServer(new RerollPacket(this.parent.container.getQuestIndex(quest)));
     }
 }

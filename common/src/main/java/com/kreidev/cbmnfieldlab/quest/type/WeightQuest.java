@@ -2,6 +2,8 @@ package com.kreidev.cbmnfieldlab.quest.type;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kreidev.cbmnfieldlab.quest.Quest;
+import com.kreidev.cbmnfieldlab.quest.QuestType;
+import com.kreidev.cbmnfieldlab.quest.QuestTypes;
 import net.minecraft.server.level.ServerLevel;
 
 public class WeightQuest extends Quest {
@@ -22,6 +24,12 @@ public class WeightQuest extends Quest {
     public String getModifierString() {
         return Float.toString(weight);
     }
+
+    @Override
+    public QuestType<?> getType() {
+        return QuestTypes.NATURE;
+    }
+
 
     public static Quest createRandom(ServerLevel level) {
         float lowerBound = 0.5F;

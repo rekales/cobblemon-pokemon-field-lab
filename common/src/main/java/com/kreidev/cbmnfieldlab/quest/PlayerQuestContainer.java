@@ -1,6 +1,9 @@
 package com.kreidev.cbmnfieldlab.quest;
 
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtException;
@@ -12,6 +15,13 @@ import org.jetbrains.annotations.Nullable;
 // I feel like it's better to do it like this so that I can annotate with @NonNull
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public class PlayerQuestContainer {
+
+    public static final MapCodec<PlayerQuestContainer> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            Codec.INT.fieldOf("finishedQuest").forGetter(PlayerQuestContainer::getFinishedQuests),
+            Quest.CODEC.fieldOf("quest1").forGetter(container->container.getQuest(0)),
+            Quest.CODEC.fieldOf("quest2").forGetter(container->container.getQuest(1)),
+            Quest.CODEC.fieldOf("quest3").forGetter(container->container.getQuest(2))
+    ).apply(instance, PlayerQuestContainer::new));
 
     @NotNull public Quest quest1;
     @NotNull public Quest quest2;
@@ -101,7 +111,20 @@ public class PlayerQuestContainer {
         Quest quest2 = Quest.load(tag.getCompound("Quest2"));
         Quest quest3 = Quest.load(tag.getCompound("Quest3"));
         int finishedQuests = tag.getInt("FinishedQuests");
-        if (quest1==null || quest2==null || quest3==null) throw new NbtException("Null Quest Detected");
+        if (quest1==null || quest2==null || quest3==null) {
+            PokemonFieldLab.LOGGER.info("{}, {}, {}", quest1, quest2, quest3);
+            throw new NbtException("Null Quest Detected");
+        }
         return new PlayerQuestContainer(finishedQuests, quest1, quest2, quest3);
+    }
+
+    @Override
+    public String toString() {
+        return "PlayerQuestContainer{" +
+                "quest1=" + quest1 +
+                ", quest2=" + quest2 +
+                ", quest3=" + quest3 +
+                ", finishedQuests=" + finishedQuests +
+                '}';
     }
 }

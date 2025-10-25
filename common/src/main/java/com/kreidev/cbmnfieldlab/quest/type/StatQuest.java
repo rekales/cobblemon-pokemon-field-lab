@@ -4,6 +4,8 @@ import com.cobblemon.mod.common.api.pokemon.stats.Stat;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kreidev.cbmnfieldlab.quest.Quest;
+import com.kreidev.cbmnfieldlab.quest.QuestType;
+import com.kreidev.cbmnfieldlab.quest.QuestTypes;
 import net.minecraft.server.level.ServerLevel;
 
 import java.util.Map;
@@ -34,6 +36,12 @@ public class StatQuest extends Quest {
     public String getModifierString() {
         return Integer.toString(statTotal);
     }
+
+    @Override
+    public QuestType<?> getType() {
+        return QuestTypes.NATURE;
+    }
+
 
     public static Quest createRandom(ServerLevel level) {
         int lowerBound = 200;

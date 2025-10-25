@@ -4,6 +4,8 @@ import com.cobblemon.mod.common.api.types.ElementalType;
 import com.cobblemon.mod.common.api.types.ElementalTypes;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kreidev.cbmnfieldlab.quest.Quest;
+import com.kreidev.cbmnfieldlab.quest.QuestType;
+import com.kreidev.cbmnfieldlab.quest.QuestTypes;
 import net.minecraft.server.level.ServerLevel;
 
 import java.util.List;
@@ -38,6 +40,12 @@ public class DoubleTypeQuest extends Quest {
     public String getModifierString() {
         return this.firstType.getDisplayName().getString() + " & " + this.secondType.getDisplayName().getString();
     }
+
+    @Override
+    public QuestType<?> getType() {
+        return QuestTypes.NATURE;
+    }
+
 
     public static Quest createRandom(ServerLevel level) {
         List<ElementalType> types = ElementalTypes.INSTANCE.all();

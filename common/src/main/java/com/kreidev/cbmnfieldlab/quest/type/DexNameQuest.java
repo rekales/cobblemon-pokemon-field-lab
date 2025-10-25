@@ -2,6 +2,8 @@ package com.kreidev.cbmnfieldlab.quest.type;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kreidev.cbmnfieldlab.quest.Quest;
+import com.kreidev.cbmnfieldlab.quest.QuestType;
+import com.kreidev.cbmnfieldlab.quest.QuestTypes;
 import net.minecraft.server.level.ServerLevel;
 
 public class DexNameQuest extends Quest {
@@ -22,6 +24,12 @@ public class DexNameQuest extends Quest {
     public String getModifierString() {
         return this.name;
     }
+
+    @Override
+    public QuestType<?> getType() {
+        return QuestTypes.NATURE;
+    }
+
 
     public static Quest createRandom(ServerLevel level) {
         // TODO: figure out how to get all types of Abilities

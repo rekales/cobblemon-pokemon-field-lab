@@ -2,6 +2,7 @@ package com.kreidev.cbmnfieldlab;
 
 
 import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
+import com.kreidev.cbmnfieldlab.network.FieldLabNetworkManager;
 import com.kreidev.cbmnfieldlab.quest.QuestManager;
 import com.mojang.logging.LogUtils;
 import dev.architectury.event.events.common.LifecycleEvent;
@@ -53,7 +54,16 @@ public class PokemonFieldLab {
                 );
             }
         });
+
+        FieldLabNetworkManager.registerPackets();
+
     }
+
+    public static void initClient() {
+
+    }
+
+
 
     private static void registerToCreativeTab() {
 //        CreativeTabRegistry.append(CreativeModeTabs.INGREDIENTS, PFL_BLOCK_ITEM.get());

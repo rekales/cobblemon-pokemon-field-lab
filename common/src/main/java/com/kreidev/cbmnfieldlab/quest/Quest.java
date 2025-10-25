@@ -10,6 +10,7 @@ import com.cobblemon.mod.common.item.CobblemonItem;
 import com.cobblemon.mod.common.pokemon.Nature;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kreidev.cbmnfieldlab.quest.type.*;
+import com.mojang.serialization.Codec;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -66,6 +67,9 @@ public abstract class Quest {
         }
     }
 
+    public static final Codec<Quest> CODEC = QuestType.REGISTRY.byNameCodec()
+            .dispatch("type", Quest::getType, QuestType::codec);
+
     public final long timeStamp;  // Timestamp ticks for when the quest started
     public final Type type;
     @NotNull public final ItemStack reward;
@@ -94,10 +98,6 @@ public abstract class Quest {
         return timeStamp;
     }
 
-    public Type getType() {
-        return type;
-    }
-
     @Override
     public String toString() {
         return "Quest{" + "timeStamp=" + timeStamp + ", type=" + type + '}';
@@ -116,6 +116,8 @@ public abstract class Quest {
 
 //    public abstract float getDifficulty();
 
+    public abstract QuestType<?> getType();
+
      public @NotNull ItemStack getReward() {
          // TODO: generate reward relative to getDifficulty()
          return new ItemStack(CobblemonItems.PROTECTOR);
@@ -127,20 +129,20 @@ public abstract class Quest {
         tag.putString("QuestType", quest.type.getKey());
 //        tag.putFloat("Difficulty", this.getDifficulty());
 
-        switch (quest.getType()) {
-            case SINGLE_TYPE :
-                TypeQuest typeQuest = (TypeQuest) quest;
-                tag.putString("ElementalType", typeQuest.elementalType.getName());
-                break;
-            case ABILITY:
-                AbilityQuest abilityQuest = (AbilityQuest) quest;
-                tag.putString("AbilityName", abilityQuest.ability.getName());
-                break;
-            case NATURE:
-                NatureQuest natureQuest = (NatureQuest) quest;
-                tag.putString("NatureName", natureQuest.nature.getName().toString());
-                break;
-        }
+//        switch (quest.getType()) {
+//            case SINGLE_TYPE :
+//                TypeQuest typeQuest = (TypeQuest) quest;
+//                tag.putString("ElementalType", typeQuest.elementalType.getName());
+//                break;
+//            case ABILITY:
+//                AbilityQuest abilityQuest = (AbilityQuest) quest;
+//                tag.putString("AbilityName", abilityQuest.ability.getName());
+//                break;
+//            case NATURE:
+//                NatureQuest natureQuest = (NatureQuest) quest;
+//                tag.putString("NatureName", natureQuest.nature.getName().toString());
+//                break;
+//        }
 
         return tag;
     }

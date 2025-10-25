@@ -2,6 +2,8 @@ package com.kreidev.cbmnfieldlab.quest.type;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kreidev.cbmnfieldlab.quest.Quest;
+import com.kreidev.cbmnfieldlab.quest.QuestType;
+import com.kreidev.cbmnfieldlab.quest.QuestTypes;
 import net.minecraft.server.level.ServerLevel;
 
 public class SizeQuest extends Quest {
@@ -23,6 +25,12 @@ public class SizeQuest extends Quest {
     public String getModifierString() {
         return Float.toString(size);
     }
+
+    @Override
+    public QuestType<?> getType() {
+        return QuestTypes.NATURE;
+    }
+
 
     public static Quest createRandom(ServerLevel level) {
         float lowerBound = 0.5F;

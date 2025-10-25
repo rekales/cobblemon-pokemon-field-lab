@@ -4,11 +4,14 @@ import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
 import com.kreidev.cbmnfieldlab.quest.PlayerQuestContainer;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestManager;
+import com.mojang.serialization.DataResult;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -41,8 +44,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static com.kreidev.cbmnfieldlab.PokemonFieldLab.FIELD_LAB_NAME;
-import static com.kreidev.cbmnfieldlab.PokemonFieldLab.MOD_ID;
+import static com.kreidev.cbmnfieldlab.PokemonFieldLab.*;
 
 // Some parts are based from DoorBlock, some from PCBlock
 public class FieldLabBlock extends Block {
@@ -74,9 +76,18 @@ public class FieldLabBlock extends Block {
                     else
                         buf.writeBlockPos(blockPos);
 
+                    LOGGER.warn(QuestManager.INSTANCE.getPlayerQuests()+"");
+
                     CompoundTag tag = new CompoundTag();
-                    PlayerQuestContainer container = QuestManager.getQuestContainer(serverPlayer);
-                    PlayerQuestContainer.save(tag, serverLevel.registryAccess(), container);
+                    DataResult<Tag> result = PlayerQuestContainer.CODEC.codec()
+                            .encodeStart(NbtOps.INSTANCE, QuestManager.getQuestContainer(serverPlayer));
+                    result.resultOrPartial(error->LOGGER.error("PlayerQuestContainer data was not saved \n"+error))
+                            .ifPresent(nbt -> tag.put("quest_container", nbt));
+//
+                    LOGGER.warn(QuestManager.INSTANCE.getPlayerQuests()+"");
+
+//                    PlayerQuestContainer container = QuestManager.getQuestContainer(serverPlayer);
+//                    PlayerQuestContainer.save(tag, serverLevel.registryAccess(), container);
                     buf.writeNbt(tag);
                 }
 
