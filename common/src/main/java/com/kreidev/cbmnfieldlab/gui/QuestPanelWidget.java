@@ -73,9 +73,16 @@ public class QuestPanelWidget extends SoundlessWidget {
         this.qs3.render(guiGraphics, mouseX, mouseY, delta);
     }
 
+    // Could've just recreated the whole quest panel object but eh I already made this.
     public void updateQuestContainer(PlayerQuestContainer container) {
         this.container = container;
 
+        if (this.qs1 != null)
+            this.removeWidget(this.qs1);
+        if (this.qs2 != null)
+            this.removeWidget(this.qs2);
+        if (this.qs3 != null)
+            this.removeWidget(this.qs3);
         this.qs1 = new QuestSlotWidget(this.getX()+4, this.getY()+22, this, this.container.getQuest(0));
         this.qs2 = new QuestSlotWidget(this.getX()+4, this.getY()+61, this, this.container.getQuest(1));
         this.qs3 = new QuestSlotWidget(this.getX()+4, this.getY()+100, this, this.container.getQuest(2));

@@ -19,7 +19,6 @@ import static com.kreidev.cbmnfieldlab.PokemonFieldLab.LOGGER;
 public class FieldLabNetworkManager {
 
     public static void registerPackets() {
-        // TODO: replace with non-deprecated methods
         // Maybe integrate with cobblemon's network manager
         // https://deepwiki.com/search/does-this-mod-use-custom-packe_ebf73746-67cb-48d3-a80e-a0a74f85c871?mode=fast
 
@@ -49,15 +48,10 @@ public class FieldLabNetworkManager {
     }
 
     public static void refreshScreen(RefreshScreenPacket packet, NetworkManager.PacketContext context) {
-        PokemonFieldLab.LOGGER.info("refresh");
-        PokemonFieldLab.LOGGER.info(packet.container()+"");
-
         Minecraft mc = Minecraft.getInstance();
         if (mc.screen instanceof FieldLabScreen screen) {
             screen.updateQuests(packet.container());
         }
-
-        // TODO: refresh packet sending quest container data, need to do codec first
     }
 
     public static <B extends FriendlyByteBuf, T> StreamCodec<B, T> fromCodec(Codec<T> codec) {

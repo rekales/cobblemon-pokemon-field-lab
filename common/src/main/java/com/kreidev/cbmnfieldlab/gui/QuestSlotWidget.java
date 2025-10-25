@@ -96,7 +96,6 @@ public class QuestSlotWidget extends SoundlessWidget {
 
     public void onReroll(Button button) {
         // TODO: remove quest and add a loading icon while waiting for a refresh
-        PokemonFieldLab.LOGGER.info("clicked reroll");
         NetworkManager.sendToServer(new RerollPacket(this.parent.container.getQuestIndex(quest)));
     }
 }

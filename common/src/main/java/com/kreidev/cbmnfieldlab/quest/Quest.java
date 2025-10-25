@@ -100,7 +100,11 @@ public abstract class Quest {
 
     @Override
     public String toString() {
-        return "Quest{" + "timeStamp=" + timeStamp + ", type=" + type + '}';
+        return "Quest{" +
+                "timeStamp=" + timeStamp +
+                ", type=" + type +
+                ", modifier=" + this.getModifierString() +
+                '}';
     }
 
     @Override

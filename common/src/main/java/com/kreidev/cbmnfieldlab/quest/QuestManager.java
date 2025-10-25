@@ -88,10 +88,8 @@ public class QuestManager extends SavedData {
     public static boolean rerollQuest(ServerPlayer player, int index) {
         PlayerQuestContainer container = getQuestContainer(player);
         boolean success = container.replaceQuest(index, Quest.getRandomQuest((ServerLevel) player.level()));
-        // TODO: validate
-        PokemonFieldLab.LOGGER.info("reroll");
+        // TODO: validate, return the same container if not valid
         NetworkManager.sendToPlayer(player, new RefreshScreenPacket(container));
-
         return success;
     }
 
