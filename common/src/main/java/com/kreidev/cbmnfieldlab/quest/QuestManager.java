@@ -2,17 +2,12 @@ package com.kreidev.cbmnfieldlab.quest;
 
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import com.kreidev.cbmnfieldlab.network.RefreshScreenPacket;
-import com.kreidev.cbmnfieldlab.network.RerollPacket;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.UUIDUtil;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
@@ -26,17 +21,8 @@ import static com.kreidev.cbmnfieldlab.PokemonFieldLab.LOGGER;
 
 public class QuestManager extends SavedData {
 
-    public static final Codec<Map<UUID, PlayerQuestContainer>> CODEC = Codec.unboundedMap(UUIDUtil.CODEC, PlayerQuestContainer.CODEC.codec());
-//
-//    public static Codec<QuestManager> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-//            Codec.unboundedMap(UUIDUtil.CODEC, PlayerQuestContainer.CODEC.codec())
-//                    .fieldOf("player_quests")
-//                    .forGetter(QuestManager::getPlayerQuests)
-//    ).apply(instance, data -> {
-//        QuestManager questData = new QuestManager();
-//        questData.playerQuests.putAll(data);
-//        return questData;
-//    }));
+    public static final Codec<Map<UUID, PlayerQuestContainer>> CODEC =
+            Codec.unboundedMap(UUIDUtil.CODEC, PlayerQuestContainer.CODEC.codec());
 
     public static QuestManager INSTANCE;
 
@@ -56,14 +42,6 @@ public class QuestManager extends SavedData {
         } else {
             this.playerQuests = new HashMap<>();
         }
-
-//        ListTag list = tag.getList("PlayerCobblemonQuests", Tag.TAG_COMPOUND);
-//        for(int i = 0; i < list.size(); i++) {
-//            CompoundTag t = list.getCompound(i);
-//            UUID id = t.getUUID("UUID");
-//            PlayerQuestContainer container = PlayerQuestContainer.load(t.getCompound("PlayerQuestContainer"));
-//            playerQuests.put(id, container);
-//        }
     }
 
     @Override
@@ -71,16 +49,6 @@ public class QuestManager extends SavedData {
         DataResult<Tag> result = CODEC.encodeStart(NbtOps.INSTANCE, this.getPlayerQuests());
         result.resultOrPartial(error->LOGGER.error("Quest data was not saved \n"+error))
                 .ifPresent(nbt -> tag.put("PlayerCobblemonQuests", nbt));
-
-//        ListTag list = new ListTag();
-//        for (Map.Entry<UUID, PlayerQuestContainer> entry : playerQuests.entrySet()) {
-//            CompoundTag t = new CompoundTag();
-//            t.putUUID("UUID", entry.getKey());
-//            t.put("PlayerQuestContainer", PlayerQuestContainer.save(new CompoundTag(), provider, entry.getValue()));
-//            list.add(t);
-//        }
-//        tag.put("PlayerCobblemonQuests", list);
-
         return tag;
     }
 

@@ -76,18 +76,12 @@ public class FieldLabBlock extends Block {
                     else
                         buf.writeBlockPos(blockPos);
 
-                    LOGGER.warn(QuestManager.INSTANCE.getPlayerQuests()+"");
-
                     CompoundTag tag = new CompoundTag();
                     DataResult<Tag> result = PlayerQuestContainer.CODEC.codec()
                             .encodeStart(NbtOps.INSTANCE, QuestManager.getQuestContainer(serverPlayer));
                     result.resultOrPartial(error->LOGGER.error("PlayerQuestContainer data was not saved \n"+error))
                             .ifPresent(nbt -> tag.put("quest_container", nbt));
-//
-                    LOGGER.warn(QuestManager.INSTANCE.getPlayerQuests()+"");
 
-//                    PlayerQuestContainer container = QuestManager.getQuestContainer(serverPlayer);
-//                    PlayerQuestContainer.save(tag, serverLevel.registryAccess(), container);
                     buf.writeNbt(tag);
                 }
 

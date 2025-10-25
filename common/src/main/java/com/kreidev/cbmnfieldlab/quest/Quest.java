@@ -123,57 +123,6 @@ public abstract class Quest {
          return new ItemStack(CobblemonItems.PROTECTOR);
      }
 
-    // TODO: Maybe use codecs for these
-    public static CompoundTag save(CompoundTag tag, HolderLookup.Provider provider, Quest quest) {
-        tag.putLong("Timestamp", quest.timeStamp);
-        tag.putString("QuestType", quest.type.getKey());
-//        tag.putFloat("Difficulty", this.getDifficulty());
-
-//        switch (quest.getType()) {
-//            case SINGLE_TYPE :
-//                TypeQuest typeQuest = (TypeQuest) quest;
-//                tag.putString("ElementalType", typeQuest.elementalType.getName());
-//                break;
-//            case ABILITY:
-//                AbilityQuest abilityQuest = (AbilityQuest) quest;
-//                tag.putString("AbilityName", abilityQuest.ability.getName());
-//                break;
-//            case NATURE:
-//                NatureQuest natureQuest = (NatureQuest) quest;
-//                tag.putString("NatureName", natureQuest.nature.getName().toString());
-//                break;
-//        }
-
-        return tag;
-    }
-
-    public static @Nullable Quest load(CompoundTag tag) {
-        long timestamp = tag.getLong("Timestamp");
-        Type type = Type.fromKey(tag.getString("QuestType"));
-
-        switch (type) {
-            case SINGLE_TYPE :
-                String typeName = tag.getString("ElementalType");
-                ElementalType eType = ElementalTypes.INSTANCE.get(typeName);
-                if (eType == null) return null;
-                return new TypeQuest(timestamp, eType);
-            case ABILITY:
-                String abilityName = tag.getString("AbilityName");
-                AbilityTemplate ability = Abilities.INSTANCE.get(abilityName);
-                if (ability == null) return null;
-                return new AbilityQuest(timestamp, ability);
-            case NATURE:
-                String natureResName = tag.getString("NatureName");
-                ResourceLocation natureRes = ResourceLocation.tryParse(natureResName);
-                if (natureRes == null) return null;
-                Nature nature = Natures.INSTANCE.getNature(natureRes);
-                if (nature == null) return null;
-                return new NatureQuest(timestamp, nature);
-            case null, default:
-                return null;
-        }
-    }
-
     // TODO: implementation
     // TODO: configs
     // NOTE: The ServerLevel is really just to get the timestamp

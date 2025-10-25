@@ -2,9 +2,16 @@ package com.kreidev.cbmnfieldlab.network;
 
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import com.kreidev.cbmnfieldlab.quest.QuestManager;
+import com.mojang.serialization.Codec;
 import dev.architectury.networking.NetworkManager;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
+
+import static com.kreidev.cbmnfieldlab.PokemonFieldLab.LOGGER;
 
 public class FieldLabNetworkManager {
 
@@ -41,5 +48,24 @@ public class FieldLabNetworkManager {
     public static void refreshScreen(RefreshScreenPacket packet, NetworkManager.PacketContext context) {
         PokemonFieldLab.LOGGER.info("refresh");
         // TODO: refresh packet sending quest container data, need to do codec first
+    }
+
+    public static <B extends FriendlyByteBuf, T> StreamCodec<B, T> fromCodec(Codec<T> codec) {
+        return new StreamCodec<>() {
+            @Override
+            public T decode(B buf) {
+                CompoundTag tag = buf.readNbt();
+                return codec.parse(NbtOps.INSTANCE, tag)
+                        .resultOrPartial(error -> LOGGER.error("Decode error: " + error))
+                        .orElseThrow();
+            }
+
+            @Override
+            public void encode(B buf, T value) {
+                codec.encodeStart(NbtOps.INSTANCE, value)
+                        .resultOrPartial(error -> LOGGER.error("Encode error: " + error))
+                        .ifPresent(buf::writeNbt);
+            }
+        };
     }
 }

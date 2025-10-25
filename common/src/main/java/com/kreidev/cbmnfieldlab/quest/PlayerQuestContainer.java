@@ -1,12 +1,12 @@
 package com.kreidev.cbmnfieldlab.quest;
 
-import com.kreidev.cbmnfieldlab.PokemonFieldLab;
+import com.kreidev.cbmnfieldlab.network.FieldLabNetworkManager;
+import com.kreidev.cbmnfieldlab.network.RerollPacket;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtException;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,6 +22,9 @@ public class PlayerQuestContainer {
             Quest.CODEC.fieldOf("quest2").forGetter(container->container.getQuest(1)),
             Quest.CODEC.fieldOf("quest3").forGetter(container->container.getQuest(2))
     ).apply(instance, PlayerQuestContainer::new));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, PlayerQuestContainer> STREAM_CODEC =
+            FieldLabNetworkManager.fromCodec(CODEC.codec());
 
     @NotNull public Quest quest1;
     @NotNull public Quest quest2;
@@ -91,31 +94,6 @@ public class PlayerQuestContainer {
             }
             default -> false;
         };
-    }
-
-    public static CompoundTag save(CompoundTag tag, HolderLookup.Provider provider, PlayerQuestContainer container) {
-        // TODO: sometimes the quest is null, not sure why. This TODO was copied from QuestManager
-        // Saves just fine on neoforge, not sure what's wrong on fabric
-        // nvm, it also has issues with neoforge, I think the issue is caused by replacing type key
-        // nvm nvm, still has issues with fabric
-        tag.put("Quest1", Quest.save(new CompoundTag(), provider, container.quest1));
-        tag.put("Quest2", Quest.save(new CompoundTag(), provider, container.quest2));
-        tag.put("Quest3", Quest.save(new CompoundTag(), provider, container.quest3));
-        tag.putInt("FinishedQuests", container.getFinishedQuests());
-        return tag;
-    }
-
-    public static PlayerQuestContainer load(CompoundTag tag) {
-        PokemonFieldLab.LOGGER.warn(tag.toString());
-        Quest quest1 = Quest.load(tag.getCompound("Quest1"));
-        Quest quest2 = Quest.load(tag.getCompound("Quest2"));
-        Quest quest3 = Quest.load(tag.getCompound("Quest3"));
-        int finishedQuests = tag.getInt("FinishedQuests");
-        if (quest1==null || quest2==null || quest3==null) {
-            PokemonFieldLab.LOGGER.info("{}, {}, {}", quest1, quest2, quest3);
-            throw new NbtException("Null Quest Detected");
-        }
-        return new PlayerQuestContainer(finishedQuests, quest1, quest2, quest3);
     }
 
     @Override
