@@ -47,6 +47,7 @@ public class FieldLabNetworkManager {
 
     public static void refreshScreen(RefreshScreenPacket packet, NetworkManager.PacketContext context) {
         PokemonFieldLab.LOGGER.info("refresh");
+        PokemonFieldLab.LOGGER.info(packet.container()+"");
         // TODO: refresh packet sending quest container data, need to do codec first
     }
 
