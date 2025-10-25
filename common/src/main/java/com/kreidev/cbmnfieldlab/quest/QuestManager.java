@@ -19,10 +19,14 @@ import java.util.*;
 
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.LOGGER;
 
+// TODO: maybe let's separate the SavedData subclass to another class instead of using the QuestManager?
 public class QuestManager extends SavedData {
 
     public static final Codec<Map<UUID, PlayerQuestContainer>> CODEC =
             Codec.unboundedMap(UUIDUtil.CODEC, PlayerQuestContainer.CODEC.codec());
+
+    // TODO: config
+    public static final int REROLL_COOLDOWN = 300 * 20;
 
     public static QuestManager INSTANCE;
 
@@ -46,6 +50,7 @@ public class QuestManager extends SavedData {
 
     @Override
     public @NotNull CompoundTag save(@NotNull CompoundTag tag, @NotNull HolderLookup.Provider provider) {
+        // TODO: double check, not saving/loading properly
         DataResult<Tag> result = CODEC.encodeStart(NbtOps.INSTANCE, this.getPlayerQuests());
         result.resultOrPartial(error->LOGGER.error("Quest data was not saved \n"+error))
                 .ifPresent(nbt -> tag.put("PlayerCobblemonQuests", nbt));
@@ -87,8 +92,12 @@ public class QuestManager extends SavedData {
 
     public static boolean rerollQuest(ServerPlayer player, int index) {
         PlayerQuestContainer container = getQuestContainer(player);
+
+        Quest quest = container.getQuest(index);
+        if (quest == null) return false;
+        if (quest.getTimeStamp()+REROLL_COOLDOWN > player.level().getGameTime()) return false;
+
         boolean success = container.replaceQuest(index, Quest.getRandomQuest((ServerLevel) player.level()));
-        // TODO: validate, return the same container if not valid
         NetworkManager.sendToPlayer(player, new RefreshScreenPacket(container));
         return success;
     }

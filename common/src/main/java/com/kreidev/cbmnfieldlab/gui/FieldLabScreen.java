@@ -349,6 +349,11 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
         super.onClose();
     }
 
+    public long getGameTime() {
+        if (this.minecraft == null || this.minecraft.level == null) return -1;
+        return this.minecraft.level.getGameTime();
+    }
+
     public void updateQuests(PlayerQuestContainer container) {
         this.getMenu().updateQuestContainer(container);
         if (questPanelWidget != null) {

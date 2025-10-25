@@ -3,18 +3,13 @@ package com.kreidev.cbmnfieldlab.gui;
 import com.cobblemon.mod.common.api.text.TextKt;
 import com.cobblemon.mod.common.client.CobblemonResources;
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget;
-import com.kreidev.cbmnfieldlab.PokemonFieldLab;
-import com.kreidev.cbmnfieldlab.network.FieldLabNetworkManager;
 import com.kreidev.cbmnfieldlab.network.RerollPacket;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import dev.architectury.networking.NetworkManager;
-import io.netty.buffer.Unpooled;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
@@ -22,6 +17,9 @@ import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.RenderHelperKtExt;
 
 // NOTE: "Slot"? maybe there's a better name for this.
 public class QuestSlotWidget extends SoundlessWidget {
+
+    // TODO: config
+    public static final int REROLL_COOLDOWN = 300 * 20;
 
     public final QuestPanelWidget parent;
     public final Quest quest;
@@ -95,6 +93,8 @@ public class QuestSlotWidget extends SoundlessWidget {
     }
 
     public void onReroll(Button button) {
+        if (quest.getTimeStamp()+REROLL_COOLDOWN > this.parent.parent.getGameTime()) return;
+
         // TODO: remove quest and add a loading icon while waiting for a refresh
         NetworkManager.sendToServer(new RerollPacket(this.parent.container.getQuestIndex(quest)));
     }
