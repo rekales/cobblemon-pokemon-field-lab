@@ -27,7 +27,6 @@ public class QuestPanelWidget extends SoundlessWidget {
 
     public final FieldLabScreen parent;
     public final ClientParty party;
-    public int finishedQuests = 4;
     public final PlayerQuestContainer container;
 
     public final QuestSlotWidget qs1;
@@ -57,6 +56,7 @@ public class QuestPanelWidget extends SoundlessWidget {
                 this.height, this.width
         );
 
+        int finishedQuests = container.getFinishedQuests() % 9;
         int activeGroupBoxes = Math.min(3, finishedQuests/3 + 1);
         for (int i=0 ; i < activeGroupBoxes ; i++) {
             if (finishedQuests/3 > i) {

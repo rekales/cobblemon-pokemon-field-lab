@@ -1,8 +1,12 @@
 package com.kreidev.cbmnfieldlab;
 
+import com.kreidev.cbmnfieldlab.quest.QuestManager;
+import dev.architectury.networking.NetworkChannel;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
 
@@ -10,6 +14,8 @@ public class FieldLabNetworkManager {
     public static ResourceLocation REFRESH_SCREEN_ID = resLoc("refresh_screen");
     public static ResourceLocation SUBMIT_ID = resLoc("submit_quest");
     public static ResourceLocation REROLL_ID = resLoc("reroll_quest");
+
+    private static final ResourceLocation CHANNEL = resLoc("network_channel");
 
     public static void registerPackets() {
         // TODO: replace with non-deprecated methods
@@ -29,7 +35,9 @@ public class FieldLabNetworkManager {
     }
 
     public static void rerollQuest(RegistryFriendlyByteBuf buf, NetworkManager.PacketContext context) {
-
+        if (!(context.getPlayer() instanceof ServerPlayer player)) return;
+        int index = buf.readInt();
+        QuestManager.rerollQuest(player, index);
     }
 
 

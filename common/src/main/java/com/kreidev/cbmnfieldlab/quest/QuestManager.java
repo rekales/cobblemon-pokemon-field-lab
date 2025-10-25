@@ -1,5 +1,6 @@
 package com.kreidev.cbmnfieldlab.quest;
 
+import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -76,10 +77,17 @@ public class QuestManager extends SavedData {
 
     public static boolean rerollQuest(ServerPlayer player, Quest quest) {
         PlayerQuestContainer container = getQuestContainer(player);
+        int index = container.getQuestIndex(quest);
+        if (index == -1) return false;
+        return rerollQuest(player, index);
+    }
+
+    public static boolean rerollQuest(ServerPlayer player, int index) {
+        PlayerQuestContainer container = getQuestContainer(player);
 
         // TODO: validate
-
-        return container.replaceQuest(quest, Quest.getRandomQuest((ServerLevel) player.level()));
+        PokemonFieldLab.LOGGER.info("rerolled");
+        return container.replaceQuest(index, Quest.getRandomQuest((ServerLevel) player.level()));
     }
 
     public static boolean hasQuest(ServerPlayer player, Quest quest) {

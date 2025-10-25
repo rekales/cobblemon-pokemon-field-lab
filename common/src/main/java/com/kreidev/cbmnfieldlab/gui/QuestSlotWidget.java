@@ -3,11 +3,16 @@ package com.kreidev.cbmnfieldlab.gui;
 import com.cobblemon.mod.common.api.text.TextKt;
 import com.cobblemon.mod.common.client.CobblemonResources;
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget;
+import com.kreidev.cbmnfieldlab.FieldLabNetworkManager;
 import com.kreidev.cbmnfieldlab.quest.Quest;
+import dev.architectury.networking.NetworkManager;
+import io.netty.buffer.Unpooled;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.NotNull;
@@ -44,11 +49,11 @@ public class QuestSlotWidget extends SoundlessWidget {
         int startY = this.getY()+14;
         int offsetY = 0;
         if (parts.length == 2) {
-            startY = this.getY()+8;
-            offsetY = 10;
+            startY = this.getY()+10;
+            offsetY = 9;
         } else if (parts.length == 3) {
             startY = this.getY()+6;
-            offsetY = 10;
+            offsetY = 9;
         }
 
         for (int i=0; i<parts.length; i++) {
@@ -91,6 +96,9 @@ public class QuestSlotWidget extends SoundlessWidget {
     }
 
     public void onReroll(Button button) {
-
+        RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(new FriendlyByteBuf(Unpooled.buffer()),
+                Minecraft.getInstance().level.registryAccess());
+        buf.writeInt(this.parent.container.getQuestIndex(quest));
+        NetworkManager.sendToServer(FieldLabNetworkManager.REROLL_ID, buf);
     }
 }
