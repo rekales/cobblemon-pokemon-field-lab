@@ -9,7 +9,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-
 import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.RenderHelperKtExt;
 import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.GuiUtilsKtExt;
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;

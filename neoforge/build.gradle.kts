@@ -49,7 +49,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:${property("junit_version")}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${property("junit_version")}")
 
-    modRuntimeOnly("curse.maven:configured-457570:7076243")
+    modLocalRuntime("curse.maven:configured-457570:7076243")
 }
 
 tasks.getByName<Test>("test") {

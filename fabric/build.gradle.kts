@@ -39,7 +39,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:${property("junit_version")}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${property("junit_version")}")
 
-    modRuntimeOnly("curse.maven:modmenu-308702:5810603")
+    modLocalRuntime("curse.maven:modmenu-308702:5810603")
     modImplementation(include("maven.modrinth:midnightlib:${property("midnightlib_version")}")!!)
 }
 

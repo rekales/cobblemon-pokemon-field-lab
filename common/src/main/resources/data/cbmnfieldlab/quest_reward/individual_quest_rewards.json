@@ -1,0 +1,4 @@
+[
+  { "item": "minecraft:diamond", "minCount": 1, "maxCount": 3, "cost": 5.0 },
+  { "item": "minecraft:iron_ingot", "minCount": 2, "maxCount": 5, "cost": 1.2 }
+]
