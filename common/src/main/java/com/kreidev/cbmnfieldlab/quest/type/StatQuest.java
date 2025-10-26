@@ -65,7 +65,7 @@ public class StatQuest extends Quest {
 
     @Override
     public String getModifierString() {
-        return this.lowerStatTotal + " - " + this.upperStatTotal;
+        return this.lowerStatTotal + "-" + this.upperStatTotal;
     }
 
     public int getUpperStatTotal() {

@@ -49,7 +49,7 @@ public class SizeQuest extends Quest {
 
     @Override
     public String getModifierString() {
-        return Float.toString(size);
+        return String.format("%.2f", this.size);
     }
 
     public float getSize() {
@@ -59,13 +59,5 @@ public class SizeQuest extends Quest {
     @Override
     public @NotNull QuestType<?> getType() {
         return QuestTypes.SIZE;
-    }
-
-    public static Quest createRandom(ServerLevel level) {
-        // TODO: configs
-        float lowerBound = 0.5F;
-        float upperBound = 2F;
-        float threshold = level.getRandom().nextFloat() * (upperBound-lowerBound) + lowerBound;
-        return new SizeQuest(level, threshold);
     }
 }

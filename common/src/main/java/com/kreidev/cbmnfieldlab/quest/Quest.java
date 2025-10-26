@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.LOGGER;
@@ -29,7 +30,20 @@ public abstract class Quest {
         this.type = this.getType();
         this.timeStamp = level.getGameTime();
         // TODO: generate reward relative to getDifficulty()
-        this.reward = new ItemStack(CobblemonItems.PROTECTOR);
+
+        int randAmount = level.getRandom().nextInt(1,5);
+        List<ItemStack> rewardList = List.of(
+                new ItemStack(CobblemonItems.PROTECTOR, randAmount),
+                new ItemStack(CobblemonItems.THUNDER_STONE, randAmount),
+                new ItemStack(CobblemonItems.KINGS_ROCK, randAmount),
+                new ItemStack(CobblemonItems.RAZOR_CLAW, randAmount),
+                new ItemStack(CobblemonItems.RIBBON_SWEET, randAmount),
+                new ItemStack(CobblemonItems.STRAWBERRY_SWEET, randAmount),
+                new ItemStack(CobblemonItems.AUSPICIOUS_ARMOR, randAmount),
+                new ItemStack(CobblemonItems.DEEP_SEA_TOOTH, randAmount)
+        );
+
+        this.reward = rewardList.get(level.getRandom().nextInt(rewardList.size()));
     }
 
     // NOTE: In case there's a need to override reward
@@ -81,6 +95,7 @@ public abstract class Quest {
     }
 
     // TODO: missing biome quest
+    // TODO: missing evo quest
     // TODO: configs
     // NOTE: The ServerLevel is really just to get the timestamp
     public static Quest getRandomQuest(ServerLevel level) {

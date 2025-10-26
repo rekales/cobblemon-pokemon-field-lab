@@ -1,19 +1,14 @@
 package com.kreidev.cbmnfieldlab.gui;
 
-import com.cobblemon.mod.common.api.text.TextKt;
-import com.cobblemon.mod.common.client.CobblemonResources;
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget;
+import com.cobblemon.mod.common.client.render.RenderHelperKt;
 import com.cobblemon.mod.common.client.storage.ClientParty;
 import com.kreidev.cbmnfieldlab.quest.PlayerQuestContainer;
-import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.List;
 
 import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.RenderHelperKtExt;
 import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.GuiUtilsKtExt;
@@ -49,13 +44,29 @@ public class QuestPanelWidget extends SoundlessWidget {
                 this.height, this.width
         );
 
+        for (int i=0; i<3; i++) {
+            RenderHelperKt.drawScaledText(
+                    guiGraphics, null, Component.literal("exp"),
+                    this.getX() + 26 + 45*i, this.getY() + 143, 1F, 1F,
+                    Integer.MAX_VALUE, 0xFF009CAE,
+                    true, false, null, null
+            );
+        }
+
         int finishedQuests = container.getFinishedQuests() % 9;
         int activeGroupBoxes = Math.min(3, finishedQuests/3 + 1);
         for (int i=0 ; i < activeGroupBoxes ; i++) {
             if (finishedQuests/3 > i) {
                 GuiUtilsKtExt.blitk(matrices, GROUP_BOX_RES,
-                        this.getX() + 7 + 45 * i, this.getY() + 141,
+                        this.getX() + 7 + 45*i, this.getY() + 141,
                         25, 37
+                );
+
+                RenderHelperKt.drawScaledText(
+                        guiGraphics, null, Component.literal("exp"),
+                        this.getX() + 26 + 45*i, this.getY() + 143, 1F, 0.9F,
+                        Integer.MAX_VALUE, 0xFFFFFFFF,
+                        true, false, null, null
                 );
             }
 

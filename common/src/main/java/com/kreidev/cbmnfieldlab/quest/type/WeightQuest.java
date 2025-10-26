@@ -54,7 +54,7 @@ public class WeightQuest extends Quest {
 
     @Override
     public String getModifierString() {
-        return this.lowerWeight + " - " + this.upperWeight;
+        return String.format("%.2f", this.lowerWeight) + "-" + String.format("%.2f", this.upperWeight);
     }
 
     public float getLowerWeight() {

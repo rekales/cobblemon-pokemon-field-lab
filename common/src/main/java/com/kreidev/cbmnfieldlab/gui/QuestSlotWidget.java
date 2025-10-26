@@ -5,6 +5,7 @@ import com.cobblemon.mod.common.client.CobblemonResources;
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget;
 import com.kreidev.cbmnfieldlab.network.RerollPacket;
 import com.kreidev.cbmnfieldlab.quest.Quest;
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -35,6 +36,8 @@ public class QuestSlotWidget extends SoundlessWidget {
 
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        PoseStack matrices = guiGraphics.pose();
+
 //        guiGraphics.fill(this.getX(), this.getY(), this.width+this.getX(), this.height+this.getY(), 0x30FFFFFF);
 
         String str = Component
@@ -43,35 +46,45 @@ public class QuestSlotWidget extends SoundlessWidget {
 
         String[] parts = str.split("\\n");
 
-        int startY = this.getY()+14;
+        int startY = this.getY()+16;
         int offsetY = 0;
         if (parts.length == 2) {
-            startY = this.getY()+10;
-            offsetY = 9;
+            startY = this.getY()+12;
+            offsetY = 8;
         } else if (parts.length == 3) {
-            startY = this.getY()+6;
-            offsetY = 9;
+            startY = this.getY()+8;
+            offsetY = 8;
         }
+
+//        matrices.pushPose();
+//        matrices.translate(50, 50, 0);   // move origin to (50, 50)
+//        matrices.scale(0.7f, 0.7f, 1.0f);
+//
+//        String text = "Hello, world!";
+//        guiGraphics.drawString(this.parent.parent.getFont(), text, 10, 10, 0xFFFFFF, false);
+//
+//        matrices.popPose();
+
 
         for (int i=0; i<parts.length; i++) {
             RenderHelperKtExt.drawScaledText(
-                    guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
+                    guiGraphics, null,
                     strToCompWithModifier(parts[i], quest.getModifierString()),
                     this.getX()+28, startY+offsetY*i,
-                    false, true, 1F, 0.9F
+                    false, true, 0.7F, 0.9F
             );
         }
 
         RenderHelperKtExt.drawScaledText(
-                guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
-                TextKt.bold(Component.literal(quest.getReward().getCount() + "x")),
-                this.getX()+150, this.getY()+26.5,
-                true, true, 1F, 0.9F
+                guiGraphics, null,
+                Component.literal(quest.getReward().getCount() + "x"),
+                this.getX()+151, this.getY()+28.5,
+                true, true, 0.65F, 0.9F
         );
 
-        guiGraphics.renderItem(quest.getReward(), this.getX()+143, this.getY()+5);
+        guiGraphics.renderItem(quest.getReward().copyWithCount(1), this.getX()+143, this.getY()+5);
         guiGraphics.renderItemDecorations(
-                Minecraft.getInstance().font, quest.getReward(),
+                Minecraft.getInstance().font, quest.getReward().copyWithCount(1),
                 this.getX()+143, this.getY()+5
         );
 
@@ -85,7 +98,8 @@ public class QuestSlotWidget extends SoundlessWidget {
             String[] parts = str.split("___", -1);
 
             return Component.literal(parts[0])
-                    .append(Component.literal(modifier).withStyle(ChatFormatting.BOLD))
+//                    .append(Component.literal(modifier).withStyle(ChatFormatting.BOLD))
+                    .append(Component.literal(modifier))
                     .append(parts[1]);
         } else {
             return Component.literal(str);
