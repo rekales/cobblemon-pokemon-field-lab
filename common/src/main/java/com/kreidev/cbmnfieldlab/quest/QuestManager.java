@@ -1,5 +1,6 @@
 package com.kreidev.cbmnfieldlab.quest;
 
+import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.network.RefreshScreenPacket;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -23,9 +24,6 @@ public class QuestManager extends SavedData {
 
     public static final Codec<Map<UUID, PlayerQuestContainer>> CODEC =
             Codec.unboundedMap(UUIDUtil.CODEC, PlayerQuestContainer.CODEC.codec());
-
-    // TODO: config
-    public static final int REROLL_COOLDOWN = 6 * 20;
 
     public static QuestManager INSTANCE;
 
@@ -94,7 +92,7 @@ public class QuestManager extends SavedData {
 
         Quest quest = container.getQuest(index);
         if (quest == null) return false;
-        if (quest.getTimeStamp()+REROLL_COOLDOWN > player.level().getGameTime()) return false;
+        if (quest.getTimeStamp()+ CommonConfig.rerollTimeSeconds > player.level().getGameTime()) return false;
 
         boolean success = container.replaceQuest(index, Quest.getRandomQuest((ServerLevel) player.level()));
         NetworkManager.sendToPlayer(player, new RefreshScreenPacket(container));

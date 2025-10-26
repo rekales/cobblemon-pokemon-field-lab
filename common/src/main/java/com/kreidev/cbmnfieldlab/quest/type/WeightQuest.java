@@ -1,6 +1,7 @@
 package com.kreidev.cbmnfieldlab.quest.type;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
@@ -26,10 +27,10 @@ public class WeightQuest extends Quest {
     // Random Quest
     public WeightQuest(ServerLevel level) {
         super(level);
-        float lowerBound = 0.5F;
-        float upperBound = 2F;
-        float minGap = 0.5F;
-        float maxGap = 1;
+        float lowerBound = CommonConfig.weightQuestLowerBound;
+        float upperBound = CommonConfig.weightQuestUpperBound;
+        float minGap = CommonConfig.weightQuestMinGap;
+        float maxGap = CommonConfig.weightQuestMaxGap;
         this.lowerWeight = level.getRandom().nextFloat() * (upperBound-lowerBound) + lowerBound;
         this.upperWeight = this.lowerWeight + level.getRandom().nextFloat() * (maxGap-minGap) + minGap;
     }

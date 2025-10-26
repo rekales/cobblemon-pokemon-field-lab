@@ -2,15 +2,15 @@ package com.kreidev.cbmnfieldlab.quest;
 
 import com.cobblemon.mod.common.CobblemonItems;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.quest.type.*;
 import com.mojang.serialization.Codec;
-import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.LOGGER;
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
@@ -96,16 +96,21 @@ public abstract class Quest {
 
     // TODO: missing biome quest
     // TODO: missing evo quest
-    // TODO: configs
+    // TODO: maybe replace with dynamic registration or feature flags whatever that may be
     // NOTE: The ServerLevel is really just to get the timestamp
     public static Quest getRandomQuest(ServerLevel level) {
-        Optional<Holder.Reference<QuestType<?>>> randomHolder = QuestType.REGISTRY.getRandom(level.getRandom());
-        if (randomHolder.isPresent()) {
-            QuestType<?> type = randomHolder.get().value();
-            return type.randomQuestFactory().apply(level);
-        } else {
-            LOGGER.error("No type retrieved for some reason");
-            return new TypeQuest(level);
-        }
+        List<QuestType<?>> enabledQuestTypes = new ArrayList<>();
+        if (CommonConfig.enableAbilityQuest)    enabledQuestTypes.add(QuestTypes.ABILITY);
+        if (CommonConfig.enableSingleTypeQuest) enabledQuestTypes.add(QuestTypes.SINGLE_TYPE);
+        if (CommonConfig.enableDoubleTypeQuest) enabledQuestTypes.add(QuestTypes.DOUBLE_TYPE);
+        if (CommonConfig.enableNatureQuest)     enabledQuestTypes.add(QuestTypes.NATURE);
+        if (CommonConfig.enableMoveQuest)       enabledQuestTypes.add(QuestTypes.MOVE);
+        if (CommonConfig.enableSizeQuest)       enabledQuestTypes.add(QuestTypes.SIZE);
+        if (CommonConfig.enableBaseStatQuest)   enabledQuestTypes.add(QuestTypes.BASE_STAT);
+        if (CommonConfig.enableWeightQuest)     enabledQuestTypes.add(QuestTypes.WEIGHT);
+
+        if (enabledQuestTypes.isEmpty()) return new TypeQuest(level);
+        int randIndex = level.getRandom().nextInt(enabledQuestTypes.size());
+        return enabledQuestTypes.get(randIndex).randomQuestFactory().apply(level);
     }
 }

@@ -1,6 +1,7 @@
 package com.kreidev.cbmnfieldlab.quest.type;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
@@ -25,9 +26,8 @@ public class SizeQuest extends Quest {
     public SizeQuest(ServerLevel level) {
         super(level);
 
-        // TODO: configs
-        float lowerBound = 0.5F;
-        float upperBound = 2F;
+        float lowerBound = CommonConfig.sizeQuestLowerBound;
+        float upperBound = CommonConfig.sizeQuestUpperBound;
         this.size = level.getRandom().nextFloat() * (upperBound-lowerBound) + lowerBound;;
     }
 

@@ -3,6 +3,7 @@ package com.kreidev.cbmnfieldlab.quest.type;
 import com.cobblemon.mod.common.api.pokemon.stats.Stat;
 import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
@@ -30,10 +31,10 @@ public class StatQuest extends Quest {
     // Random Quest
     public StatQuest(ServerLevel level) {
         super(level);
-        int lowerBound = 200;
-        int upperBound = 400;
-        int minGap = 30;
-        int maxGap = 80;
+        int lowerBound = CommonConfig.baseStatQuestLowerBound;
+        int upperBound = CommonConfig.baseStatQuestUpperBound;
+        int minGap = CommonConfig.baseStatQuestMinGap;
+        int maxGap = CommonConfig.baseStatQuestMaxGap;
         this.lowerStatTotal = level.getRandom().nextInt(lowerBound, upperBound);
         this.upperStatTotal = this.lowerStatTotal + level.getRandom().nextInt(minGap, maxGap);
     }

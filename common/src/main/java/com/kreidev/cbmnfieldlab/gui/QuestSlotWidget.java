@@ -3,6 +3,7 @@ package com.kreidev.cbmnfieldlab.gui;
 import com.cobblemon.mod.common.api.text.TextKt;
 import com.cobblemon.mod.common.client.CobblemonResources;
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget;
+import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.network.RerollPacket;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -19,7 +20,6 @@ import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.RenderHelperKtExt;
 // NOTE: "Slot"? maybe there's a better name for this.
 public class QuestSlotWidget extends SoundlessWidget {
 
-    // TODO: config
     public static final int REROLL_COOLDOWN = 6 * 20;
 
     public final QuestPanelWidget parent;
@@ -107,7 +107,7 @@ public class QuestSlotWidget extends SoundlessWidget {
     }
 
     public void onReroll(Button button) {
-        if (quest.getTimeStamp()+REROLL_COOLDOWN > this.parent.parent.getGameTime()) return;
+        if (quest.getTimeStamp()+CommonConfig.rerollTimeSeconds > this.parent.parent.getGameTime()) return;
 
         // TODO: remove quest and add a loading icon while waiting for a refresh
         NetworkManager.sendToServer(new RerollPacket(this.parent.container.getQuestIndex(quest)));
