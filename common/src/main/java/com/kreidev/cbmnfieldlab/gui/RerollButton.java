@@ -48,11 +48,6 @@ public class RerollButton extends Button implements CobblemonRenderable {
         );
 
         guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1F);
-
-//        GuiUtilsKtExt.blitk(matrices, REROLL_ICON_RES,
-//                this.getX()+4, this.getY()+3,
-//                14, 12
-//        );
     }
 
     @Override

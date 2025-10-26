@@ -12,26 +12,34 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class AbilityQuest extends Quest {
 
     public static final MapCodec<AbilityQuest> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Codec.LONG.fieldOf("timestamp").forGetter(AbilityQuest::getTimeStamp),
+            Codec.LONG.fieldOf("timestamp").forGetter(Quest::getTimeStamp),
+            ItemStack.CODEC.fieldOf("reward").forGetter(Quest::getReward),
             AbilityTemplate.getCODEC().fieldOf("quest_ability").forGetter(AbilityQuest::getAbility)
     ).apply(instance, AbilityQuest::new));
 
     public final AbilityTemplate ability;
 
+    // Random Quest
+    public AbilityQuest(ServerLevel level) {
+        super(level);
+        List<AbilityTemplate> abilities = Abilities.INSTANCE.all();
+        this.ability = abilities.get(level.getRandom().nextInt(abilities.size()));
+    }
+
     public AbilityQuest(ServerLevel level, AbilityTemplate abilityTemplate) {
-        super(Type.ABILITY, level);
+        super(level);
         this.ability = abilityTemplate;
     }
 
-    public AbilityQuest(long timestamp, AbilityTemplate abilityTemplate) {
-        super(Type.ABILITY, timestamp, new ItemStack(Items.STICK));
+    public AbilityQuest(long timestamp, ItemStack reward, AbilityTemplate abilityTemplate) {
+        super(timestamp, reward);
         this.ability = abilityTemplate;
     }
 
@@ -50,13 +58,7 @@ public class AbilityQuest extends Quest {
     }
 
     @Override
-    public QuestType<?> getType() {
+    public @NotNull QuestType<?> getType() {
         return QuestTypes.ABILITY;
-    }
-
-    public static Quest createRandom(ServerLevel level) {
-        List<AbilityTemplate> abilities = Abilities.INSTANCE.all();
-        AbilityTemplate ability = abilities.get(level.getRandom().nextInt(abilities.size()));
-        return new AbilityQuest(level, ability);
     }
 }

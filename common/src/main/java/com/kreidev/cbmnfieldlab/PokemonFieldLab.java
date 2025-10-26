@@ -4,9 +4,9 @@ package com.kreidev.cbmnfieldlab;
 import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
 import com.kreidev.cbmnfieldlab.network.FieldLabNetworkManager;
 import com.kreidev.cbmnfieldlab.quest.QuestManager;
+import com.kreidev.cbmnfieldlab.quest.QuestTypes;
 import com.mojang.logging.LogUtils;
 import dev.architectury.event.events.common.LifecycleEvent;
-import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.menu.MenuRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -55,8 +55,8 @@ public class PokemonFieldLab {
             }
         });
 
+        QuestTypes.init();
         FieldLabNetworkManager.registerPackets();
-
     }
 
     public static void initClient() {

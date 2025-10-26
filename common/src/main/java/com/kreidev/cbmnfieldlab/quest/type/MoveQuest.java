@@ -7,16 +7,39 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class MoveQuest extends Quest {
 
+    public static final MapCodec<MoveQuest> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            Codec.LONG.fieldOf("timestamp").forGetter(Quest::getTimeStamp),
+            ItemStack.CODEC.fieldOf("reward").forGetter(Quest::getReward),
+            MoveTemplate.getBY_STRING_CODEC().fieldOf("quest_move").forGetter(MoveQuest::getMove)
+    ).apply(instance, MoveQuest::new));
+
     public final MoveTemplate move;
 
+    // Random Quest
+    public MoveQuest(ServerLevel level) {
+        super(level);
+        List<MoveTemplate> moves = Moves.INSTANCE.all();
+        this.move = moves.get(level.getRandom().nextInt(moves.size()));
+    }
+
     public MoveQuest(ServerLevel level, MoveTemplate move) {
-        super(Quest.Type.MOVE, level);
+        super(level);
+        this.move = move;
+    }
+
+    public MoveQuest(long timestamp, ItemStack reward, MoveTemplate move) {
+        super(timestamp, reward);
         this.move = move;
     }
 
@@ -33,15 +56,12 @@ public class MoveQuest extends Quest {
         return this.move.getDisplayName().getString();
     }
 
-    @Override
-    public QuestType<?> getType() {
-        return QuestTypes.NATURE;
+    public MoveTemplate getMove() {
+        return move;
     }
 
-
-    public static Quest createRandom(ServerLevel level) {
-        List<MoveTemplate> moves = Moves.INSTANCE.all();
-        MoveTemplate move = moves.get(level.getRandom().nextInt(moves.size()));
-        return new MoveQuest(level, move);
+    @Override
+    public @NotNull QuestType<?> getType() {
+        return QuestTypes.MOVE;
     }
 }

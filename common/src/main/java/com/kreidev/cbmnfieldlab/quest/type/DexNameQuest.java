@@ -5,13 +5,14 @@ import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
 import net.minecraft.server.level.ServerLevel;
+import org.jetbrains.annotations.NotNull;
 
 public class DexNameQuest extends Quest {
 
     public final String name;
 
     public DexNameQuest(ServerLevel level, String name) {
-        super(Type.SINGLE_TYPE, level);
+        super(level);
         this.name = name;
     }
 
@@ -26,10 +27,9 @@ public class DexNameQuest extends Quest {
     }
 
     @Override
-    public QuestType<?> getType() {
+    public @NotNull QuestType<?> getType() {
         return QuestTypes.NATURE;
     }
-
 
     public static Quest createRandom(ServerLevel level) {
         // TODO: figure out how to get all types of Abilities

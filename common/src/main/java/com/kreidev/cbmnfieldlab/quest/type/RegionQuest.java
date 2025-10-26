@@ -10,13 +10,14 @@ import com.kreidev.cbmnfieldlab.quest.QuestType;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import org.jetbrains.annotations.NotNull;
 
 public class RegionQuest extends Quest {
 
     public final ResourceLocation region;
 
     public RegionQuest(ServerLevel level, ResourceLocation region) {
-        super(Type.SINGLE_TYPE, level);
+        super(level);
         this.region = region;
     }
 
@@ -39,13 +40,13 @@ public class RegionQuest extends Quest {
     }
 
     @Override
-    public QuestType<?> getType() {
+    public @NotNull QuestType<?> getType() {
         return QuestTypes.NATURE;
     }
 
 
     public static Quest createRandom(ServerLevel level) {
         // TODO
-        return new WeightQuest(level, 0);
+        return new WeightQuest(level);
     }
 }

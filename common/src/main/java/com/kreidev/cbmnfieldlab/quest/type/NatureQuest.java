@@ -14,24 +14,31 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.NotNull;
 
 public class NatureQuest extends Quest {
 
     public static final MapCodec<NatureQuest> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Codec.LONG.fieldOf("timestamp").forGetter(NatureQuest::getTimeStamp),
+            Codec.LONG.fieldOf("timestamp").forGetter(Quest::getTimeStamp),
+            ItemStack.CODEC.fieldOf("reward").forGetter(Quest::getReward),
             Nature.getBY_IDENTIFIER_CODEC().fieldOf("quest_nature").forGetter(NatureQuest::getNature)
     ).apply(instance, NatureQuest::new));
 
     public final Nature nature;
 
+    // Random Quest
+    public NatureQuest(ServerLevel level) {
+        super(level);
+        this.nature = Natures.INSTANCE.getRandomNature();
+    }
+
     public NatureQuest(ServerLevel level, Nature nature) {
-        super(Type.NATURE, level);
+        super(level);
         this.nature = nature;
     }
 
-    public NatureQuest(long timestamp, Nature nature) {
-        super(Type.NATURE, timestamp, new ItemStack(Items.STICK));
+    public NatureQuest(long timestamp, ItemStack reward, Nature nature) {
+        super(timestamp, reward);
         this.nature = nature;
     }
 
@@ -50,12 +57,7 @@ public class NatureQuest extends Quest {
     }
 
     @Override
-    public QuestType<?> getType() {
+    public @NotNull QuestType<?> getType() {
         return QuestTypes.NATURE;
-    }
-
-    public static Quest createRandom(ServerLevel level) {
-        Nature nature = Natures.INSTANCE.getRandomNature();
-        return new NatureQuest(level, nature);
     }
 }

@@ -6,17 +6,43 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class DoubleTypeQuest extends Quest {
 
+    public static final MapCodec<DoubleTypeQuest> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            Codec.LONG.fieldOf("timestamp").forGetter(Quest::getTimeStamp),
+            ItemStack.CODEC.fieldOf("reward").forGetter(Quest::getReward),
+            ElementalType.getBY_STRING_CODEC().fieldOf("quest_first_type").forGetter(DoubleTypeQuest::getFirstType),
+            ElementalType.getBY_STRING_CODEC().fieldOf("quest_second_type").forGetter(DoubleTypeQuest::getSecondType)
+    ).apply(instance, DoubleTypeQuest::new));
+
     public final ElementalType firstType;
     public final ElementalType secondType;
 
+    // Random Quest
+    public DoubleTypeQuest(ServerLevel level) {
+        super(level);
+        List<ElementalType> types = ElementalTypes.INSTANCE.all();
+        this.firstType = types.get(level.getRandom().nextInt(types.size()));
+        this.secondType = types.get(level.getRandom().nextInt(types.size()));
+    }
+
     public DoubleTypeQuest(ServerLevel level, ElementalType firstType, ElementalType secondType) {
-        super(Type.DOUBLE_TYPE, level);
+        super(level);
+        this.firstType = firstType;
+        this.secondType = secondType;
+    }
+
+    public DoubleTypeQuest(long timestamp, ItemStack reward, ElementalType firstType, ElementalType secondType) {
+        super(timestamp, reward);
         this.firstType = firstType;
         this.secondType = secondType;
     }
@@ -41,16 +67,16 @@ public class DoubleTypeQuest extends Quest {
         return this.firstType.getDisplayName().getString() + " & " + this.secondType.getDisplayName().getString();
     }
 
-    @Override
-    public QuestType<?> getType() {
-        return QuestTypes.NATURE;
+    public ElementalType getFirstType() {
+        return firstType;
     }
 
+    public ElementalType getSecondType() {
+        return secondType;
+    }
 
-    public static Quest createRandom(ServerLevel level) {
-        List<ElementalType> types = ElementalTypes.INSTANCE.all();
-        ElementalType fType = types.get(level.getRandom().nextInt(types.size()));
-        ElementalType sType = types.get(level.getRandom().nextInt(types.size()));
-        return new DoubleTypeQuest(level, fType, sType);
+    @Override
+    public @NotNull QuestType<?> getType() {
+        return QuestTypes.DOUBLE_TYPE;
     }
 }

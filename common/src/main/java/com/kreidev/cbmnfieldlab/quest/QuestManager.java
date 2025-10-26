@@ -1,6 +1,5 @@
 package com.kreidev.cbmnfieldlab.quest;
 
-import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import com.kreidev.cbmnfieldlab.network.RefreshScreenPacket;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -26,7 +25,7 @@ public class QuestManager extends SavedData {
             Codec.unboundedMap(UUIDUtil.CODEC, PlayerQuestContainer.CODEC.codec());
 
     // TODO: config
-    public static final int REROLL_COOLDOWN = 10 * 20;
+    public static final int REROLL_COOLDOWN = 6 * 20;
 
     public static QuestManager INSTANCE;
 

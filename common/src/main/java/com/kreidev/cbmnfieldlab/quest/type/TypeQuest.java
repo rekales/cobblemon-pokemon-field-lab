@@ -1,6 +1,5 @@
 package com.kreidev.cbmnfieldlab.quest.type;
 
-import com.cobblemon.mod.common.api.abilities.AbilityTemplate;
 import com.cobblemon.mod.common.api.types.ElementalType;
 import com.cobblemon.mod.common.api.types.ElementalTypes;
 import com.cobblemon.mod.common.pokemon.Pokemon;
@@ -12,26 +11,35 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+// Not to be confused with QuestType
 public class TypeQuest extends Quest {
 
     public static final MapCodec<TypeQuest> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Codec.LONG.fieldOf("timestamp").forGetter(TypeQuest::getTimeStamp),
+            Codec.LONG.fieldOf("timestamp").forGetter(Quest::getTimeStamp),
+            ItemStack.CODEC.fieldOf("reward").forGetter(Quest::getReward),
             ElementalType.getBY_STRING_CODEC().fieldOf("quest_elemental_type").forGetter(TypeQuest::getElementalType)
     ).apply(instance, TypeQuest::new));
 
     public final ElementalType elementalType;
 
+    // Random Quest
+    public TypeQuest(ServerLevel level) {
+        super(level);
+        List<ElementalType> types = ElementalTypes.INSTANCE.all();
+        this.elementalType = types.get(level.getRandom().nextInt(types.size()));
+    }
+
     public TypeQuest(ServerLevel level, ElementalType elementalType) {
-        super(Type.SINGLE_TYPE, level);
+        super(level);
         this.elementalType = elementalType;
     }
 
-    public TypeQuest(long timestamp, ElementalType elementalType) {
-        super(Type.SINGLE_TYPE, timestamp, new ItemStack(Items.STICK));
+    public TypeQuest(long timestamp, ItemStack reward, ElementalType elementalType) {
+        super(timestamp, reward);
         this.elementalType = elementalType;
     }
 
@@ -53,14 +61,7 @@ public class TypeQuest extends Quest {
     }
 
     @Override
-    public QuestType<?> getType() {
+    public @NotNull QuestType<?> getType() {
         return QuestTypes.SINGLE_TYPE;
-    }
-
-
-    public static Quest createRandom(ServerLevel level) {
-        List<ElementalType> types = ElementalTypes.INSTANCE.all();
-        ElementalType type = types.get(level.getRandom().nextInt(types.size()));
-        return new TypeQuest(level, type);
     }
 }

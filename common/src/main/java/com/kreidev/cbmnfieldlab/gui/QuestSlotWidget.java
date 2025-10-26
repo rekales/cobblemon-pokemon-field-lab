@@ -19,7 +19,7 @@ import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.RenderHelperKtExt;
 public class QuestSlotWidget extends SoundlessWidget {
 
     // TODO: config
-    public static final int REROLL_COOLDOWN = 10 * 20;
+    public static final int REROLL_COOLDOWN = 6 * 20;
 
     public final QuestPanelWidget parent;
     public final Quest quest;
