@@ -48,7 +48,7 @@ public class DoubleTypeQuest extends Quest {
     }
 
     @Override
-    public boolean isEligible(Pokemon pokemon) {
+    public boolean isEligible(@NotNull Pokemon pokemon) {
         // It's janky-ass shit I know
         for (ElementalType eType : pokemon.getTypes()) {
             if (this.firstType == eType) {

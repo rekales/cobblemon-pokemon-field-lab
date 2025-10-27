@@ -48,7 +48,7 @@ public class WeightQuest extends Quest {
     }
 
     @Override
-    public boolean isEligible(Pokemon pokemon) {
+    public boolean isEligible(@NotNull Pokemon pokemon) {
         float weight = pokemon.getForm().getWeight();
         return this.lowerWeight < weight && weight < this.upperWeight;
     }

@@ -44,7 +44,7 @@ public class TypeQuest extends Quest {
     }
 
     @Override
-    public boolean isEligible(Pokemon pokemon) {
+    public boolean isEligible(@NotNull Pokemon pokemon) {
         for (ElementalType eType : pokemon.getTypes()) {
             if (this.elementalType == eType) return true;
         }

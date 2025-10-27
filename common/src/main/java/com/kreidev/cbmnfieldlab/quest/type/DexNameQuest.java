@@ -17,7 +17,7 @@ public class DexNameQuest extends Quest {
     }
 
     @Override
-    public boolean isEligible(Pokemon pokemon) {
+    public boolean isEligible(@NotNull Pokemon pokemon) {
         return pokemon.getDisplayName().toString() == this.name;  // TODO: find a way to get the pokedex entry name
     }
 

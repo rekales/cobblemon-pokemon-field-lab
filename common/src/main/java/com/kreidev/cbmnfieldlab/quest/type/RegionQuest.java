@@ -22,7 +22,7 @@ public class RegionQuest extends Quest {
     }
 
     @Override
-    public boolean isEligible(Pokemon pokemon) {
+    public boolean isEligible(@NotNull Pokemon pokemon) {
         PokedexEntry entry = DexEntries.INSTANCE.getEntries().get(pokemon.getSpecies().getResourceIdentifier());
         if (entry == null) return false;
         PokedexDef dex = Dexes.INSTANCE.getDexEntryMap().get(region);

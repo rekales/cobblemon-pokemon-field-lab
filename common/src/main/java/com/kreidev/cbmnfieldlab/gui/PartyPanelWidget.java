@@ -11,6 +11,7 @@ import com.cobblemon.mod.common.util.LocalizationUtilsKt;
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import com.kreidev.cbmnfieldlab.network.RerollPacket;
 import com.kreidev.cbmnfieldlab.network.SubmitPacket;
+import com.kreidev.cbmnfieldlab.quest.PlayerQuestContainer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.client.gui.GuiGraphics;
@@ -103,7 +104,12 @@ public class PartyPanelWidget extends SoundlessWidget {
             slot.render(guiGraphics, mouseX, mouseY, delta);
         }
 
-        if (this.parent.selectedQuestIndex != -1 && this.parent.previewPokemon != null) {
+        PlayerQuestContainer container = this.parent.getMenu().questContainer;
+
+        if (this.parent.previewPokemon != null
+                && (container.firstQuest().isEligible(this.parent.previewPokemon)
+                || container.secondQuest().isEligible(this.parent.previewPokemon)
+                || container.thirdQuest().isEligible(this.parent.previewPokemon))) {
             if (displayConfirmSubmit) {
                 RenderHelperKtExt.drawScaledText(
                         guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),

@@ -44,7 +44,7 @@ public class MoveQuest extends Quest {
     }
 
     @Override
-    public boolean isEligible(Pokemon pokemon) {
+    public boolean isEligible(@NotNull Pokemon pokemon) {
         for (Move move : pokemon.getMoveSet().getMoves()) {
             if (this.move == move.getTemplate()) return true;
         }

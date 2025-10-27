@@ -80,7 +80,7 @@ public abstract class Quest {
         return this.type == quest.type && this.timeStamp == quest.timeStamp;
     }
 
-    public abstract boolean isEligible(Pokemon pokemon);
+    public abstract boolean isEligible(@NotNull Pokemon pokemon);
 
     public abstract String getModifierString();
 

@@ -44,7 +44,7 @@ public class AbilityQuest extends Quest {
     }
 
     @Override
-    public boolean isEligible(Pokemon pokemon) {
+    public boolean isEligible(@NotNull Pokemon pokemon) {
         return pokemon.getAbility().getTemplate() == this.ability;
     }
 

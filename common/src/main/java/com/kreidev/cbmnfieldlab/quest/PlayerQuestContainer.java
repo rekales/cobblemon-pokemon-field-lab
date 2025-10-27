@@ -62,6 +62,18 @@ public class PlayerQuestContainer {
         };
     }
 
+    public @NotNull Quest firstQuest() {
+        return quest1;
+    }
+
+    public @NotNull Quest secondQuest() {
+        return quest2;
+    }
+
+    public @NotNull Quest thirdQuest() {
+        return quest3;
+    }
+
     // returns -1 if not found
     public int getQuestIndex(Quest quest) {
         if (quest.equals(quest1)) return 0;

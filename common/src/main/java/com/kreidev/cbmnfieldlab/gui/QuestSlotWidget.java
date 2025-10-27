@@ -28,8 +28,6 @@ public class QuestSlotWidget extends SoundlessWidget implements CobblemonRendera
     public static final ResourceLocation QUEST_SELECTED_RES =
             resLoc("textures/gui/%s/quest_slot_active.png", PokemonFieldLab.FIELD_LAB_NAME);
 
-    public static final int REROLL_COOLDOWN = 6 * 20;
-
     public final QuestPanelWidget parent;
     public final Quest quest;
     public final RerollButton rerollButton;
@@ -42,18 +40,14 @@ public class QuestSlotWidget extends SoundlessWidget implements CobblemonRendera
         this.index = index;
         this.rerollButton = new RerollButton(pX+1, pY+9, this, this::onReroll);
         this.addWidget(this.rerollButton);
-        this.addWidget(Button.builder(Component.empty(), this::onSelect)
-                .pos(this.getX(), this.getY())
-                .size(this.getWidth(), this.getHeight())
-                .build()
-        );
     }
 
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         PoseStack matrices = guiGraphics.pose();
 
-        if (this.parent.parent.selectedQuestIndex == this.index) {
+        if (this.parent.parent.previewPokemon != null &&
+                this.quest.isEligible(this.parent.parent.previewPokemon)) {
             FieldLabScreen.GuiUtilsKtExt.blitk(
                     matrices, QUEST_SELECTED_RES,
                     this.getX(), this.getY(),
@@ -99,14 +93,6 @@ public class QuestSlotWidget extends SoundlessWidget implements CobblemonRendera
         );
 
         this.rerollButton.render(guiGraphics, mouseX, mouseY, delta);
-
-        if (this.isHovered() && !this.rerollButton.isHovered()) {
-            FieldLabScreen.GuiUtilsKtExt.blitk(
-                    matrices, QUEST_HOVER_OVERLAY_RES,
-                    this.getX(), this.getY(),
-                    38, 166
-            );
-        }
     }
 
 
@@ -124,17 +110,10 @@ public class QuestSlotWidget extends SoundlessWidget implements CobblemonRendera
     }
 
     public void onReroll(Button button) {
-        if (quest.getTimeStamp()+CommonConfig.rerollTimeSeconds > this.parent.parent.getGameTime()) return;
+        PokemonFieldLab.LOGGER.warn("{}", (quest.getTimeStamp()+CommonConfig.rerollTimeSeconds*20L) - this.parent.parent.getGameTime());
+        if (quest.getTimeStamp()+CommonConfig.rerollTimeSeconds*20L > this.parent.parent.getGameTime()) return;
 
         // TODO: remove quest and add a loading icon while waiting for a refresh
         NetworkManager.sendToServer(new RerollPacket(this.index));
-    }
-
-    public void onSelect(Button button) {
-        if (this.parent.parent.selectedQuestIndex == this.index) {
-            this.parent.parent.selectedQuestIndex = -1;
-        } else {
-            this.parent.parent.selectedQuestIndex = this.index;
-        }
     }
 }

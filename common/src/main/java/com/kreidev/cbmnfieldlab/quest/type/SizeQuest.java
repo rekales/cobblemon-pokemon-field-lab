@@ -42,7 +42,7 @@ public class SizeQuest extends Quest {
     }
 
     @Override
-    public boolean isEligible(Pokemon pokemon) {
+    public boolean isEligible(@NotNull Pokemon pokemon) {
         // NOTE: didn't find any "size" attribute but I did find height
         return pokemon.getForm().getHeight() < this.size;
     }

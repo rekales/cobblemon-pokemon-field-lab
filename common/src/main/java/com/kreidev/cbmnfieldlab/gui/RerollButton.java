@@ -1,6 +1,7 @@
 package com.kreidev.cbmnfieldlab.gui;
 
 import com.cobblemon.mod.common.client.gui.CobblemonRenderable;
+import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
@@ -9,6 +10,7 @@ import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import static com.kreidev.cbmnfieldlab.PokemonFieldLab.LOGGER;
 import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.GuiUtilsKtExt;
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
 
@@ -38,7 +40,9 @@ public class RerollButton extends Button implements CobblemonRenderable {
                 20, 23
         );
 
-        float progress = Math.min(1, (parent.parent.parent.getGameTime()-parent.quest.getTimeStamp())/(float) QuestSlotWidget.REROLL_COOLDOWN);
+
+        float progress = Math.min(1, (this.parent.parent.parent.getGameTime()-this.parent.quest.getTimeStamp())
+                / (CommonConfig.rerollTimeSeconds*20F));
         int cropWidth = (int) (12*progress);
 
         if (progress < 1) {

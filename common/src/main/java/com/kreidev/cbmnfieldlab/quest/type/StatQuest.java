@@ -52,7 +52,7 @@ public class StatQuest extends Quest {
     }
 
     @Override
-    public boolean isEligible(Pokemon pokemon) {
+    public boolean isEligible(@NotNull Pokemon pokemon) {
         int stats = 0;
         Map<Stat, Integer> baseStats = pokemon.getSpecies().getBaseStats();
         stats += baseStats.get(Stats.HP);

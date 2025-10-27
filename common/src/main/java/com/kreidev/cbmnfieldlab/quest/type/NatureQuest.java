@@ -43,7 +43,7 @@ public class NatureQuest extends Quest {
     }
 
     @Override
-    public boolean isEligible(Pokemon pokemon) {
+    public boolean isEligible(@NotNull Pokemon pokemon) {
         return pokemon.getNature() == this.nature;
     }
 
