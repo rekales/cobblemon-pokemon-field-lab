@@ -3,6 +3,7 @@ package com.kreidev.cbmnfieldlab.gui;
 import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget;
 import com.cobblemon.mod.common.client.render.RenderHelperKt;
 import com.cobblemon.mod.common.client.storage.ClientParty;
+import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import com.kreidev.cbmnfieldlab.quest.PlayerQuestContainer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
@@ -15,9 +16,9 @@ import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
 
 public class QuestPanelWidget extends SoundlessWidget {
 
-    public static final ResourceLocation BASE_RES = resLoc("textures/gui/field_lab_screen_overlay_base.png");
-    public static final ResourceLocation GROUP_BOX_RES = resLoc("textures/gui/field_lab_screen_overlay_group_box.png");
-    public static final ResourceLocation GROUP_IND_RES = resLoc("textures/gui/field_lab_screen_overlay_group_ind.png");
+    public static final ResourceLocation BASE_RES = resLoc("textures/gui/%s/base_overlay.png", PokemonFieldLab.FIELD_LAB_NAME);
+    public static final ResourceLocation GROUP_BOX_RES = resLoc("textures/gui/%s/group_box.png", PokemonFieldLab.FIELD_LAB_NAME);
+    public static final ResourceLocation GROUP_IND_RES = resLoc("textures/gui/%s/group_indicator.png", PokemonFieldLab.FIELD_LAB_NAME);
 
     public final FieldLabScreen parent;
     public final ClientParty party;
@@ -93,9 +94,9 @@ public class QuestPanelWidget extends SoundlessWidget {
             this.removeWidget(this.qs2);
         if (this.qs3 != null)
             this.removeWidget(this.qs3);
-        this.qs1 = new QuestSlotWidget(this.getX()+4, this.getY()+22, this, this.container.getQuest(0));
-        this.qs2 = new QuestSlotWidget(this.getX()+4, this.getY()+61, this, this.container.getQuest(1));
-        this.qs3 = new QuestSlotWidget(this.getX()+4, this.getY()+100, this, this.container.getQuest(2));
+        this.qs1 = new QuestSlotWidget(this.getX()+4, this.getY()+22, this, this.container.getQuest(0), 0);
+        this.qs2 = new QuestSlotWidget(this.getX()+4, this.getY()+61, this, this.container.getQuest(1), 1);
+        this.qs3 = new QuestSlotWidget(this.getX()+4, this.getY()+100, this, this.container.getQuest(2), 2);
         this.addWidget(this.qs1);
         this.addWidget(this.qs2);
         this.addWidget(this.qs3);

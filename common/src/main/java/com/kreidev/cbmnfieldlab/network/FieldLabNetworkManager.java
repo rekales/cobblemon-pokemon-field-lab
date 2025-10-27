@@ -1,6 +1,7 @@
 package com.kreidev.cbmnfieldlab.network;
 
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
+import com.kreidev.cbmnfieldlab.data.DataManager;
 import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
 import com.kreidev.cbmnfieldlab.gui.FieldLabScreen;
 import com.kreidev.cbmnfieldlab.quest.QuestManager;
@@ -30,6 +31,13 @@ public class FieldLabNetworkManager {
         );
 
         NetworkManager.registerReceiver(
+                NetworkManager.Side.C2S,
+                SubmitPacket.TYPE,
+                SubmitPacket.STREAM_CODEC,
+                FieldLabNetworkManager::submitQuest
+        );
+
+        NetworkManager.registerReceiver(
                 NetworkManager.Side.S2C,
                 RefreshScreenPacket.TYPE,
                 RefreshScreenPacket.STREAM_CODEC,
@@ -37,8 +45,9 @@ public class FieldLabNetworkManager {
         );
     }
 
-    public static void submitQuest(RegistryFriendlyByteBuf buf, NetworkManager.PacketContext context) {
-
+    public static void submitQuest(SubmitPacket packet, NetworkManager.PacketContext context) {
+        LOGGER.warn(DataManager.getRewards()+"");
+        LOGGER.warn(packet+"");
     }
 
     public static void rerollQuest(RerollPacket packet, NetworkManager.PacketContext context) {

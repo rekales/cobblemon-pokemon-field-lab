@@ -9,7 +9,10 @@ import com.cobblemon.mod.common.client.storage.ClientParty;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.util.LocalizationUtilsKt;
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
+import com.kreidev.cbmnfieldlab.network.RerollPacket;
+import com.kreidev.cbmnfieldlab.network.SubmitPacket;
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.architectury.networking.NetworkManager;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
@@ -39,7 +42,10 @@ public class PartyPanelWidget extends SoundlessWidget {
         this.parent = parent;
         this.party = party;
         setupPartySlot();
-        this.submitButton = new SubmitButton(this.getX()+194, this.getY()+124, this::onSubmit);
+        this.submitButton = new SubmitButton(
+                this.getX()+194, this.getY()+124,
+                button->this.displayConfirmSubmit=true
+        );
         this.addWidget(submitButton);
         this.submitYesButton = new SubmitConfirmButton(
                 this.getX()+190, this.getY()+131,
@@ -48,7 +54,7 @@ public class PartyPanelWidget extends SoundlessWidget {
         this.addWidget(submitYesButton);
         this.submitNoButton = new SubmitConfirmButton(
                 this.getX()+226, this.getY()+131,
-                LocalizationUtilsKt.lang("ui.generic.no"), this::onSubmit
+                LocalizationUtilsKt.lang("ui.generic.no"), button->this.displayConfirmSubmit=false
         );
         this.addWidget(submitNoButton);
     }
@@ -127,8 +133,13 @@ public class PartyPanelWidget extends SoundlessWidget {
     }
 
     public void onSubmit(Button button) {
-        // TODO: figure out why this is not working
-        PokemonFieldLab.LOGGER.info("clicked");
-        this.displayConfirmSubmit = !this.displayConfirmSubmit;
+        this.displayConfirmSubmit = false;
+        int questIndex = this.parent.selectedQuestIndex;
+        if (questIndex < 0 || 2 < questIndex) return;
+        if (this.parent.previewPokemon == null) return;
+        PartyPosition partyPosition = this.party.getPosition(this.parent.previewPokemon);
+        if (partyPosition == null) return;
+
+        NetworkManager.sendToServer(new SubmitPacket(partyPosition.getSlot(), questIndex));
     }
 }

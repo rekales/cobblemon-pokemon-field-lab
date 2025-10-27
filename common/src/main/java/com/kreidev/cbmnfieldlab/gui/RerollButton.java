@@ -1,6 +1,7 @@
 package com.kreidev.cbmnfieldlab.gui;
 
 import com.cobblemon.mod.common.client.gui.CobblemonRenderable;
+import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -13,8 +14,12 @@ import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
 
 public class RerollButton extends Button implements CobblemonRenderable {
 
-    public static final ResourceLocation REROLL_BUTTON_RES = resLoc("textures/gui/field_lab_screen_overlay_reroll_button.png");
-    public static final ResourceLocation REROLL_ICON_RES = resLoc("textures/gui/field_lab_screen_overlay_reroll_icon.png");
+    public static final ResourceLocation REROLL_BUTTON_RES =
+            resLoc("textures/gui/%s/reroll_button.png", PokemonFieldLab.FIELD_LAB_NAME);
+    public static final ResourceLocation REROLL_ICON_RES =
+            resLoc("textures/gui/%s/reroll_icon.png", PokemonFieldLab.FIELD_LAB_NAME);
+    public static final ResourceLocation REROLL_BUTTON_HOVER_RES =
+            resLoc("textures/gui/%s/reroll_button_hover.png", PokemonFieldLab.FIELD_LAB_NAME);
     public static final int WIDTH = 23;
     public static final int HEIGHT = 20;
     public final QuestSlotWidget parent;
@@ -39,15 +44,21 @@ public class RerollButton extends Button implements CobblemonRenderable {
         if (progress < 1) {
             guiGraphics.setColor(1.0F, 1.0F, 1.0F, 0.7F);
         }
-
         guiGraphics.blit(REROLL_ICON_RES,
                 this.getX()+4, this.getY()+3,
                 0, 0,
                 cropWidth, 14,
                 12, 14
         );
-
         guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1F);
+
+        if (this.isHovered()) {
+            FieldLabScreen.GuiUtilsKtExt.blitk(
+                    matrices, REROLL_BUTTON_HOVER_RES,
+                    this.getX(), this.getY(),
+                    20, 23
+            );
+        }
     }
 
     @Override

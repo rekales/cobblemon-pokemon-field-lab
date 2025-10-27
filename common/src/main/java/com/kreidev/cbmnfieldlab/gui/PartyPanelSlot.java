@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.pokemon.Gender;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.util.LocalizationUtilsKt;
 import com.cobblemon.mod.common.util.math.QuaternionUtilsKt;
+import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -24,6 +25,7 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import static com.cobblemon.mod.common.util.MiscUtilsKt.cobblemonResource;
+import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
 import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.GuiUtilsKtExt;
 import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.RenderHelperKtExt;
 
@@ -32,6 +34,8 @@ public class PartyPanelSlot extends Button implements CobblemonRenderable {
     public static final ResourceLocation GENDER_ICON_MALE = cobblemonResource("textures/gui/pc/gender_icon_male.png");
     public static final ResourceLocation GENDER_ICON_FEMALE = cobblemonResource("textures/gui/pc/gender_icon_female.png");
     public static final ResourceLocation SELECT_POINTER_RES = cobblemonResource("textures/gui/pc/pc_pointer.png");
+    public static final ResourceLocation SLOT_HOVER_OVERLAY_RES =
+            resLoc("textures/gui/%s/party_panel_slot_hover.png", PokemonFieldLab.FIELD_LAB_NAME);
 
     public final PartyPanelWidget parent;
     public final ClientParty party;
@@ -124,6 +128,14 @@ public class PartyPanelSlot extends Button implements CobblemonRenderable {
                     matrices, SELECT_POINTER_RES,
                     (posX+10)/PCGUI.SCALE, (posY-3)/PCGUI.SCALE - parent.parent.selectPointerOffsetY,
                     8, 11, PCGUI.SCALE
+            );
+        }
+
+        if (this.isHovered()) {
+            GuiUtilsKtExt.blitk(
+                    matrices, SLOT_HOVER_OVERLAY_RES,
+                    posX, posY,
+                    25, 25
             );
         }
         matrices.popPose();
