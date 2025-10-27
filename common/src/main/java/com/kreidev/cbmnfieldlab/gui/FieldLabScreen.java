@@ -54,7 +54,6 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
     public @Nullable Pokemon previewPokemon = null;
     public ClientParty party;
     public int ticksElapsed = 0;
-    public int selectedQuestIndex = -1;  // -1 nothing selected
     public int selectPointerOffsetY = 0;
     public boolean selectPointerOffsetIncrement = false;
 

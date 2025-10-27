@@ -110,7 +110,6 @@ public class QuestSlotWidget extends SoundlessWidget implements CobblemonRendera
     }
 
     public void onReroll(Button button) {
-        PokemonFieldLab.LOGGER.warn("{}", (quest.getTimeStamp()+CommonConfig.rerollTimeSeconds*20L) - this.parent.parent.getGameTime());
         if (quest.getTimeStamp()+CommonConfig.rerollTimeSeconds*20L > this.parent.parent.getGameTime()) return;
 
         // TODO: remove quest and add a loading icon while waiting for a refresh

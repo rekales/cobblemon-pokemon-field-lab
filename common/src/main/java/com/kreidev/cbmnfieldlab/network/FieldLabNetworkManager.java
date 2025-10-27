@@ -1,8 +1,7 @@
 package com.kreidev.cbmnfieldlab.network;
 
-import com.kreidev.cbmnfieldlab.PokemonFieldLab;
-import com.kreidev.cbmnfieldlab.data.DataManager;
-import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
+import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.common.util.PlayerExtensionsKt;
 import com.kreidev.cbmnfieldlab.gui.FieldLabScreen;
 import com.kreidev.cbmnfieldlab.quest.QuestManager;
 import com.mojang.serialization.Codec;
@@ -46,8 +45,10 @@ public class FieldLabNetworkManager {
     }
 
     public static void submitQuest(SubmitPacket packet, NetworkManager.PacketContext context) {
-        LOGGER.warn(DataManager.getRewards()+"");
-        LOGGER.warn(packet+"");
+        if (!(context.getPlayer() instanceof ServerPlayer player)) return;
+        Pokemon pokemon = PlayerExtensionsKt.party(player).get(packet.partyPositionSlot());
+        if (pokemon == null) return;
+        QuestManager.submitPokemon(player, pokemon);
     }
 
     public static void rerollQuest(RerollPacket packet, NetworkManager.PacketContext context) {

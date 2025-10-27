@@ -1,7 +1,7 @@
 package com.kreidev.cbmnfieldlab.quest;
 
+import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kreidev.cbmnfieldlab.network.FieldLabNetworkManager;
-import com.kreidev.cbmnfieldlab.network.RerollPacket;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -10,6 +10,8 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 // NOTE: Deliberately implemented to only hold 3 quests
 // I feel like it's better to do it like this so that I can annotate with @NonNull
@@ -51,6 +53,10 @@ public class PlayerQuestContainer {
 
     public int getFinishedQuests() {
         return this.finishedQuests;
+    }
+
+    public @NotNull List<Quest> getQuests() {
+        return List.of(this.quest1, this.quest2, this.quest3);
     }
 
     public @Nullable Quest getQuest(int index) {
@@ -106,6 +112,12 @@ public class PlayerQuestContainer {
             }
             default -> false;
         };
+    }
+
+    public boolean hasEligible(Pokemon pokemon) {
+        return quest1.isEligible(pokemon)
+                || quest2.isEligible(pokemon)
+                || quest3.isEligible(pokemon);
     }
 
     @Override

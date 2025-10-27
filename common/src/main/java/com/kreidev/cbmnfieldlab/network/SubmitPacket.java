@@ -7,7 +7,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
 
-public record SubmitPacket(int partyPositionSlot, int questIndex) implements CustomPacketPayload {
+public record SubmitPacket(int partyPositionSlot) implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<SubmitPacket> TYPE =
             new CustomPacketPayload.Type<>(resLoc("submit_packet"));
@@ -15,7 +15,6 @@ public record SubmitPacket(int partyPositionSlot, int questIndex) implements Cus
     public static final StreamCodec<RegistryFriendlyByteBuf, SubmitPacket> STREAM_CODEC =
             StreamCodec.composite(
                     ByteBufCodecs.INT, SubmitPacket::partyPositionSlot,
-                    ByteBufCodecs.INT, SubmitPacket::questIndex,
                     SubmitPacket::new
             );
 

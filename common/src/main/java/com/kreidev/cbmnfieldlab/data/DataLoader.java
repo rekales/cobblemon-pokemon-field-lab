@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.LOGGER;
+import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
 
 public class DataLoader extends SimpleJsonResourceReloadListener {
 
@@ -35,10 +36,13 @@ public class DataLoader extends SimpleJsonResourceReloadListener {
 
         object.forEach((id, json) -> {
             try {
-                List<QuestRewardEntry> rewards = LIST_CODEC.parse(JsonOps.INSTANCE, json)
-                        .getOrThrow();
-                DataManager.addQuestRewards(rewards);
-                LOGGER.info("Loaded {} quest rewards from {}", rewards.size(), id);
+                if (id.equals(resLoc("individual_quest_rewards"))) {
+                    List<QuestRewardEntry> rewards = LIST_CODEC.parse(JsonOps.INSTANCE, json)
+                            .getOrThrow();
+                    DataManager.addQuestRewards(rewards);
+                    LOGGER.info("Loaded individual quest rewards");
+                }
+
             } catch (Exception e) {
                 LOGGER.error("Failed to load quest rewards: " + id);
                 throw new RuntimeException("Failed to load quest rewards: " + id, e);

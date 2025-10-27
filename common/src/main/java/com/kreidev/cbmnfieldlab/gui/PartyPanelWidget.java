@@ -58,6 +58,7 @@ public class PartyPanelWidget extends SoundlessWidget {
                 LocalizationUtilsKt.lang("ui.generic.no"), button->this.displayConfirmSubmit=false
         );
         this.addWidget(submitNoButton);
+        // TODO: confirm yes/no buttons unclickable at submit button overlap area
     }
 
     private void setupPartySlot() {
@@ -106,11 +107,8 @@ public class PartyPanelWidget extends SoundlessWidget {
 
         PlayerQuestContainer container = this.parent.getMenu().questContainer;
 
-        if (this.parent.previewPokemon != null
-                && (container.firstQuest().isEligible(this.parent.previewPokemon)
-                || container.secondQuest().isEligible(this.parent.previewPokemon)
-                || container.thirdQuest().isEligible(this.parent.previewPokemon))) {
-            if (displayConfirmSubmit) {
+        if (this.parent.previewPokemon != null && container.hasEligible(this.parent.previewPokemon)) {
+            if (this.displayConfirmSubmit) {
                 RenderHelperKtExt.drawScaledText(
                         guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
                         TextKt.bold(Component.translatable("cbmnfieldlab.ui.field_lab.submit")),
@@ -142,12 +140,10 @@ public class PartyPanelWidget extends SoundlessWidget {
 
     public void onSubmit(Button button) {
         this.displayConfirmSubmit = false;
-        int questIndex = this.parent.selectedQuestIndex;
-        if (questIndex < 0 || 2 < questIndex) return;
         if (this.parent.previewPokemon == null) return;
         PartyPosition partyPosition = this.party.getPosition(this.parent.previewPokemon);
         if (partyPosition == null) return;
 
-        NetworkManager.sendToServer(new SubmitPacket(partyPosition.getSlot(), questIndex));
+        NetworkManager.sendToServer(new SubmitPacket(partyPosition.getSlot()));
     }
 }
