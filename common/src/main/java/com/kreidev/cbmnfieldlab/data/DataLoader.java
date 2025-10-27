@@ -1,10 +1,11 @@
-package com.kreidev.cbmnfieldlab.data.load;
+package com.kreidev.cbmnfieldlab.data;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.kreidev.cbmnfieldlab.quest.QuestRewardEntry;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -45,5 +46,8 @@ public class DataLoader extends SimpleJsonResourceReloadListener {
         });
     }
 
-
+    @ExpectPlatform
+    public static DataLoader getInstance() {
+        throw new AssertionError();
+    }
 }

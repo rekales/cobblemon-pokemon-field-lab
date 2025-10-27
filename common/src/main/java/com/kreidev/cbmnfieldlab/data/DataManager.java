@@ -1,4 +1,4 @@
-package com.kreidev.cbmnfieldlab.data.load;
+package com.kreidev.cbmnfieldlab.data;
 
 import com.kreidev.cbmnfieldlab.quest.QuestRewardEntry;
 
@@ -12,6 +12,10 @@ public class DataManager {
 
     public static void addQuestRewards(List<QuestRewardEntry> rewards) {
         DataManager.rewards.addAll(rewards);
+    }
+
+    public static List<QuestRewardEntry> getRewards() {
+        return rewards;
     }
 
     public static void clear() {

@@ -13,6 +13,6 @@ public record QuestRewardEntry(Item item, int minCount, int maxCount, float cost
             BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(QuestRewardEntry::item),
             Codec.INT.fieldOf("min_count").forGetter(QuestRewardEntry::minCount),
             Codec.INT.fieldOf("max_count").forGetter(QuestRewardEntry::maxCount),
-            Codec.FLOAT.fieldOf("quest_ability").forGetter(QuestRewardEntry::cost)
+            Codec.FLOAT.fieldOf("cost").forGetter(QuestRewardEntry::cost)
     ).apply(instance, QuestRewardEntry::new));
 }
