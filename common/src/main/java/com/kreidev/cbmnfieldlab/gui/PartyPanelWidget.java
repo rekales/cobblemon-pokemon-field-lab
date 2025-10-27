@@ -103,18 +103,20 @@ public class PartyPanelWidget extends SoundlessWidget {
             slot.render(guiGraphics, mouseX, mouseY, delta);
         }
 
-        if (displayConfirmSubmit) {
-            RenderHelperKtExt.drawScaledText(
-                    guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
-                    TextKt.bold(Component.translatable("cbmnfieldlab.ui.field_lab.submit")),
-                    this.getX()+223, this.getY()+119,
-                    true, false
-            );
+        if (this.parent.selectedQuestIndex != -1 && this.parent.previewPokemon != null) {
+            if (displayConfirmSubmit) {
+                RenderHelperKtExt.drawScaledText(
+                        guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
+                        TextKt.bold(Component.translatable("cbmnfieldlab.ui.field_lab.submit")),
+                        this.getX()+223, this.getY()+119,
+                        true, false
+                );
 
-            this.submitYesButton.render(guiGraphics, mouseX, mouseY, delta);
-            this.submitNoButton.render(guiGraphics, mouseX, mouseY, delta);
-        } else {
-            this.submitButton.render(guiGraphics, mouseX, mouseY, delta);
+                this.submitYesButton.render(guiGraphics, mouseX, mouseY, delta);
+                this.submitNoButton.render(guiGraphics, mouseX, mouseY, delta);
+            } else {
+                this.submitButton.render(guiGraphics, mouseX, mouseY, delta);
+            }
         }
     }
 
