@@ -27,7 +27,7 @@ import static com.kreidev.cbmnfieldlab.PokemonFieldLab.LOGGER;
 public class QuestManager extends SavedData {
 
     public static final Codec<Map<UUID, PlayerQuestContainer>> CODEC =
-            Codec.unboundedMap(UUIDUtil.CODEC, PlayerQuestContainer.CODEC.codec());
+            Codec.unboundedMap(UUIDUtil.STRING_CODEC, PlayerQuestContainer.CODEC.codec());
 
     public static QuestManager INSTANCE;
 
@@ -51,7 +51,6 @@ public class QuestManager extends SavedData {
 
     @Override
     public @NotNull CompoundTag save(@NotNull CompoundTag tag, @NotNull HolderLookup.Provider provider) {
-        // TODO: double check, not saving/loading properly
         DataResult<Tag> result = CODEC.encodeStart(NbtOps.INSTANCE, this.getPlayerQuests());
         result.resultOrPartial(error->LOGGER.error("Quest data was not saved \n"+error))
                 .ifPresent(nbt -> tag.put("PlayerCobblemonQuests", nbt));
@@ -67,21 +66,10 @@ public class QuestManager extends SavedData {
         if (container == null) {
             container = new PlayerQuestContainer((ServerLevel) player.level());
             INSTANCE.getPlayerQuests().put(player.getUUID(), container);
+            INSTANCE.setDirty();
         }
 
         return container;
-    }
-
-    public static boolean submitQuest(ServerPlayer player, Quest quest) {
-        PlayerQuestContainer container = getQuestContainer(player);
-
-        // TODO: validate
-
-        container.incrementFinishedQuests();
-
-        // TODO: do checks for major reward
-
-        return container.replaceQuest(quest, Quest.getRandomQuest((ServerLevel) player.level()));
     }
 
     public static boolean rerollQuest(ServerPlayer player, Quest quest) {
@@ -100,6 +88,7 @@ public class QuestManager extends SavedData {
 
         boolean success = container.replaceQuest(index, Quest.getRandomQuest((ServerLevel) player.level()));
         NetworkManager.sendToPlayer(player, new RefreshScreenPacket(container));
+        INSTANCE.setDirty();
         return success;
     }
 
@@ -137,6 +126,7 @@ public class QuestManager extends SavedData {
             for (ItemStack stack : stacks) {
                 player.getInventory().placeItemBackInInventory(stack);
             }
+            INSTANCE.setDirty();
             submitted = true;
         }
         NetworkManager.sendToPlayer(player, new RefreshScreenPacket(container));

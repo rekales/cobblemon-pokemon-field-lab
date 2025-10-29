@@ -35,8 +35,6 @@ public class FieldLabMenu extends AbstractContainerMenu {
                 .resultOrPartial(error->LOGGER.error("Quest data was not loaded \n"+error))
                 .orElse(null);
         if (this.questContainer == null) throw new NbtException("");
-
-        PokemonFieldLab.LOGGER.info(this.questContainer+"");
     }
 
     public FieldLabMenu(int id, Inventory inventory, BlockPos blockPos, ServerPlayer player) {
