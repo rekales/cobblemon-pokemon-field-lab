@@ -1,16 +1,25 @@
 package com.kreidev.cbmnfieldlab;
 
 
+import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition;
 import com.cobblemon.mod.common.api.pokedex.Dexes;
 import com.cobblemon.mod.common.api.pokedex.def.PokedexDef;
 import com.cobblemon.mod.common.api.pokedex.entry.PokedexEntry;
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
+import com.cobblemon.mod.common.api.spawning.CobblemonSpawnPools;
+import com.cobblemon.mod.common.api.spawning.CobblemonWorldSpawnerManager;
+import com.cobblemon.mod.common.api.spawning.condition.SpawningCondition;
+import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnDetail;
+import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail;
+import com.cobblemon.mod.common.api.spawning.detail.SpawnPool;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.util.PlayerExtensionsKt;
 import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
 import com.kreidev.cbmnfieldlab.network.FieldLabNetworkManager;
+import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestManager;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
+import com.kreidev.cbmnfieldlab.quest.type.BiomeQuest;
 import com.mojang.logging.LogUtils;
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.LifecycleEvent;
@@ -18,6 +27,7 @@ import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.registry.menu.MenuRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -27,10 +37,17 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 
 import net.minecraft.world.level.saveddata.SavedData;
 import org.slf4j.Logger;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.cobblemon.mod.common.util.MiscUtilsKt.cobblemonResource;
 
@@ -64,14 +81,46 @@ public class PokemonFieldLab {
             if (player instanceof ServerPlayer serverPlayer) {
                 Pokemon pokemon = PlayerExtensionsKt.party(serverPlayer).get(0);
                 if (pokemon != null) {
-                    LOGGER.info(pokemon.getSpecies().getPokedex()+"");
-
-                    PokedexDef dex = Dexes.INSTANCE.getDexEntryMap().get(cobblemonResource("kanto"));
-                    for (PokedexEntry entry : dex.getEntries()) {
-                        LOGGER.info(entry.getSpeciesId()+"");
-                        LOGGER.info(PokemonSpecies.INSTANCE.getByIdentifier(entry.getSpeciesId()).getName()+"");
-                    }
+                    Quest quest = new BiomeQuest(serverPlayer.serverLevel());
+                    LOGGER.info(quest+"");
+                    LOGGER.info(quest.isEligible(pokemon)+"");
+                    LOGGER.info(pokemon.getSpecies()+"");
                 }
+//
+//                if (pokemon != null) {
+////                    CobblemonWorldSpawnerManager.INSTANCE.
+//                    SpawnPool spawnPool = CobblemonSpawnPools.WORLD_SPAWN_POOL;
+//
+//                    ServerLevel level = serverPlayer.serverLevel();
+//
+//                    Registry<Biome> registry = level.registryAccess().registryOrThrow(Registries.BIOME);
+////                    Biome biome = registry.get(Biomes.JUNGLE);
+//                    Biome biome = registry.getRandom(level.getRandom()).orElseThrow().value();
+//
+////                    LOGGER.info(biome.toString());
+//
+//                    Set<String> species = CobblemonSpawnPools.WORLD_SPAWN_POOL.getDetails().stream()
+//                            .filter(spawnDetail-> {
+//                                for (SpawningCondition<?> cond : spawnDetail.getConditions()) {
+//                                    if (cond.getBiomes() == null) continue;
+//                                    for (RegistryLikeCondition<Biome> c : cond.getBiomes()) {
+//                                        if (c.fits(biome, registry)) return true;
+//                                    }
+//                                }
+//                                return false;
+//                            }).map(spawnDetail -> {
+//                                String specie = ((PokemonSpawnDetail) spawnDetail).getPokemon().getSpecies();
+//                                if (specie == null) return null;
+//                                return specie.toLowerCase();
+//                            }).filter(Objects::nonNull)
+//                            .collect(Collectors.toSet());
+//
+////                    LOGGER.info(species.toString());
+//                    LOGGER.info(species.size()+"");
+//                    LOGGER.info(PokemonSpecies.INSTANCE.count()+"");
+//
+////                    species.stream().peek(LOGGER::info);
+//                }
             }
 
             return EventResult.pass();
