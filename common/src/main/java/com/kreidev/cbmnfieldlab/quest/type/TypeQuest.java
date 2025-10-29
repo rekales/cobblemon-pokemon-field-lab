@@ -33,6 +33,7 @@ public class TypeQuest extends Quest {
         this.elementalType = types.get(level.getRandom().nextInt(types.size()));
     }
 
+    @SuppressWarnings("unused")
     public TypeQuest(ServerLevel level, ElementalType elementalType) {
         super(level);
         this.elementalType = elementalType;

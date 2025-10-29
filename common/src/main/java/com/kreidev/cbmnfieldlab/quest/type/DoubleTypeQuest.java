@@ -35,6 +35,7 @@ public class DoubleTypeQuest extends Quest {
         this.secondType = types.get(level.getRandom().nextInt(types.size()));
     }
 
+    @SuppressWarnings("unused")
     public DoubleTypeQuest(ServerLevel level, ElementalType firstType, ElementalType secondType) {
         super(level);
         this.firstType = firstType;

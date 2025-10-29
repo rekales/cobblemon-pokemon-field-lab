@@ -33,6 +33,7 @@ public class MoveQuest extends Quest {
         this.move = moves.get(level.getRandom().nextInt(moves.size()));
     }
 
+    @SuppressWarnings("unused")
     public MoveQuest(ServerLevel level, MoveTemplate move) {
         super(level);
         this.move = move;

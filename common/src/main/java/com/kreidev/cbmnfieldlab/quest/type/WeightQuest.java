@@ -35,6 +35,7 @@ public class WeightQuest extends Quest {
         this.upperWeight = this.lowerWeight + level.getRandom().nextFloat() * (maxGap-minGap) + minGap;
     }
 
+    @SuppressWarnings("unused")
     public WeightQuest(ServerLevel level, float lowerWeight, float upperWeight) {
         super(level);
         this.lowerWeight = lowerWeight;

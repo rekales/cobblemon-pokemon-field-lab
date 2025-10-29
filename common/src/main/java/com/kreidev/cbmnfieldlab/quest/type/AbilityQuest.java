@@ -33,6 +33,7 @@ public class AbilityQuest extends Quest {
         this.ability = abilities.get(level.getRandom().nextInt(abilities.size()));
     }
 
+    @SuppressWarnings("unused")
     public AbilityQuest(ServerLevel level, AbilityTemplate abilityTemplate) {
         super(level);
         this.ability = abilityTemplate;

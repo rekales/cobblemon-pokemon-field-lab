@@ -123,11 +123,11 @@ public class QuestManager extends SavedData {
             }
         }
 
-//        if ((container.getFinishedQuests()%9)+completedQuests >= 9) {  // Major reward check
+//        if ((container.getFinishedQuests()%9)+completedQuests >= 9) {  // TODO: Major reward check
 //
 //        }
 
-//        if ((container.getFinishedQuests()%3)+completedQuests >= 3) {  // Minor reward check
+//        if ((container.getFinishedQuests()%3)+completedQuests >= 3) {  // TODO: Minor reward check
 //
 //        }
 

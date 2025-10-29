@@ -31,6 +31,7 @@ public class SizeQuest extends Quest {
         this.size = level.getRandom().nextFloat() * (upperBound-lowerBound) + lowerBound;;
     }
 
+    @SuppressWarnings("unused")
     public SizeQuest(ServerLevel level, float size) {
         super(level);
         this.size = size;

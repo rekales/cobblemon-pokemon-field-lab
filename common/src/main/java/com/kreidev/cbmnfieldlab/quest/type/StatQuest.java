@@ -39,6 +39,7 @@ public class StatQuest extends Quest {
         this.upperStatTotal = this.lowerStatTotal + level.getRandom().nextInt(minGap, maxGap);
     }
 
+    @SuppressWarnings("unused")
     public StatQuest(ServerLevel level, int lowerStatTotal, int upperStatTotal) {
         super(level);
         this.lowerStatTotal = lowerStatTotal;

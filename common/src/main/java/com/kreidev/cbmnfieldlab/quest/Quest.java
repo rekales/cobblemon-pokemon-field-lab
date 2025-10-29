@@ -15,8 +15,6 @@ import java.util.List;
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.LOGGER;
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
 
-// TODO: actually, maybe you could do some comparative quest using and abstract subclass that uses generics
-// NOTE: scratch comment above, each would need their own nbt serializers anyway.
 @SuppressWarnings("unused")
 public abstract class Quest {
     public static final Codec<Quest> CODEC = QuestType.REGISTRY.byNameCodec()
@@ -99,6 +97,8 @@ public abstract class Quest {
         if (CommonConfig.enableSizeQuest)       enabledQuestTypes.add(QuestTypes.SIZE);
         if (CommonConfig.enableBaseStatQuest)   enabledQuestTypes.add(QuestTypes.BASE_STAT);
         if (CommonConfig.enableWeightQuest)     enabledQuestTypes.add(QuestTypes.WEIGHT);
+//        if (CommonConfig.enableDexNameQuest)    enabledQuestTypes.add(QuestTypes.DEX_NAME);
+//        if (CommonConfig.enableRegionQuest)    enabledQuestTypes.add(QuestTypes.REGION);
 
         if (enabledQuestTypes.isEmpty()) return new TypeQuest(level);
         int randIndex = level.getRandom().nextInt(enabledQuestTypes.size());

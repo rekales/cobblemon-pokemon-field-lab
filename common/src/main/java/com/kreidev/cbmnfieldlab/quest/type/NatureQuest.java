@@ -32,6 +32,7 @@ public class NatureQuest extends Quest {
         this.nature = Natures.INSTANCE.getRandomNature();
     }
 
+    @SuppressWarnings("unused")
     public NatureQuest(ServerLevel level, Nature nature) {
         super(level);
         this.nature = nature;
