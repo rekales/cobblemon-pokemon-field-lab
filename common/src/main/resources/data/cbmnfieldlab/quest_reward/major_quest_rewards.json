@@ -1,0 +1,9 @@
+[
+  { "item": "cobblemon:fire_stone", "min_count": 2, "max_count": 4, "cost": 1.2 },
+  { "item": "cobblemon:galarica_wreath", "min_count": 1, "max_count": 2, "cost": 2.0 },
+  { "item": "cobblemon:magmarizer", "min_count": 2, "max_count": 3, "cost": 1.5 },
+  { "item": "cobblemon:deep_sea_scale", "min_count": 1, "max_count": 2, "cost": 2.0 },
+  { "item": "cobblemon:berry_sweet", "min_count": 3, "max_count": 5, "cost": 0.7 },
+  { "item": "cobblemon:star_sweet", "min_count": 2, "max_count": 4, "cost": 1.2 },
+  { "item": "cobblemon:peat_block", "min_count": 2, "max_count": 3, "cost": 1.0 }
+]

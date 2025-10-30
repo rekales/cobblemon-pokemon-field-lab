@@ -10,12 +10,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.LOGGER;
 
+// NOTE: Should I verify the packets to check if players using the block?
+// NOTE: I maybe shouldn't bother and could make an item version for this questing block.
 public class FieldLabNetworkManager {
 
     public static void registerPackets() {

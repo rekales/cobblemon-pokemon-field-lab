@@ -2,7 +2,6 @@ package com.kreidev.cbmnfieldlab;
 
 import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
 import com.kreidev.cbmnfieldlab.quest.PlayerQuestContainer;
-import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestManager;
 import com.mojang.serialization.DataResult;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
@@ -42,12 +41,80 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.*;
 
 // Some parts are based from DoorBlock, some from PCBlock
 public class FieldLabBlock extends Block {
+
+    public static final VoxelShape NORTH_AABB_TOP = Shapes.or(
+            Block.box(2, 0, 10, 14, 1, 13),
+            Block.box(2, 2, 9, 14, 13, 9),
+            Block.box(2, 13, 1, 14, 15, 14),
+            Block.box(2, 0, 1, 14, 2, 10),
+            Block.box(1, 0, 1, 2, 14, 13),
+            Block.box(14, 0, 1, 15, 14, 13),
+            Block.box(2, 0, 0, 14, 15, 1)
+    );
+    public static final VoxelShape SOUTH_AABB_TOP = Shapes.or(
+            Block.box(2, 0, 3, 14, 1, 6),
+            Block.box(2, 2, 7, 14, 13, 7),
+            Block.box(2, 13, 2, 14, 15, 15),
+            Block.box(2, 0, 6, 14, 2, 15),
+            Block.box(14, 0, 3, 15, 14, 15),
+            Block.box(1, 0, 3, 2, 14, 15),
+            Block.box(2, 0, 15, 14, 15, 16)
+    );
+    public static final VoxelShape EAST_AABB_TOP = Shapes.or(
+            Block.box(3, 0, 2, 6, 1, 14),
+            Block.box(7, 2, 2, 7, 13, 14),
+            Block.box(2, 13, 2, 15, 15, 14),
+            Block.box(6, 0, 2, 15, 2, 14),
+            Block.box(3, 0, 1, 15, 14, 2),
+            Block.box(3, 0, 14, 15, 14, 15),
+            Block.box(15, 0, 2, 16, 15, 14)
+    );
+    public static final VoxelShape WEST_AABB_TOP = Shapes.or(
+            Block.box(10, 0, 2, 13, 1, 14),
+            Block.box(9, 2, 2, 9, 13, 14),
+            Block.box(1, 13, 2, 14, 15, 14),
+            Block.box(1, 0, 2, 10, 2, 14),
+            Block.box(1, 0, 14, 13, 14, 15),
+            Block.box(1, 0, 1, 13, 14, 2),
+            Block.box(0, 0, 2, 1, 15, 14)
+    );
+
+    public static final VoxelShape NORTH_AABB_BOTTOM = Shapes.or(
+            Block.box(2, 8, 1, 14, 16, 12),
+            Block.box(2, 1, 2, 14, 8, 14),
+            Block.box(1, 1, 1, 2, 16, 13),
+            Block.box(14, 1, 1, 15, 16, 13),
+            Block.box(2, 0, 1, 14, 1, 13),
+            Block.box(2, 0, 0, 14, 16, 1)
+    );
+    public static final VoxelShape SOUTH_AABB_BOTTOM = Shapes.or(
+            Block.box(2, 8, 4, 14, 16, 15),
+            Block.box(2, 1, 2, 14, 8, 14),
+            Block.box(14, 1, 3, 15, 16, 15),
+            Block.box(1, 1, 3, 2, 16, 15),
+            Block.box(2, 0, 3, 14, 1, 15),
+            Block.box(2, 0, 15, 14, 16, 16)
+    );
+    public static final VoxelShape EAST_AABB_BOTTOM = Shapes.or(
+            Block.box(4, 8, 2, 15, 16, 14),
+            Block.box(2, 1, 2, 14, 8, 14),
+            Block.box(3, 1, 1, 15, 16, 2),
+            Block.box(3, 1, 14, 15, 16, 15),
+            Block.box(3, 0, 2, 15, 1, 14),
+            Block.box(15, 0, 2, 16, 16, 14)
+    );
+    public static final VoxelShape WEST_AABB_BOTTOM = Shapes.or(
+            Block.box(1, 8, 2, 12, 16, 14),
+            Block.box(2, 1, 2, 14, 8, 14),
+            Block.box(1, 1, 14, 13, 16, 15),
+            Block.box(1, 1, 1, 13, 16, 2),
+            Block.box(1, 0, 2, 13, 1, 14),
+            Block.box(0, 0, 2, 1, 16, 14)
+    );
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
@@ -103,28 +170,19 @@ public class FieldLabBlock extends Block {
 
     @Override
     protected @NotNull VoxelShape getShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
-
-         VoxelShape SOUTH_AABB_TOP = Shapes.or(
-                 Block.box(1, 0, 2, 2, 14, 14),
-                 Block.box(2, 2, 6, 14, 13, 14),
-                 Block.box(2, 13, 1, 14, 15, 14),
-                 Block.box(2, 0, 5, 14, 2, 14),
-                 Block.box(14, 0, 2, 15, 14, 14),
-                 Block.box(2, 0, 14, 14, 15, 15)
-        );
-
-        VoxelShape SOUTH_AABB_BOTTOM = Shapes.or(
-                Block.box(2, 0, 2, 14, 1, 14),
-                Block.box(2, 8, 3, 14, 16, 14),
-                Block.box(2, 1, 1, 14, 8, 14),
-                Block.box(1, 1, 2, 2, 16, 14),
-                Block.box(14, 1, 2, 15, 16, 14),
-                Block.box(2, 0, 14, 14, 16, 15)
-        );
-
         return switch (blockState.getValue(HALF)) {
-            case DoubleBlockHalf.UPPER -> SOUTH_AABB_TOP;
-            case DoubleBlockHalf.LOWER -> SOUTH_AABB_BOTTOM;
+            case DoubleBlockHalf.UPPER -> switch (blockState.getValue(FACING)) {
+                case Direction.NORTH -> NORTH_AABB_TOP;
+                case Direction.SOUTH -> SOUTH_AABB_TOP;
+                case Direction.EAST -> EAST_AABB_TOP;
+                default -> WEST_AABB_TOP;  // West, but the IDE complains about not including up and down
+            };
+            case DoubleBlockHalf.LOWER -> switch (blockState.getValue(FACING)) {
+                case Direction.NORTH -> NORTH_AABB_BOTTOM;
+                case Direction.SOUTH -> SOUTH_AABB_BOTTOM;
+                case Direction.EAST -> EAST_AABB_BOTTOM;
+                default -> WEST_AABB_BOTTOM;
+            };
         };
     }
 
