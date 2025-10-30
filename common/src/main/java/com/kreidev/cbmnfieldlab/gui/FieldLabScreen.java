@@ -47,6 +47,7 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
     public static final ResourceLocation TYPE_SPACER_RES = cobblemonResource("textures/gui/pc/type_spacer.png");
     public static final ResourceLocation TYPE_SPACER_SINGLE_RES = cobblemonResource("textures/gui/pc/type_spacer_single.png");
     public static final ResourceLocation TYPE_SPACER_DOUBLE_RES = cobblemonResource("textures/gui/pc/type_spacer_double.png");
+    public static final int TICKS_TO_LOAD = 10;
 
     public @Nullable QuestPanelWidget questPanelWidget;
     public @Nullable PartyPanelWidget partyPanelWidget;  // No lateinit for java, rip
@@ -364,12 +365,20 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
     @SuppressWarnings("SameParameterValue")
     static class GuiUtilsKtExt {
         static void blitk(PoseStack matrixStack, ResourceLocation texture,
-                          Number x, Number y, Number height, Number width, float scale) {
+                          Number x, Number y, Number height, Number width, float alpha, float scale) {
             GuiUtilsKt.blitk(
                     matrixStack, texture, x, y,
                     height, width, 0, 0,
-                    width, height, 0, 1, 1, 1, 1f, true,
+                    width, height, 0, 1, 1, 1, alpha, true,
                     scale
+            );
+        }
+
+        static void blitk(PoseStack matrixStack, ResourceLocation texture,
+                          Number x, Number y, Number height, Number width, float scale) {
+            GuiUtilsKtExt.blitk(
+                    matrixStack, texture, x, y,
+                    height, width, 1F, scale
             );
         }
 

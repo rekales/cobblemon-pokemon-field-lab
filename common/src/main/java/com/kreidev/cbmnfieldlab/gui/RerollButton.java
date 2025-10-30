@@ -10,7 +10,6 @@ import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-import static com.kreidev.cbmnfieldlab.PokemonFieldLab.LOGGER;
 import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.GuiUtilsKtExt;
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
 
@@ -35,9 +34,11 @@ public class RerollButton extends Button implements CobblemonRenderable {
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         PoseStack matrices = guiGraphics.pose();
 
+        float alpha = Math.min(1F, this.parent.parent.parent.ticksElapsed/(float)FieldLabScreen.TICKS_TO_LOAD);
+
         GuiUtilsKtExt.blitk(matrices, REROLL_BUTTON_RES,
                 this.getX(), this.getY(),
-                20, 23
+                20, 23, alpha, 1F
         );
 
 
@@ -46,7 +47,9 @@ public class RerollButton extends Button implements CobblemonRenderable {
         int cropWidth = (int) (12*progress);
 
         if (progress < 1) {
-            guiGraphics.setColor(1.0F, 1.0F, 1.0F, 0.7F);
+            guiGraphics.setColor(1.0F, 1.0F, 1.0F, 0.7F*alpha);
+        } else {
+            guiGraphics.setColor(1.0F, 1.0F, 1.0F, alpha);
         }
         guiGraphics.blit(REROLL_ICON_RES,
                 this.getX()+4, this.getY()+3,
@@ -54,13 +57,13 @@ public class RerollButton extends Button implements CobblemonRenderable {
                 cropWidth, 14,
                 12, 14
         );
-        guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1F);
+        guiGraphics.setColor(1.0F, 1.0F, 1.0F, alpha);
 
         if (this.isHovered()) {
             FieldLabScreen.GuiUtilsKtExt.blitk(
                     matrices, REROLL_BUTTON_HOVER_RES,
                     this.getX(), this.getY(),
-                    20, 23
+                    20, 23, alpha, 1F
             );
         }
     }

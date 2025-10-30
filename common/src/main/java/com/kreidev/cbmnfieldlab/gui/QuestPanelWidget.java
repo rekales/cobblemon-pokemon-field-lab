@@ -10,7 +10,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.RenderHelperKtExt;
 import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.GuiUtilsKtExt;
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
 
@@ -37,18 +36,21 @@ public class QuestPanelWidget extends SoundlessWidget {
 
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        if (this.parent.ticksElapsed < 1) return;
         PoseStack matrices = guiGraphics.pose();
+
+        float alpha = Math.min(1F, this.parent.ticksElapsed/(float)FieldLabScreen.TICKS_TO_LOAD);
 
         GuiUtilsKtExt.blitk(matrices, BASE_RES,
                 this.getX()-17, this.getY(),
-                this.height, this.width
+                this.height, this.width, alpha, 1F
         );
 
         for (int i=0; i<3; i++) {
             RenderHelperKt.drawScaledText(
                     guiGraphics, null, Component.literal("exp"),
                     this.getX() + 26 + 45*i, this.getY() + 143, 1F, 1F,
-                    Integer.MAX_VALUE, 0xFF009CAE,
+                    Integer.MAX_VALUE, 0xFF009CAE + ((int)(255*alpha)<<24),
                     true, false, null, null
             );
         }
@@ -59,13 +61,13 @@ public class QuestPanelWidget extends SoundlessWidget {
             if (finishedQuests/3 > i) {
                 GuiUtilsKtExt.blitk(matrices, GROUP_BOX_RES,
                         this.getX() + 7 + 45*i, this.getY() + 141,
-                        25, 37
+                        25, 37, alpha, 1F
                 );
 
                 RenderHelperKt.drawScaledText(
                         guiGraphics, null, Component.literal("exp"),
                         this.getX() + 26 + 45*i, this.getY() + 143, 1F, 0.9F,
-                        Integer.MAX_VALUE, 0xFFFFFFFF,
+                        Integer.MAX_VALUE, 0x00FFFFFF + ((int)(255*alpha)<<24),
                         true, false, null, null
                 );
             }
@@ -74,7 +76,7 @@ public class QuestPanelWidget extends SoundlessWidget {
             for (int j = 0; j < activeGroupIndicators; j++) {
                 GuiUtilsKtExt.blitk(matrices, GROUP_IND_RES,
                         this.getX() + 10 + 45 * i + j * 11, this.getY() + 155,
-                        9, 9
+                        9, 9, alpha, 1F
                 );
             }
         }

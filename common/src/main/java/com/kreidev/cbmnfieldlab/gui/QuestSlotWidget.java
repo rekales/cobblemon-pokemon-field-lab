@@ -19,12 +19,11 @@ import net.minecraft.resources.ResourceLocation;
 
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
 import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.RenderHelperKtExt;
+import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.GuiUtilsKtExt;
 
 // NOTE: "Slot"? maybe there's a better name for this.
 public class QuestSlotWidget extends SoundlessWidget implements CobblemonRenderable {
 
-    public static final ResourceLocation QUEST_HOVER_OVERLAY_RES =
-            resLoc("textures/gui/%s/quest_slot_hover.png", PokemonFieldLab.FIELD_LAB_NAME);
     public static final ResourceLocation QUEST_SELECTED_RES =
             resLoc("textures/gui/%s/quest_slot_active.png", PokemonFieldLab.FIELD_LAB_NAME);
 
@@ -46,12 +45,14 @@ public class QuestSlotWidget extends SoundlessWidget implements CobblemonRendera
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         PoseStack matrices = guiGraphics.pose();
 
+        float alpha = Math.min(1F, this.parent.parent.ticksElapsed/(float)FieldLabScreen.TICKS_TO_LOAD);
+
         if (this.parent.parent.previewPokemon != null &&
                 this.quest.isEligible(this.parent.parent.previewPokemon)) {
-            FieldLabScreen.GuiUtilsKtExt.blitk(
+            GuiUtilsKtExt.blitk(
                     matrices, QUEST_SELECTED_RES,
                     this.getX(), this.getY(),
-                    38, 166
+                    38, 166, alpha, 1F
             );
         }
 
@@ -75,7 +76,7 @@ public class QuestSlotWidget extends SoundlessWidget implements CobblemonRendera
                     guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
                     strToCompWithModifier(parts[i], quest.getModifierString()),
                     this.getX()+28, startY+offsetY*i,
-                    false, true, 1F, 0.9F
+                    false, true, 1F, 0.9F * alpha
             );
         }
 
@@ -83,16 +84,20 @@ public class QuestSlotWidget extends SoundlessWidget implements CobblemonRendera
                 guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
                 TextKt.bold(Component.literal(quest.getReward().getCount() + "x")),
                 this.getX()+150, this.getY()+27,
-                true, true, 1F, 0.9F
+                true, true, 1F, 0.9F * alpha
         );
 
+        guiGraphics.setColor(1.0F, 1.0F, 1.0F, alpha);
         guiGraphics.renderItem(quest.getReward().copyWithCount(1), this.getX()+143, this.getY()+5);
         guiGraphics.renderItemDecorations(
                 Minecraft.getInstance().font, quest.getReward().copyWithCount(1),
                 this.getX()+143, this.getY()+5
         );
+        guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+
 
         this.rerollButton.render(guiGraphics, mouseX, mouseY, delta);
+
     }
 
 

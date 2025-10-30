@@ -81,46 +81,9 @@ public class PokemonFieldLab {
             if (player instanceof ServerPlayer serverPlayer) {
                 Pokemon pokemon = PlayerExtensionsKt.party(serverPlayer).get(0);
                 if (pokemon != null) {
-                    Quest quest = new BiomeQuest(serverPlayer.serverLevel());
-                    LOGGER.info(quest+"");
-                    LOGGER.info(quest.isEligible(pokemon)+"");
-                    LOGGER.info(pokemon.getSpecies()+"");
+                    pokemon.getSpecies().getEvolutions().forEach(evolution -> LOGGER.info(evolution.getId()));
+                    pokemon.getSpecies().getEvolutions().forEach(evolution -> LOGGER.info(evolution.getResult().getSpecies()));
                 }
-//
-//                if (pokemon != null) {
-////                    CobblemonWorldSpawnerManager.INSTANCE.
-//                    SpawnPool spawnPool = CobblemonSpawnPools.WORLD_SPAWN_POOL;
-//
-//                    ServerLevel level = serverPlayer.serverLevel();
-//
-//                    Registry<Biome> registry = level.registryAccess().registryOrThrow(Registries.BIOME);
-////                    Biome biome = registry.get(Biomes.JUNGLE);
-//                    Biome biome = registry.getRandom(level.getRandom()).orElseThrow().value();
-//
-////                    LOGGER.info(biome.toString());
-//
-//                    Set<String> species = CobblemonSpawnPools.WORLD_SPAWN_POOL.getDetails().stream()
-//                            .filter(spawnDetail-> {
-//                                for (SpawningCondition<?> cond : spawnDetail.getConditions()) {
-//                                    if (cond.getBiomes() == null) continue;
-//                                    for (RegistryLikeCondition<Biome> c : cond.getBiomes()) {
-//                                        if (c.fits(biome, registry)) return true;
-//                                    }
-//                                }
-//                                return false;
-//                            }).map(spawnDetail -> {
-//                                String specie = ((PokemonSpawnDetail) spawnDetail).getPokemon().getSpecies();
-//                                if (specie == null) return null;
-//                                return specie.toLowerCase();
-//                            }).filter(Objects::nonNull)
-//                            .collect(Collectors.toSet());
-//
-////                    LOGGER.info(species.toString());
-//                    LOGGER.info(species.size()+"");
-//                    LOGGER.info(PokemonSpecies.INSTANCE.count()+"");
-//
-////                    species.stream().peek(LOGGER::info);
-//                }
             }
 
             return EventResult.pass();

@@ -8,8 +8,6 @@ import com.cobblemon.mod.common.client.gui.summary.widgets.SoundlessWidget;
 import com.cobblemon.mod.common.client.storage.ClientParty;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.util.LocalizationUtilsKt;
-import com.kreidev.cbmnfieldlab.PokemonFieldLab;
-import com.kreidev.cbmnfieldlab.network.RerollPacket;
 import com.kreidev.cbmnfieldlab.network.SubmitPacket;
 import com.kreidev.cbmnfieldlab.quest.PlayerQuestContainer;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -43,22 +41,18 @@ public class PartyPanelWidget extends SoundlessWidget {
         this.parent = parent;
         this.party = party;
         setupPartySlot();
-        this.submitButton = new SubmitButton(
-                this.getX()+194, this.getY()+124,
-                button->this.displayConfirmSubmit=true
-        );
+        this.submitButton = new SubmitButton(this.getX()+194, this.getY()+124, ignore->{});
         this.addWidget(submitButton);
         this.submitYesButton = new SubmitConfirmButton(
                 this.getX()+190, this.getY()+131,
-                LocalizationUtilsKt.lang("ui.generic.yes"), this::onSubmit
+                LocalizationUtilsKt.lang("ui.generic.yes"), ignore->{}
         );
         this.addWidget(submitYesButton);
         this.submitNoButton = new SubmitConfirmButton(
                 this.getX()+226, this.getY()+131,
-                LocalizationUtilsKt.lang("ui.generic.no"), button->this.displayConfirmSubmit=false
+                LocalizationUtilsKt.lang("ui.generic.no"), ignore->{}
         );
         this.addWidget(submitNoButton);
-        // TODO: confirm yes/no buttons unclickable at submit button overlap area
     }
 
     private void setupPartySlot() {
@@ -138,7 +132,18 @@ public class PartyPanelWidget extends SoundlessWidget {
         parent.setPreviewPokemon(pokemon);
     }
 
-    public void onSubmit(Button button) {
+    @Override
+    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+        if (this.displayConfirmSubmit) {
+            if (this.submitYesButton.isHovered()) this.onSubmit();
+            if (this.submitNoButton.isHovered()) this.displayConfirmSubmit = false;
+        } else {
+            if (this.submitButton.isHovered()) this.displayConfirmSubmit = true;
+        }
+        return super.mouseClicked(pMouseX, pMouseY, pButton);
+    }
+
+    public void onSubmit() {
         this.displayConfirmSubmit = false;
         if (this.parent.previewPokemon == null) return;
         PartyPosition partyPosition = this.party.getPosition(this.parent.previewPokemon);
