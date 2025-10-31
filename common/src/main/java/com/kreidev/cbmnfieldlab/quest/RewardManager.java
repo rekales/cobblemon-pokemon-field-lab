@@ -27,6 +27,12 @@ public class RewardManager {
         majorRewards.addAll(rewards);
     }
 
+    public static void clearAll() {
+        indivRewards.clear();
+        minorRewards.clear();
+        majorRewards.clear();
+    }
+
     public static ItemStack getIndivReward(RandomSource randomSource, float difficulty) {
         QuestRewardEntry rewardEntry = indivRewards.get(randomSource.nextInt(indivRewards.size()));
         float value = difficulty * CommonConfig.indivRewardValueScale;

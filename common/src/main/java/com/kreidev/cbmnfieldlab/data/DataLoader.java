@@ -31,7 +31,7 @@ public class DataLoader extends SimpleJsonResourceReloadListener {
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> object, ResourceManager resourceManager, ProfilerFiller profilerFiller) {
-        DataManager.clear();
+        RewardManager.clearAll();
 
         object.forEach((id, json) -> {
             try {

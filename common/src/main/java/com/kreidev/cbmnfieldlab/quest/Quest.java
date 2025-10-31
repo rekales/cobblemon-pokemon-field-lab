@@ -2,7 +2,6 @@ package com.kreidev.cbmnfieldlab.quest;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.kreidev.cbmnfieldlab.CommonConfig;
-import com.kreidev.cbmnfieldlab.data.DataManager;
 import com.kreidev.cbmnfieldlab.quest.type.*;
 import com.mojang.serialization.Codec;
 import net.minecraft.server.level.ServerLevel;
@@ -11,9 +10,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.kreidev.cbmnfieldlab.PokemonFieldLab.LOGGER;
-import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
 
 @SuppressWarnings("unused")
 public abstract class Quest {
