@@ -6,7 +6,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
 
-// TODO: could be grouped with minor and major quest reward loot pool in a separate reward manager class.
 public record QuestRewardEntry(Item item, int minCount, int maxCount, float cost) {
 
     public static final MapCodec<QuestRewardEntry> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(

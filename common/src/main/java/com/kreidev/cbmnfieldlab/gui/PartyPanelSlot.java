@@ -139,8 +139,6 @@ public class PartyPanelSlot extends Button implements CobblemonRenderable {
             );
         }
         matrices.popPose();
-
-        // TODO: maybe white translucent overlay when hovered for feedback?
     }
 
     @Override

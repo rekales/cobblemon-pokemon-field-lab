@@ -139,7 +139,7 @@ public class FieldLabBlock extends BaseEntityBlock {
 
     @Override
     protected @NotNull InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos blockPos, Player player, BlockHitResult blockHitResult) {
-        if (level instanceof ServerLevel serverLevel && player instanceof ServerPlayer serverPlayer) {
+        if (level instanceof ServerLevel && player instanceof ServerPlayer serverPlayer) {
             MenuRegistry.openExtendedMenu(serverPlayer, new ExtendedMenuProvider() {
                 @Override
                 public void saveExtraData(FriendlyByteBuf buf) {
@@ -214,16 +214,6 @@ public class FieldLabBlock extends BaseEntityBlock {
         } else {
             return blockStateBelow.is(this);
         }
-    }
-
-    @Override
-    public @NotNull BlockState playerWillDestroy(Level level, BlockPos blockPos, BlockState blockState, Player player) {
-        if (!level.isClientSide && (player.isCreative() || !player.hasCorrectToolForDrops(blockState))) {
-            // TODO: access transformer
-            // DoublePlantBlock.preventDropFromBottomPart(level, blockPos, blockState, player);
-        }
-
-        return super.playerWillDestroy(level, blockPos, blockState, player);
     }
 
     @Override
