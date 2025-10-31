@@ -2,6 +2,7 @@ package com.kreidev.cbmnfieldlab.quest.type;
 
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.Species;
+import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
@@ -31,7 +32,7 @@ public class EvoQuest extends Quest {
 
     @SuppressWarnings("unused")
     public EvoQuest(ServerLevel level, int stage) {
-        super(level);
+        super(level, CommonConfig.evoQuestDifficulty);
         this.stage = stage;
     }
 

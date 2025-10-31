@@ -26,7 +26,7 @@ public class WeightQuest extends Quest {
 
     // Random Quest
     public WeightQuest(ServerLevel level) {
-        super(level);
+        super(level, CommonConfig.weightQuestDifficulty);
         float lowerBound = CommonConfig.weightQuestLowerBound;
         float upperBound = CommonConfig.weightQuestUpperBound;
         float minGap = CommonConfig.weightQuestMinGap;

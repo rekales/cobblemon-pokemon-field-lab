@@ -1,10 +1,9 @@
 package com.kreidev.cbmnfieldlab.quest.type;
 
-import com.cobblemon.mod.common.api.abilities.AbilityTemplate;
 import com.cobblemon.mod.common.api.pokemon.Natures;
-import com.cobblemon.mod.common.api.types.ElementalType;
 import com.cobblemon.mod.common.pokemon.Nature;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
@@ -28,7 +27,7 @@ public class NatureQuest extends Quest {
 
     // Random Quest
     public NatureQuest(ServerLevel level) {
-        super(level);
+        super(level, CommonConfig.natureQuestDifficulty);
         this.nature = Natures.INSTANCE.getRandomNature();
     }
 

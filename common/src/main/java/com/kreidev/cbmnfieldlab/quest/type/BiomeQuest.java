@@ -7,6 +7,7 @@ import com.cobblemon.mod.common.api.spawning.condition.SpawningCondition;
 import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnDetail;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.Species;
+import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
@@ -37,7 +38,7 @@ public class BiomeQuest extends Quest {
 
     // Random Quest
     public BiomeQuest(ServerLevel level) {
-        super(level);
+        super(level, CommonConfig.biomeQuestDifficulty);
         Registry<Biome> registry = level.registryAccess().registryOrThrow(Registries.BIOME);
         ResourceKey<Biome> key = registry.getRandom(level.getRandom()).orElseThrow().key();
         Biome biome = registry.get(key);

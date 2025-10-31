@@ -2,6 +2,8 @@ package com.kreidev.cbmnfieldlab;
 
 public class CommonConfig {
     // NOTE: no getter/setter crap, just be mindful when to when it gets set.
+    // TODO: use this values for defaults instead of setting individually per platform
+    // TODO: organize configs on both platforms
 
     public static int rerollTimeSeconds = 300;
 
@@ -27,6 +29,19 @@ public class CommonConfig {
     public static boolean enableRegionQuest = true;
     public static boolean enableBiomeQuest = true;
     public static boolean enableEvoQuest = true;
+
+    public static float abilityQuestDifficulty = 1.0F;
+    public static float singleTypeQuestDifficulty = 1.0F;
+    public static float doubleTypeQuestDifficulty = 1.0F;
+    public static float natureQuestDifficulty = 1.0F;
+    public static float moveQuestDifficulty = 1.0F;
+    public static float sizeQuestDifficulty = 1.0F;
+    public static float baseStatQuestDifficulty = 1.0F;
+    public static float weightQuestDifficulty = 1.0F;
+    public static float dexNameQuestDifficulty = 1.0F;
+    public static float regionQuestDifficulty = 1.0F;
+    public static float biomeQuestDifficulty = 1.0F;
+    public static float evoQuestDifficulty = 1.0F;
 
     public static float sizeQuestLowerBound = 0.5F;
     public static float sizeQuestUpperBound = 2F;

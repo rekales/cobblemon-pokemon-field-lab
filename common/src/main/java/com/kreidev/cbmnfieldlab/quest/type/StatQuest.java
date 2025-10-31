@@ -30,7 +30,7 @@ public class StatQuest extends Quest {
 
     // Random Quest
     public StatQuest(ServerLevel level) {
-        super(level);
+        super(level, CommonConfig.baseStatQuestDifficulty);
         int lowerBound = CommonConfig.baseStatQuestLowerBound;
         int upperBound = CommonConfig.baseStatQuestUpperBound;
         int minGap = CommonConfig.baseStatQuestMinGap;

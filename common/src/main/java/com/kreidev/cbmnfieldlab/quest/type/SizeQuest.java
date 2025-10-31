@@ -24,11 +24,11 @@ public class SizeQuest extends Quest {
 
     // Random Quest
     public SizeQuest(ServerLevel level) {
-        super(level);
+        super(level, CommonConfig.sizeQuestDifficulty);
 
         float lowerBound = CommonConfig.sizeQuestLowerBound;
         float upperBound = CommonConfig.sizeQuestUpperBound;
-        this.size = level.getRandom().nextFloat() * (upperBound-lowerBound) + lowerBound;;
+        this.size = level.getRandom().nextFloat() * (upperBound-lowerBound) + lowerBound;
     }
 
     @SuppressWarnings("unused")

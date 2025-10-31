@@ -3,6 +3,7 @@ package com.kreidev.cbmnfieldlab.quest.type;
 import com.cobblemon.mod.common.api.abilities.Abilities;
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
@@ -28,7 +29,7 @@ public class AbilityQuest extends Quest {
 
     // Random Quest
     public AbilityQuest(ServerLevel level) {
-        super(level);
+        super(level, CommonConfig.abilityQuestDifficulty);
         List<AbilityTemplate> abilities = Abilities.INSTANCE.all();
         this.ability = abilities.get(level.getRandom().nextInt(abilities.size()));
     }

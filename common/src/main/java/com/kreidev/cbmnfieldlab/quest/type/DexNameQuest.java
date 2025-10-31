@@ -2,6 +2,7 @@ package com.kreidev.cbmnfieldlab.quest.type;
 
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
@@ -24,7 +25,7 @@ public class DexNameQuest extends Quest {
 
     // Random Quest
     public DexNameQuest(ServerLevel level) {
-        super(level);
+        super(level, CommonConfig.dexNameQuestDifficulty);
         this.name = PokemonSpecies.INSTANCE.random().getName();
     }
 

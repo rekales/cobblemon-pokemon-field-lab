@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.api.moves.Move;
 import com.cobblemon.mod.common.api.moves.MoveTemplate;
 import com.cobblemon.mod.common.api.moves.Moves;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
@@ -28,7 +29,7 @@ public class MoveQuest extends Quest {
 
     // Random Quest
     public MoveQuest(ServerLevel level) {
-        super(level);
+        super(level, CommonConfig.moveQuestDifficulty);
         List<MoveTemplate> moves = Moves.INSTANCE.all();
         this.move = moves.get(level.getRandom().nextInt(moves.size()));
     }

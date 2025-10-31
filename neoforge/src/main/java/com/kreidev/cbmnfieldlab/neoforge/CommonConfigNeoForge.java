@@ -90,6 +90,55 @@ public class CommonConfigNeoForge {
             .comment("Enable evolution stage quests")
             .define("enableWeightQuest", true);
 
+    // Quest difficulty multipliers
+    private static final ModConfigSpec.DoubleValue ABILITY_QUEST_DIFFICULTY = BUILDER
+            .comment("Ability quest difficulty scale")
+            .defineInRange("abilityQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+
+    private static final ModConfigSpec.DoubleValue SINGLE_TYPE_QUEST_DIFFICULTY = BUILDER
+            .comment("Single-type quest difficulty scale")
+            .defineInRange("singleTypeQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+
+    private static final ModConfigSpec.DoubleValue DOUBLE_TYPE_QUEST_DIFFICULTY = BUILDER
+            .comment("Double-type quest difficulty scale")
+            .defineInRange("doubleTypeQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+
+    private static final ModConfigSpec.DoubleValue NATURE_QUEST_DIFFICULTY = BUILDER
+            .comment("Nature quest difficulty scale")
+            .defineInRange("natureQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+
+    private static final ModConfigSpec.DoubleValue MOVE_QUEST_DIFFICULTY = BUILDER
+            .comment("Move quest difficulty scale")
+            .defineInRange("moveQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+
+    private static final ModConfigSpec.DoubleValue SIZE_QUEST_DIFFICULTY = BUILDER
+            .comment("Size quest difficulty scale")
+            .defineInRange("sizeQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+
+    private static final ModConfigSpec.DoubleValue BASE_STAT_QUEST_DIFFICULTY = BUILDER
+            .comment("Base stat quest difficulty scale")
+            .defineInRange("baseStatQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+
+    private static final ModConfigSpec.DoubleValue WEIGHT_QUEST_DIFFICULTY = BUILDER
+            .comment("Weight quest difficulty scale")
+            .defineInRange("weightQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+
+    private static final ModConfigSpec.DoubleValue DEX_NAME_QUEST_DIFFICULTY = BUILDER
+            .comment("Dex name quest difficulty scale")
+            .defineInRange("dexNameQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+
+    private static final ModConfigSpec.DoubleValue REGION_QUEST_DIFFICULTY = BUILDER
+            .comment("Region quest difficulty scale")
+            .defineInRange("regionQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+
+    private static final ModConfigSpec.DoubleValue BIOME_QUEST_DIFFICULTY = BUILDER
+            .comment("Biome quest difficulty scale")
+            .defineInRange("biomeQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+
+    private static final ModConfigSpec.DoubleValue EVO_QUEST_DIFFICULTY = BUILDER
+            .comment("Evolution quest difficulty scale")
+            .defineInRange("evoQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+
     // Size quest bounds
     private static final ModConfigSpec.DoubleValue SIZE_QUEST_LOWER_BOUND = BUILDER
             .comment("Minimum size factor for size quests")
@@ -159,6 +208,19 @@ public class CommonConfigNeoForge {
         CommonConfig.enableRegionQuest = ENABLE_REGION_QUEST.get();
         CommonConfig.enableBiomeQuest = ENABLE_BIOME_QUEST.get();
         CommonConfig.enableEvoQuest = ENABLE_EVO_STAGE_QUEST.get();
+
+        CommonConfig.abilityQuestDifficulty = ABILITY_QUEST_DIFFICULTY.get().floatValue();
+        CommonConfig.singleTypeQuestDifficulty = SINGLE_TYPE_QUEST_DIFFICULTY.get().floatValue();
+        CommonConfig.doubleTypeQuestDifficulty = DOUBLE_TYPE_QUEST_DIFFICULTY.get().floatValue();
+        CommonConfig.natureQuestDifficulty = NATURE_QUEST_DIFFICULTY.get().floatValue();
+        CommonConfig.moveQuestDifficulty = MOVE_QUEST_DIFFICULTY.get().floatValue();
+        CommonConfig.sizeQuestDifficulty = SIZE_QUEST_DIFFICULTY.get().floatValue();
+        CommonConfig.baseStatQuestDifficulty = BASE_STAT_QUEST_DIFFICULTY.get().floatValue();
+        CommonConfig.weightQuestDifficulty = WEIGHT_QUEST_DIFFICULTY.get().floatValue();
+        CommonConfig.dexNameQuestDifficulty = DEX_NAME_QUEST_DIFFICULTY.get().floatValue();
+        CommonConfig.regionQuestDifficulty = REGION_QUEST_DIFFICULTY.get().floatValue();
+        CommonConfig.biomeQuestDifficulty = BIOME_QUEST_DIFFICULTY.get().floatValue();
+        CommonConfig.evoQuestDifficulty = EVO_QUEST_DIFFICULTY.get().floatValue();
 
         CommonConfig.sizeQuestLowerBound = SIZE_QUEST_LOWER_BOUND.get().floatValue();
         CommonConfig.sizeQuestUpperBound = SIZE_QUEST_UPPER_BOUND.get().floatValue();

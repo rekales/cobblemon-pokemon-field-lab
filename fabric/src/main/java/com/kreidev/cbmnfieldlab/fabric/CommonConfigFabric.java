@@ -69,6 +69,43 @@ public class CommonConfigFabric extends MidnightConfig {
     @Entry(category = COMMON)
     public static boolean ENABLE_EVO_STAGE_QUEST = true;
 
+    // Quest difficulty multipliers
+    @Entry(category = COMMON, min = 0.01, max = 1000)
+    public static float ABILITY_QUEST_DIFFICULTY = 1.0F;
+
+    @Entry(category = COMMON, min = 0.01, max = 1000)
+    public static float SINGLE_TYPE_QUEST_DIFFICULTY = 1.0F;
+
+    @Entry(category = COMMON, min = 0.01, max = 1000)
+    public static float DOUBLE_TYPE_QUEST_DIFFICULTY = 1.0F;
+
+    @Entry(category = COMMON, min = 0.01, max = 1000)
+    public static float NATURE_QUEST_DIFFICULTY = 1.0F;
+
+    @Entry(category = COMMON, min = 0.01, max = 1000)
+    public static float MOVE_QUEST_DIFFICULTY = 1.0F;
+
+    @Entry(category = COMMON, min = 0.01, max = 1000)
+    public static float SIZE_QUEST_DIFFICULTY = 1.0F;
+
+    @Entry(category = COMMON, min = 0.01, max = 1000)
+    public static float BASE_STAT_QUEST_DIFFICULTY = 1.0F;
+
+    @Entry(category = COMMON, min = 0.01, max = 1000)
+    public static float WEIGHT_QUEST_DIFFICULTY = 1.0F;
+
+    @Entry(category = COMMON, min = 0.01, max = 1000)
+    public static float DEX_NAME_QUEST_DIFFICULTY = 1.0F;
+
+    @Entry(category = COMMON, min = 0.01, max = 1000)
+    public static float REGION_QUEST_DIFFICULTY = 1.0F;
+
+    @Entry(category = COMMON, min = 0.01, max = 1000)
+    public static float BIOME_QUEST_DIFFICULTY = 1.0F;
+
+    @Entry(category = COMMON, min = 0.01, max = 1000)
+    public static float EVO_QUEST_DIFFICULTY = 1.0F;
+
     // Size quest bounds
     @Entry(category = COMMON, min = 0, max = 100)
     public static float SIZE_QUEST_LOWER_BOUND = 0.5F;
@@ -128,6 +165,19 @@ public class CommonConfigFabric extends MidnightConfig {
         CommonConfig.enableRegionQuest = ENABLE_REGION_QUEST;
         CommonConfig.enableBiomeQuest = ENABLE_BIOME_QUEST;
         CommonConfig.enableEvoQuest = ENABLE_EVO_STAGE_QUEST;
+
+        CommonConfig.abilityQuestDifficulty = ABILITY_QUEST_DIFFICULTY;
+        CommonConfig.singleTypeQuestDifficulty = SINGLE_TYPE_QUEST_DIFFICULTY;
+        CommonConfig.doubleTypeQuestDifficulty = DOUBLE_TYPE_QUEST_DIFFICULTY;
+        CommonConfig.natureQuestDifficulty = NATURE_QUEST_DIFFICULTY;
+        CommonConfig.moveQuestDifficulty = MOVE_QUEST_DIFFICULTY;
+        CommonConfig.sizeQuestDifficulty = SIZE_QUEST_DIFFICULTY;
+        CommonConfig.baseStatQuestDifficulty = BASE_STAT_QUEST_DIFFICULTY;
+        CommonConfig.weightQuestDifficulty = WEIGHT_QUEST_DIFFICULTY;
+        CommonConfig.dexNameQuestDifficulty = DEX_NAME_QUEST_DIFFICULTY;
+        CommonConfig.regionQuestDifficulty = REGION_QUEST_DIFFICULTY;
+        CommonConfig.biomeQuestDifficulty = BIOME_QUEST_DIFFICULTY;
+        CommonConfig.evoQuestDifficulty = EVO_QUEST_DIFFICULTY;
 
         CommonConfig.sizeQuestLowerBound = SIZE_QUEST_LOWER_BOUND;
         CommonConfig.sizeQuestUpperBound = SIZE_QUEST_UPPER_BOUND;

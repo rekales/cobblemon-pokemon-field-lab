@@ -5,6 +5,7 @@ import com.cobblemon.mod.common.api.pokedex.def.PokedexDef;
 import com.cobblemon.mod.common.api.pokedex.entry.PokedexEntry;
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
@@ -31,7 +32,7 @@ public class RegionQuest extends Quest {
 
     // Random Quest
     public RegionQuest(ServerLevel level) {
-        super(level);
+        super(level, CommonConfig.regionQuestDifficulty);
         List<ResourceLocation> dexes = new ArrayList<>(Dexes.INSTANCE.getDexEntryMap().keySet());
         this.region = dexes.get(level.getRandom().nextInt(dexes.size()));
     }

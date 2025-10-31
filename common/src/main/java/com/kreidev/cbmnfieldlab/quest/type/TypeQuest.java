@@ -3,6 +3,7 @@ package com.kreidev.cbmnfieldlab.quest.type;
 import com.cobblemon.mod.common.api.types.ElementalType;
 import com.cobblemon.mod.common.api.types.ElementalTypes;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
@@ -28,7 +29,7 @@ public class TypeQuest extends Quest {
 
     // Random Quest
     public TypeQuest(ServerLevel level) {
-        super(level);
+        super(level, CommonConfig.singleTypeQuestDifficulty);
         List<ElementalType> types = ElementalTypes.INSTANCE.all();
         this.elementalType = types.get(level.getRandom().nextInt(types.size()));
     }
