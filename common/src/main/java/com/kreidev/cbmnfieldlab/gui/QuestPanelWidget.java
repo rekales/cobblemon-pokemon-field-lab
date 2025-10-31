@@ -6,9 +6,11 @@ import com.cobblemon.mod.common.client.storage.ClientParty;
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import com.kreidev.cbmnfieldlab.quest.PlayerQuestContainer;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 import static com.kreidev.cbmnfieldlab.gui.FieldLabScreen.GuiUtilsKtExt;
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
@@ -80,6 +82,16 @@ public class QuestPanelWidget extends SoundlessWidget {
                 );
             }
         }
+
+        guiGraphics.setColor(1.0F, 1.0F, 1.0F, alpha);
+        int displayedItemIndex = (int)(parent.getGameTime()/40) % container.nextMajorRewards.size();
+        ItemStack displayedItem = container.getNextMajorRewards().get(displayedItemIndex);
+        guiGraphics.renderItem(displayedItem, this.getX()+147, this.getY()+146);
+        guiGraphics.renderItemDecorations(
+                Minecraft.getInstance().font, displayedItem,
+                this.getX()+147, this.getY()+146
+        );
+        guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         this.qs1.render(guiGraphics, mouseX, mouseY, delta);
         this.qs2.render(guiGraphics, mouseX, mouseY, delta);
