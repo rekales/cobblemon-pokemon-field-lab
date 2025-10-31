@@ -41,6 +41,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.saveddata.SavedData;
 import org.slf4j.Logger;
 
@@ -59,10 +60,13 @@ public class PokemonFieldLab {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registries.BLOCK);
+    private static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(MOD_ID, Registries.BLOCK_ENTITY_TYPE);
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
     private static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(MOD_ID, Registries.MENU);
 
     public static final RegistrySupplier<FieldLabBlock> FIELD_LAB_BLOCK = BLOCKS.register(FIELD_LAB_NAME, FieldLabBlock::new);
+    public static final RegistrySupplier<BlockEntityType<FieldLabBlockEntity>> FIELD_LAB_BLOCK_ENTITY = BLOCK_ENTITIES
+            .register(FIELD_LAB_NAME, ()-> BlockEntityType.Builder.of(FieldLabBlockEntity::new, FIELD_LAB_BLOCK.get()).build(null));
     public static final RegistrySupplier<BlockItem> FIELD_LAB_BLOCK_ITEM = ITEMS
             .register(FIELD_LAB_NAME, () -> new BlockItem(FIELD_LAB_BLOCK.get(), new Item.Properties()));
     public static final RegistrySupplier<MenuType<FieldLabMenu>> FIELD_LAB_MENU = MENUS
@@ -71,6 +75,7 @@ public class PokemonFieldLab {
 
     public static void init() {
         BLOCKS.register();
+        BLOCK_ENTITIES.register();
         ITEMS.register();
         MENUS.register();
         registerToCreativeTab();

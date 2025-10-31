@@ -4,6 +4,7 @@ import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
 import com.kreidev.cbmnfieldlab.quest.PlayerQuestContainer;
 import com.kreidev.cbmnfieldlab.quest.QuestManager;
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.core.BlockPos;
@@ -27,6 +28,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -44,7 +49,10 @@ import org.jetbrains.annotations.Nullable;
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.*;
 
 // Some parts are based from DoorBlock, some from PCBlock
-public class FieldLabBlock extends Block {
+public class FieldLabBlock extends BaseEntityBlock {
+
+    public static final MapCodec<FieldLabBlock> CODEC = simpleCodec(FieldLabBlock::new);
+
 
     public static final VoxelShape NORTH_AABB_TOP = Shapes.or(
             Block.box(2, 0, 10, 14, 1, 13),
@@ -125,6 +133,11 @@ public class FieldLabBlock extends Block {
                 .setValue(FACING, Direction.NORTH)
                 .setValue(HALF, DoubleBlockHalf.LOWER)
         );
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     public FieldLabBlock() {
@@ -264,5 +277,20 @@ public class FieldLabBlock extends Block {
     @Override
     protected @NotNull BlockState mirror(BlockState blockState, Mirror mirror) {
         return blockState.rotate(mirror.getRotation(blockState.getValue(FACING)));
+    }
+
+    @Override
+    public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return new FieldLabBlockEntity(blockPos, blockState);
+    }
+
+    @Override
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, FIELD_LAB_BLOCK_ENTITY.get() , FieldLabBlockEntity::serverTick);
+    }
+
+    @Override
+    protected RenderShape getRenderShape(BlockState blockState) {
+        return RenderShape.MODEL;
     }
 }
