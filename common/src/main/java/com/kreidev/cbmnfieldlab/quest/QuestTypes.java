@@ -22,6 +22,7 @@ public class QuestTypes {
     public static final QuestType<DexNameQuest> DEX_NAME = register("pokedex_name", DexNameQuest.CODEC, DexNameQuest::new);
     public static final QuestType<RegionQuest> REGION = register("region", RegionQuest.CODEC, RegionQuest::new);
     public static final QuestType<BiomeQuest> BIOME = register("biome", BiomeQuest.CODEC, BiomeQuest::new);
+    public static final QuestType<EvoQuest> EVO_STAGE = register("evolution_stage", EvoQuest.CODEC, EvoQuest::new);
 
 
     public static <T extends Quest> QuestType<T> register(String id, MapCodec<T> codec, Function<ServerLevel, Quest> randomQuestFactory) {

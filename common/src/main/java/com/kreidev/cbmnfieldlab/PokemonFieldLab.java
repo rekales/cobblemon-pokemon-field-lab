@@ -1,25 +1,12 @@
 package com.kreidev.cbmnfieldlab;
 
-
-import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition;
-import com.cobblemon.mod.common.api.pokedex.Dexes;
-import com.cobblemon.mod.common.api.pokedex.def.PokedexDef;
-import com.cobblemon.mod.common.api.pokedex.entry.PokedexEntry;
-import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
-import com.cobblemon.mod.common.api.spawning.CobblemonSpawnPools;
-import com.cobblemon.mod.common.api.spawning.CobblemonWorldSpawnerManager;
-import com.cobblemon.mod.common.api.spawning.condition.SpawningCondition;
-import com.cobblemon.mod.common.api.spawning.detail.PokemonSpawnDetail;
-import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail;
-import com.cobblemon.mod.common.api.spawning.detail.SpawnPool;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.util.PlayerExtensionsKt;
 import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
 import com.kreidev.cbmnfieldlab.network.FieldLabNetworkManager;
-import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestManager;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
-import com.kreidev.cbmnfieldlab.quest.type.BiomeQuest;
+import com.kreidev.cbmnfieldlab.quest.type.EvoQuest;
 import com.mojang.logging.LogUtils;
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.LifecycleEvent;
@@ -27,7 +14,6 @@ import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.registry.menu.MenuRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -37,20 +23,12 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.saveddata.SavedData;
 import org.slf4j.Logger;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import static com.cobblemon.mod.common.util.MiscUtilsKt.cobblemonResource;
 
 @SuppressWarnings("unused")
 public class PokemonFieldLab {
@@ -86,8 +64,7 @@ public class PokemonFieldLab {
             if (player instanceof ServerPlayer serverPlayer) {
                 Pokemon pokemon = PlayerExtensionsKt.party(serverPlayer).get(0);
                 if (pokemon != null) {
-                    pokemon.getSpecies().getEvolutions().forEach(evolution -> LOGGER.info(evolution.getId()));
-                    pokemon.getSpecies().getEvolutions().forEach(evolution -> LOGGER.info(evolution.getResult().getSpecies()));
+                    LOGGER.info(EvoQuest.getEvoStage(pokemon.getSpecies())+"");
                 }
             }
 

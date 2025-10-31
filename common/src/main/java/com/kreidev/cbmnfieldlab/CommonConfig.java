@@ -13,7 +13,10 @@ public class CommonConfig {
     public static boolean enableSizeQuest = true;
     public static boolean enableBaseStatQuest = true;
     public static boolean enableWeightQuest = true;
-    // TODO: other missing shit
+    public static boolean enableDexNameQuest = true;
+    public static boolean enableRegionQuest = true;
+    public static boolean enableBiomeQuest = true;
+    public static boolean enableEvoQuest = true;
 
     public static float sizeQuestLowerBound = 0.5F;
     public static float sizeQuestUpperBound = 2F;

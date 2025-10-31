@@ -83,7 +83,6 @@ public abstract class Quest {
      return this.reward;
     }
 
-    // TODO: missing evo quest
     // TODO: maybe replace with dynamic registration or feature flags whatever that may be
     // NOTE: The ServerLevel is really just to get the timestamp
     public static Quest getRandomQuest(ServerLevel level) {
@@ -96,9 +95,10 @@ public abstract class Quest {
         if (CommonConfig.enableSizeQuest)       enabledQuestTypes.add(QuestTypes.SIZE);
         if (CommonConfig.enableBaseStatQuest)   enabledQuestTypes.add(QuestTypes.BASE_STAT);
         if (CommonConfig.enableWeightQuest)     enabledQuestTypes.add(QuestTypes.WEIGHT);
-//        if (CommonConfig.enableDexNameQuest)    enabledQuestTypes.add(QuestTypes.DEX_NAME);
-//        if (CommonConfig.enableRegionQuest)    enabledQuestTypes.add(QuestTypes.REGION);
-//        if (CommonConfig.enableBiomeQuest)    enabledQuestTypes.add(QuestTypes.BIOME);
+        if (CommonConfig.enableDexNameQuest)    enabledQuestTypes.add(QuestTypes.DEX_NAME);
+        if (CommonConfig.enableRegionQuest)     enabledQuestTypes.add(QuestTypes.REGION);
+        if (CommonConfig.enableBiomeQuest)      enabledQuestTypes.add(QuestTypes.BIOME);
+        if (CommonConfig.enableEvoQuest)        enabledQuestTypes.add(QuestTypes.EVO_STAGE);
 
         if (enabledQuestTypes.isEmpty()) return new TypeQuest(level);
         int randIndex = level.getRandom().nextInt(enabledQuestTypes.size());
