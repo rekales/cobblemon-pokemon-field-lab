@@ -10,6 +10,28 @@ public class CommonConfigFabric extends MidnightConfig {
     @Entry(category = COMMON, min = 1, max = 86400)
     public static int REROLL_TIME_SECONDS = 300;
 
+    // Quest reward bounds
+    @Entry(category = COMMON, min = 0.01, max = 1000)
+    public static float INDIV_REWARD_VALUE_SCALE = 2.0F;
+
+    @Entry(category = COMMON, min = 0.01, max = 1000)
+    public static float MINOR_REWARD_VALUE = 4.0F;
+
+    @Entry(category = COMMON, min = 1, max = 100)
+    public static int MINOR_REWARD_MIN_ITEMS = 1;
+
+    @Entry(category = COMMON, min = 1, max = 100)
+    public static int MINOR_REWARD_MAX_ITEMS = 2;
+
+    @Entry(category = COMMON, min = 0.01, max = 1000)
+    public static float MAJOR_REWARD_VALUE = 8.0F;
+
+    @Entry(category = COMMON, min = 1, max = 100)
+    public static int MAJOR_REWARD_MIN_ITEMS = 3;
+
+    @Entry(category = COMMON, min = 1, max = 100)
+    public static int MAJOR_REWARD_MAX_ITEMS = 6;
+
     // Quest type toggles
     @Entry(category = COMMON)
     public static boolean ENABLE_ABILITY_QUEST = true;
@@ -85,6 +107,14 @@ public class CommonConfigFabric extends MidnightConfig {
         MidnightConfig.init(PokemonFieldLab.MOD_ID, CommonConfigFabric.class);
 
         CommonConfig.rerollTimeSeconds = REROLL_TIME_SECONDS;
+
+        CommonConfig.indivRewardValueScale = INDIV_REWARD_VALUE_SCALE;
+        CommonConfig.minorRewardValue = MINOR_REWARD_VALUE;
+        CommonConfig.minorRewardMinItems = MINOR_REWARD_MIN_ITEMS;
+        CommonConfig.minorRewardMaxItems = MINOR_REWARD_MAX_ITEMS;
+        CommonConfig.majorRewardValue = MAJOR_REWARD_VALUE;
+        CommonConfig.majorRewardMinItems = MAJOR_REWARD_MIN_ITEMS;
+        CommonConfig.majorRewardMaxItems = MAJOR_REWARD_MAX_ITEMS;
 
         CommonConfig.enableAbilityQuest = ENABLE_ABILITY_QUEST;
         CommonConfig.enableSingleTypeQuest = ENABLE_SINGLE_TYPE_QUEST;

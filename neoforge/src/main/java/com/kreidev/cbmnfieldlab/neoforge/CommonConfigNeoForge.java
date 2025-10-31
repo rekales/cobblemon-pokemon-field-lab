@@ -12,6 +12,35 @@ public class CommonConfigNeoForge {
             .comment("Time before a quest reroll becomes available (seconds)")
             .defineInRange("rerollTimeSeconds", 300, 1, 86400);
 
+    // Quest reward bounds
+    private static final ModConfigSpec.DoubleValue INDIV_REWARD_VALUE_SCALE = BUILDER
+            .comment("Scaling multiplier for individual quest reward value")
+            .defineInRange("indivRewardValueScale", 2.0D, 0.01D, 1000.0D);
+
+    private static final ModConfigSpec.DoubleValue MINOR_REWARD_VALUE = BUILDER
+            .comment("Base reward value for minor quests")
+            .defineInRange("minorRewardValue", 4.0D, 0.01D, 1000.0D);
+
+    private static final ModConfigSpec.IntValue MINOR_REWARD_MIN_ITEMS = BUILDER
+            .comment("Minimum number of items given for minor quest rewards")
+            .defineInRange("minorRewardMinItems", 1, 1, 100);
+
+    private static final ModConfigSpec.IntValue MINOR_REWARD_MAX_ITEMS = BUILDER
+            .comment("Maximum number of items given for minor quest rewards")
+            .defineInRange("minorRewardMaxItems", 2, 1, 100);
+
+    private static final ModConfigSpec.DoubleValue MAJOR_REWARD_VALUE = BUILDER
+            .comment("Base reward value for major quests")
+            .defineInRange("majorRewardValue", 8.0D, 0.01D, 1000.0D);
+
+    private static final ModConfigSpec.IntValue MAJOR_REWARD_MIN_ITEMS = BUILDER
+            .comment("Minimum number of items given for major quest rewards")
+            .defineInRange("majorRewardMinItems", 3, 1, 100);
+
+    private static final ModConfigSpec.IntValue MAJOR_REWARD_MAX_ITEMS = BUILDER
+            .comment("Maximum number of items given for major quest rewards")
+            .defineInRange("majorRewardMaxItems", 6, 1, 100);
+
     // Quest type toggles
     private static final ModConfigSpec.BooleanValue ENABLE_ABILITY_QUEST = BUILDER
             .comment("Enable ability quests")
@@ -110,6 +139,14 @@ public class CommonConfigNeoForge {
     private static void loadValues() {
         CommonConfig.rerollTimeSeconds = REROLL_TIME_SECONDS.get();
 
+        CommonConfig.indivRewardValueScale = INDIV_REWARD_VALUE_SCALE.get().floatValue();
+        CommonConfig.minorRewardValue = MINOR_REWARD_VALUE.get().floatValue();
+        CommonConfig.minorRewardMinItems = MINOR_REWARD_MIN_ITEMS.get();
+        CommonConfig.minorRewardMaxItems = MINOR_REWARD_MAX_ITEMS.get();
+        CommonConfig.majorRewardValue = MAJOR_REWARD_VALUE.get().floatValue();
+        CommonConfig.majorRewardMinItems = MAJOR_REWARD_MIN_ITEMS.get();
+        CommonConfig.majorRewardMaxItems = MAJOR_REWARD_MAX_ITEMS.get();
+
         CommonConfig.enableAbilityQuest = ENABLE_ABILITY_QUEST.get();
         CommonConfig.enableSingleTypeQuest = ENABLE_SINGLE_TYPE_QUEST.get();
         CommonConfig.enableDoubleTypeQuest = ENABLE_DOUBLE_TYPE_QUEST.get();
@@ -122,7 +159,6 @@ public class CommonConfigNeoForge {
         CommonConfig.enableRegionQuest = ENABLE_REGION_QUEST.get();
         CommonConfig.enableBiomeQuest = ENABLE_BIOME_QUEST.get();
         CommonConfig.enableEvoQuest = ENABLE_EVO_STAGE_QUEST.get();
-
 
         CommonConfig.sizeQuestLowerBound = SIZE_QUEST_LOWER_BOUND.get().floatValue();
         CommonConfig.sizeQuestUpperBound = SIZE_QUEST_UPPER_BOUND.get().floatValue();
