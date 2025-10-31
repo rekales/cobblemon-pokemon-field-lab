@@ -112,13 +112,19 @@ public class QuestManager extends SavedData {
             }
         }
 
-//        if ((container.getFinishedQuests()%9)+completedQuests >= 9) {  // TODO: Major reward check
-//
-//        }
+        if ((container.getFinishedQuests()%9)+completedQuests >= 9) {  // Major reward check
+            for (ItemStack stack : container.getNextMajorRewards()) {
+                player.getInventory().placeItemBackInInventory(stack);
+            }
+            container.replaceMajorRewards(RewardManager.getMajorRewards(player.level().getRandom()));
+        }
 
-//        if ((container.getFinishedQuests()%3)+completedQuests >= 3) {  // TODO: Minor reward check
-//
-//        }
+        if ((container.getFinishedQuests()%3)+completedQuests >= 3) {  // Minor reward check
+            for (ItemStack stack : container.getNextMinorRewards()) {
+                player.getInventory().placeItemBackInInventory(stack);
+            }
+            container.replaceMinorRewards(RewardManager.getMinorRewards(player.level().getRandom()));
+        }
 
         boolean submitted = false;
         if (completedQuests > 0) {

@@ -8,6 +8,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,10 +21,12 @@ public class PlayerQuestContainer {
 
     public static final MapCodec<PlayerQuestContainer> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.INT.fieldOf("finishedQuest").forGetter(PlayerQuestContainer::getFinishedQuests),
-            Quest.CODEC.fieldOf("quest1").forGetter(container->container.getQuest(0)),
-            Quest.CODEC.fieldOf("quest2").forGetter(container->container.getQuest(1)),
-            Quest.CODEC.fieldOf("quest3").forGetter(container->container.getQuest(2))
-    ).apply(instance, PlayerQuestContainer::new));
+            Quest.CODEC.fieldOf("quest1").forGetter(PlayerQuestContainer::firstQuest),
+            Quest.CODEC.fieldOf("quest2").forGetter(PlayerQuestContainer::secondQuest),
+            Quest.CODEC.fieldOf("quest3").forGetter(PlayerQuestContainer::thirdQuest),
+            ItemStack.CODEC.listOf().fieldOf("next_minor_list").forGetter(PlayerQuestContainer::getNextMinorRewards),
+            ItemStack.CODEC.listOf().fieldOf("next_major_list").forGetter(PlayerQuestContainer::getNextMajorRewards)
+            ).apply(instance, PlayerQuestContainer::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, PlayerQuestContainer> STREAM_CODEC =
             FieldLabNetworkManager.fromCodec(CODEC.codec());
@@ -31,13 +34,18 @@ public class PlayerQuestContainer {
     @NotNull public Quest quest1;
     @NotNull public Quest quest2;
     @NotNull public Quest quest3;
+    @NotNull public List<ItemStack> nextMinorRewards;
+    @NotNull public List<ItemStack> nextMajorRewards;
     public int finishedQuests;
 
-    public PlayerQuestContainer(int finishedQuests, @NotNull Quest quest1, @NotNull Quest quest2, @NotNull Quest quest3) {
+    public PlayerQuestContainer(int finishedQuests, @NotNull Quest quest1, @NotNull Quest quest2, @NotNull Quest quest3,
+                                @NotNull List<ItemStack> nextMinorRewards, @NotNull List<ItemStack> nextMajorRewards) {
         this.finishedQuests = finishedQuests;
         this.quest1 = quest1;
         this.quest2 = quest2;
         this.quest3 = quest3;
+        this.nextMinorRewards = nextMinorRewards;
+        this.nextMajorRewards = nextMajorRewards;
     }
 
     public PlayerQuestContainer(ServerLevel level) {
@@ -45,6 +53,8 @@ public class PlayerQuestContainer {
         this.quest1 = Quest.getRandomQuest(level);
         this.quest2 = Quest.getRandomQuest(level);
         this.quest3 = Quest.getRandomQuest(level);
+        this.nextMinorRewards = RewardManager.getMinorRewards(level.getRandom());
+        this.nextMajorRewards = RewardManager.getMajorRewards(level.getRandom());
     }
 
     public void incrementFinishedQuests() {
@@ -78,6 +88,14 @@ public class PlayerQuestContainer {
 
     public @NotNull Quest thirdQuest() {
         return quest3;
+    }
+
+    public @NotNull List<ItemStack> getNextMinorRewards() {
+        return nextMinorRewards;
+    }
+
+    public @NotNull List<ItemStack> getNextMajorRewards() {
+        return nextMajorRewards;
     }
 
     // returns -1 if not found
@@ -118,6 +136,14 @@ public class PlayerQuestContainer {
         return quest1.isEligible(pokemon)
                 || quest2.isEligible(pokemon)
                 || quest3.isEligible(pokemon);
+    }
+
+    public void replaceMinorRewards(List<ItemStack> rewards) {
+        this.nextMinorRewards = rewards;
+    }
+
+    public void replaceMajorRewards(List<ItemStack> rewards) {
+        this.nextMajorRewards = rewards;
     }
 
     @Override
