@@ -5,6 +5,16 @@ public class CommonConfig {
 
     public static int rerollTimeSeconds = 300;
 
+    public static float indivRewardValueScale = 2.0F;
+
+    public static float minorRewardValue = 4.0F;
+    public static int minorRewardMinItems = 1;
+    public static int minorRewardMaxItems = 2;
+
+    public static float majorRewardValue = 8.0F;
+    public static int majorRewardMinItems = 3;
+    public static int majorRewardMaxItems = 6;
+
     public static boolean enableAbilityQuest = true;
     public static boolean enableSingleTypeQuest = true;
     public static boolean enableDoubleTypeQuest = true;

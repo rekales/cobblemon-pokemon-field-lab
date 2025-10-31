@@ -3,6 +3,7 @@ package com.kreidev.cbmnfieldlab.data;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.kreidev.cbmnfieldlab.quest.QuestRewardEntry;
+import com.kreidev.cbmnfieldlab.quest.RewardManager;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import dev.architectury.injectables.annotations.ExpectPlatform;
@@ -32,17 +33,24 @@ public class DataLoader extends SimpleJsonResourceReloadListener {
     protected void apply(Map<ResourceLocation, JsonElement> object, ResourceManager resourceManager, ProfilerFiller profilerFiller) {
         DataManager.clear();
 
-        // TODO: check file names "individual_quest_reward", "minor_quest_reward", "major_quest_reward"
-
         object.forEach((id, json) -> {
             try {
                 if (id.equals(resLoc("individual_quest_rewards"))) {
                     List<QuestRewardEntry> rewards = LIST_CODEC.parse(JsonOps.INSTANCE, json)
                             .getOrThrow();
-                    DataManager.addQuestRewards(rewards);
+                    RewardManager.addIndivRewards(rewards);
                     LOGGER.info("Loaded individual quest rewards");
+                } else if (id.equals(resLoc("minor_quest_rewards"))) {
+                    List<QuestRewardEntry> rewards = LIST_CODEC.parse(JsonOps.INSTANCE, json)
+                            .getOrThrow();
+                    RewardManager.addMinorRewards(rewards);
+                    LOGGER.info("Loaded minor quest rewards");
+                } else if (id.equals(resLoc("major_quest_rewards"))) {
+                    List<QuestRewardEntry> rewards = LIST_CODEC.parse(JsonOps.INSTANCE, json)
+                            .getOrThrow();
+                    RewardManager.addMajorRewards(rewards);
+                    LOGGER.info("Loaded major quest rewards");
                 }
-
             } catch (Exception e) {
                 LOGGER.error("Failed to load quest rewards: " + id);
                 throw new RuntimeException("Failed to load quest rewards: " + id, e);

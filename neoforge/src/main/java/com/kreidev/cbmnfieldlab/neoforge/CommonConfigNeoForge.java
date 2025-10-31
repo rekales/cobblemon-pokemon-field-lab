@@ -138,12 +138,13 @@ public class CommonConfigNeoForge {
         CommonConfig.baseStatQuestMaxGap = BASE_STAT_QUEST_MAX_GAP.get();
     }
 
+    @SuppressWarnings("unused")
     static void onLoad(final ModConfigEvent.Loading event) {
         loadValues();
     }
 
+    @SuppressWarnings("unused")
     static void onReload(final ModConfigEvent.Loading event) {
         loadValues();
     }
-
 }

@@ -1,12 +1,10 @@
 package com.kreidev.cbmnfieldlab;
 
-import com.cobblemon.mod.common.pokemon.Pokemon;
-import com.cobblemon.mod.common.util.PlayerExtensionsKt;
 import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
 import com.kreidev.cbmnfieldlab.network.FieldLabNetworkManager;
 import com.kreidev.cbmnfieldlab.quest.QuestManager;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
-import com.kreidev.cbmnfieldlab.quest.type.EvoQuest;
+import com.kreidev.cbmnfieldlab.quest.RewardManager;
 import com.mojang.logging.LogUtils;
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.LifecycleEvent;
@@ -62,9 +60,10 @@ public class PokemonFieldLab {
 
         PlayerEvent.DROP_ITEM.register((player, itemEntity)->{
             if (player instanceof ServerPlayer serverPlayer) {
-                Pokemon pokemon = PlayerExtensionsKt.party(serverPlayer).get(0);
-                if (pokemon != null) {
-                    LOGGER.info(EvoQuest.getEvoStage(pokemon.getSpecies())+"");
+                if (player.level() instanceof ServerLevel serverLevel) {
+                    LOGGER.info(RewardManager.getIndivReward(serverLevel.getRandom(), 1F)+"");
+                    LOGGER.info(RewardManager.getMinorRewards(serverLevel.getRandom())+"");
+                    LOGGER.info(RewardManager.getMajorRewards(serverLevel.getRandom())+"");
                 }
             }
 
