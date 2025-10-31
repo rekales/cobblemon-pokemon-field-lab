@@ -1,6 +1,6 @@
 package com.kreidev.cbmnfieldlab.neoforge;
 
-import com.kreidev.cbmnfieldlab.data.DataLoader;
+import com.kreidev.cbmnfieldlab.data.RewardDataLoader;
 import com.kreidev.cbmnfieldlab.gui.FieldLabScreen;
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import net.neoforged.bus.api.IEventBus;
@@ -30,6 +30,6 @@ public class PokemonFieldLabNeoForge {
     }
 
     public static void onAddReloadListeners(AddReloadListenerEvent event) {
-        event.addListener(DataLoader.getInstance());
+        event.addListener(RewardDataLoader.getInstance());
     }
 }

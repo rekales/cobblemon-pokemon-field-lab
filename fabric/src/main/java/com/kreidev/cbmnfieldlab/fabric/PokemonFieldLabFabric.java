@@ -1,8 +1,8 @@
 package com.kreidev.cbmnfieldlab.fabric;
 
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
-import com.kreidev.cbmnfieldlab.data.DataLoader;
-import com.kreidev.cbmnfieldlab.data.fabric.DataLoaderFabric;
+import com.kreidev.cbmnfieldlab.data.RewardDataLoader;
+import com.kreidev.cbmnfieldlab.data.fabric.RewardDataLoaderFabric;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.server.packs.PackType;
@@ -19,6 +19,6 @@ public class PokemonFieldLabFabric implements ModInitializer {
 
     private static void loadData() {
         ResourceManagerHelper.get(PackType.SERVER_DATA)
-                .registerReloadListener((DataLoaderFabric) DataLoader.getInstance());
+                .registerReloadListener((RewardDataLoaderFabric) RewardDataLoader.getInstance());
     }
 }

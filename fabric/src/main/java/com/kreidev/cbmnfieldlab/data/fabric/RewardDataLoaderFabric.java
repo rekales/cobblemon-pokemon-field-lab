@@ -1,15 +1,15 @@
 package com.kreidev.cbmnfieldlab.data.fabric;
 
-import com.kreidev.cbmnfieldlab.data.DataLoader;
+import com.kreidev.cbmnfieldlab.data.RewardDataLoader;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 
 import net.minecraft.resources.ResourceLocation;
 
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
 
-public class DataLoaderFabric extends DataLoader implements IdentifiableResourceReloadListener {
+public class RewardDataLoaderFabric extends RewardDataLoader implements IdentifiableResourceReloadListener {
 
-    public static final DataLoaderFabric INSTANCE = new DataLoaderFabric();
+    public static final RewardDataLoaderFabric INSTANCE = new RewardDataLoaderFabric();
 
     @Override
     public ResourceLocation getFabricId() {

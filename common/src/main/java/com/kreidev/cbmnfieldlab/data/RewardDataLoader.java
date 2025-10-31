@@ -18,14 +18,14 @@ import java.util.Map;
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.LOGGER;
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.resLoc;
 
-public class DataLoader extends SimpleJsonResourceReloadListener {
+public class RewardDataLoader extends SimpleJsonResourceReloadListener {
 
     public static final Codec<List<QuestRewardEntry>> LIST_CODEC = QuestRewardEntry.CODEC.codec().listOf();
 
     private static final Gson GSON = new Gson();
-    public static final DataLoader INSTANCE = new DataLoader();
+    public static final RewardDataLoader INSTANCE = new RewardDataLoader();
 
-    public DataLoader() {
+    public RewardDataLoader() {
         super(GSON, "quest_reward");
     }
 
@@ -59,7 +59,7 @@ public class DataLoader extends SimpleJsonResourceReloadListener {
     }
 
     @ExpectPlatform
-    public static DataLoader getInstance() {
+    public static RewardDataLoader getInstance() {
         throw new AssertionError();
     }
 }
