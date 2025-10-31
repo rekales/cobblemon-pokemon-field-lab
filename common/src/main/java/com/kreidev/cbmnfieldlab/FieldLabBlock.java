@@ -49,7 +49,6 @@ public class FieldLabBlock extends BaseEntityBlock {
 
     public static final MapCodec<FieldLabBlock> CODEC = simpleCodec(FieldLabBlock::new);
 
-
     public static final VoxelShape NORTH_AABB_TOP = Shapes.or(
             Block.box(2, 0, 10, 14, 1, 13),
             Block.box(2, 2, 9, 14, 13, 9),
@@ -137,11 +136,6 @@ public class FieldLabBlock extends BaseEntityBlock {
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
     }
-
-    public FieldLabBlock() {
-        this(Properties.of());
-    }
-
 
     @Override
     protected @NotNull InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos blockPos, Player player, BlockHitResult blockHitResult) {

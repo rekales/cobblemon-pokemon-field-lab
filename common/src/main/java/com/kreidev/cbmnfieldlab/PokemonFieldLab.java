@@ -4,7 +4,6 @@ import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
 import com.kreidev.cbmnfieldlab.network.FieldLabNetworkManager;
 import com.kreidev.cbmnfieldlab.quest.QuestManager;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
-import com.kreidev.cbmnfieldlab.quest.RewardManager;
 import com.mojang.logging.LogUtils;
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.LifecycleEvent;
@@ -16,14 +15,18 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.saveddata.SavedData;
 import org.slf4j.Logger;
 
@@ -40,7 +43,16 @@ public class PokemonFieldLab {
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
     private static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(MOD_ID, Registries.MENU);
 
-    public static final RegistrySupplier<FieldLabBlock> FIELD_LAB_BLOCK = BLOCKS.register(FIELD_LAB_NAME, FieldLabBlock::new);
+    public static final RegistrySupplier<FieldLabBlock> FIELD_LAB_BLOCK = BLOCKS.register(FIELD_LAB_NAME,
+            () -> new FieldLabBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .sound(SoundType.METAL)
+                    .pushReaction(PushReaction.BLOCK)
+                    .strength(2F)
+                    .noOcclusion()
+                    .lightLevel(state -> (state.getValue(FieldLabBlock.OPEN) && state.getValue(FieldLabBlock.HALF) == DoubleBlockHalf.UPPER) ? 10 : 0)
+            )
+    );
     public static final RegistrySupplier<BlockEntityType<FieldLabBlockEntity>> FIELD_LAB_BLOCK_ENTITY = BLOCK_ENTITIES
             .register(FIELD_LAB_NAME, ()-> BlockEntityType.Builder.of(FieldLabBlockEntity::new, FIELD_LAB_BLOCK.get()).build(null));
     public static final RegistrySupplier<BlockItem> FIELD_LAB_BLOCK_ITEM = ITEMS
@@ -59,13 +71,6 @@ public class PokemonFieldLab {
         LifecycleEvent.SERVER_STARTING.register(PokemonFieldLab::onServerStarting);
 
         PlayerEvent.DROP_ITEM.register((player, itemEntity)->{
-            if (player instanceof ServerPlayer serverPlayer) {
-                if (player.level() instanceof ServerLevel serverLevel) {
-                    LOGGER.info(RewardManager.getIndivReward(serverLevel.getRandom(), 1F)+"");
-                    LOGGER.info(RewardManager.getMinorRewards(serverLevel.getRandom())+"");
-                    LOGGER.info(RewardManager.getMajorRewards(serverLevel.getRandom())+"");
-                }
-            }
 
             return EventResult.pass();
         });
