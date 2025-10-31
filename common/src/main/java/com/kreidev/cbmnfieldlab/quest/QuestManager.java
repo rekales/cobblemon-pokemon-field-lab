@@ -3,7 +3,6 @@ package com.kreidev.cbmnfieldlab.quest;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.util.PlayerExtensionsKt;
 import com.kreidev.cbmnfieldlab.CommonConfig;
-import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import com.kreidev.cbmnfieldlab.network.RefreshScreenPacket;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -23,7 +22,7 @@ import java.util.*;
 
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.LOGGER;
 
-// TODO: maybe let's separate the SavedData subclass to another class instead of using the QuestManager?
+// NOTE: maybe let's separate the SavedData subclass to another class instead of using the QuestManager?
 @SuppressWarnings("UnusedReturnValue")
 public class QuestManager extends SavedData {
 
@@ -104,6 +103,7 @@ public class QuestManager extends SavedData {
         PlayerQuestContainer container = getQuestContainer(player);
 
         List<ItemStack> stacks = new ArrayList<>();
+        int preFinishedQuests = container.getFinishedQuests();
         int completedQuests = 0;
         List<Quest> quests = container.getQuests();
         for (int i=0; i<quests.size(); i++) {
@@ -115,7 +115,7 @@ public class QuestManager extends SavedData {
             }
         }
 
-        if ((container.getFinishedQuests()%9)+completedQuests >= 9) {  // Major reward check
+        if ((preFinishedQuests%3)+completedQuests >= 9) {  // Major reward check
             for (ItemStack stack : container.getNextMajorRewards()) {
                 player.getInventory().placeItemBackInInventory(stack);
                 LOGGER.info(stack+"");
@@ -123,7 +123,7 @@ public class QuestManager extends SavedData {
             container.replaceMajorRewards(RewardManager.getMajorRewards(player.level().getRandom()));
         }
 
-        if ((container.getFinishedQuests()%3)+completedQuests >= 3) {  // Minor reward check
+        if ((preFinishedQuests%3)+completedQuests >= 3) {  // Minor reward check
             for (ItemStack stack : container.getNextMinorRewards()) {
                 player.getInventory().placeItemBackInInventory(stack);
                 LOGGER.info(stack+"");
