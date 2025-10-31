@@ -25,14 +25,13 @@ public abstract class Quest {
     @NotNull public final ItemStack reward;
 
     public Quest(ServerLevel level) {
+        this(level, 1F);
+    }
+
+    public Quest(ServerLevel level, float difficulty) {
         this.type = this.getType();
         this.timeStamp = level.getGameTime();
-        // TODO: generate reward relative to getDifficulty()
-
-        List<QuestRewardEntry> rewardList = DataManager.getRewards();
-        QuestRewardEntry rewardEntry = rewardList.get(level.getRandom().nextInt(rewardList.size()));
-        int randAmount = level.getRandom().nextInt(rewardEntry.minCount(), rewardEntry.maxCount());
-        this.reward = new ItemStack(rewardEntry.item(), randAmount);
+        this.reward = RewardManager.getIndivReward(level.getRandom(), difficulty);
     }
 
     // NOTE: In case there's a need to override reward
@@ -65,7 +64,7 @@ public abstract class Quest {
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Quest quest)) return false;
-        // good enough for practical purposes
+        // NOTE: good enough for practical purposes, only a problem when 2 quest of the same type was generated at start
         return this.type == quest.type && this.timeStamp == quest.timeStamp;
     }
 

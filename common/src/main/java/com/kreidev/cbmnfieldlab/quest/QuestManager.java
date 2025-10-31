@@ -3,6 +3,7 @@ package com.kreidev.cbmnfieldlab.quest;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.util.PlayerExtensionsKt;
 import com.kreidev.cbmnfieldlab.CommonConfig;
+import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import com.kreidev.cbmnfieldlab.network.RefreshScreenPacket;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -42,8 +43,10 @@ public class QuestManager extends SavedData {
 
         if (tag.contains("PlayerCobblemonQuests")) {
             DataResult<Map<UUID, PlayerQuestContainer>> result = CODEC.parse(NbtOps.INSTANCE, tag.get("PlayerCobblemonQuests"));
-            this.playerQuests = result.resultOrPartial(error->LOGGER.error("Quest data was not loaded \n"+error))
-                    .orElse(new HashMap<>());
+            this.playerQuests = new HashMap<>(
+                    result.resultOrPartial(error -> LOGGER.error("Quest data was not loaded \n" + error))
+                            .orElse(Collections.emptyMap())
+            );
         } else {
             this.playerQuests = new HashMap<>();
         }
@@ -115,6 +118,7 @@ public class QuestManager extends SavedData {
         if ((container.getFinishedQuests()%9)+completedQuests >= 9) {  // Major reward check
             for (ItemStack stack : container.getNextMajorRewards()) {
                 player.getInventory().placeItemBackInInventory(stack);
+                LOGGER.info(stack+"");
             }
             container.replaceMajorRewards(RewardManager.getMajorRewards(player.level().getRandom()));
         }
@@ -122,6 +126,7 @@ public class QuestManager extends SavedData {
         if ((container.getFinishedQuests()%3)+completedQuests >= 3) {  // Minor reward check
             for (ItemStack stack : container.getNextMinorRewards()) {
                 player.getInventory().placeItemBackInInventory(stack);
+                LOGGER.info(stack+"");
             }
             container.replaceMinorRewards(RewardManager.getMinorRewards(player.level().getRandom()));
         }
