@@ -36,13 +36,6 @@ public class FieldLabNetworkManager {
                 SubmitPacket.STREAM_CODEC,
                 FieldLabNetworkManager::submitQuest
         );
-
-        NetworkManager.registerReceiver(
-                NetworkManager.Side.S2C,
-                RefreshScreenPacket.TYPE,
-                RefreshScreenPacket.STREAM_CODEC,
-                FieldLabNetworkManager::refreshScreen
-        );
     }
 
     public static void submitQuest(SubmitPacket packet, NetworkManager.PacketContext context) {
@@ -56,13 +49,6 @@ public class FieldLabNetworkManager {
         if (!(context.getPlayer() instanceof ServerPlayer player)) return;
         int index = packet.index();
         QuestManager.rerollQuest(player, index);
-    }
-
-    public static void refreshScreen(RefreshScreenPacket packet, NetworkManager.PacketContext context) {
-        Minecraft mc = Minecraft.getInstance();
-        if (mc.screen instanceof FieldLabScreen screen) {
-            screen.updateQuests(packet.container());
-        }
     }
 
     public static <B extends FriendlyByteBuf, T> StreamCodec<B, T> fromCodec(Codec<T> codec) {

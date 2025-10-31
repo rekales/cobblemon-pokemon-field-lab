@@ -1,5 +1,6 @@
 package com.kreidev.cbmnfieldlab.neoforge;
 
+import com.kreidev.cbmnfieldlab.PokemonFieldLabClient;
 import com.kreidev.cbmnfieldlab.data.ConditionDataLoader;
 import com.kreidev.cbmnfieldlab.data.RewardDataLoader;
 import com.kreidev.cbmnfieldlab.gui.FieldLabScreen;
@@ -20,6 +21,7 @@ public class PokemonFieldLabNeoForge {
     public PokemonFieldLabNeoForge(IEventBus modEventBus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.COMMON, CommonConfigNeoForge.SPEC);
         PokemonFieldLab.init();
+        PokemonFieldLabClient.initClient();
         NeoForge.EVENT_BUS.addListener(PokemonFieldLabNeoForge::onAddReloadListeners);
         modEventBus.addListener(PokemonFieldLabNeoForge::onRegisterMenuScreens);
         modEventBus.addListener(CommonConfigNeoForge::onLoad);
