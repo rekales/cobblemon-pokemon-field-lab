@@ -28,16 +28,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -126,12 +122,14 @@ public class FieldLabBlock extends BaseEntityBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
+    public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 
     public FieldLabBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(HALF, DoubleBlockHalf.LOWER)
+                .setValue(OPEN, false)
         );
     }
 
@@ -176,6 +174,8 @@ public class FieldLabBlock extends BaseEntityBlock {
                     return new FieldLabMenu(i, inventory, blockPos, (ServerPlayer) player);
                 }
             });
+            level.setBlockAndUpdate(blockPos, blockState.setValue(FieldLabBlock.OPEN, true));
+            if (level.getBlockEntity(blockPos) instanceof FieldLabBlockEntity be) be.setUser(serverPlayer.getUUID());
         }
 
         return InteractionResult.SUCCESS;
@@ -253,6 +253,7 @@ public class FieldLabBlock extends BaseEntityBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
         builder.add(HALF);
+        builder.add(OPEN);
     }
 
     @Override
@@ -263,7 +264,8 @@ public class FieldLabBlock extends BaseEntityBlock {
         if (blockPos.getY() < level.getMaxBuildHeight()-1 && level.getBlockState(blockPos.above()).canBeReplaced(blockPlaceContext)) {
             return this.defaultBlockState()
                     .setValue(FACING, blockPlaceContext.getHorizontalDirection())
-                    .setValue(HALF, DoubleBlockHalf.LOWER);
+                    .setValue(HALF, DoubleBlockHalf.LOWER)
+                    .setValue(OPEN, false);
         } else {
             return null;
         }

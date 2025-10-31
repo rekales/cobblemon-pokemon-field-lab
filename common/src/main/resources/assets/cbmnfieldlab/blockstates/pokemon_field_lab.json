@@ -1,33 +1,63 @@
 {
   "variants": {
-    "facing=south,half=lower": {
+    "facing=south,half=lower,open=false": {
       "model": "cbmnfieldlab:block/pokemon_field_lab_bottom"
     },
-    "facing=west,half=lower": {
+    "facing=west,half=lower,open=false": {
       "model": "cbmnfieldlab:block/pokemon_field_lab_bottom",
       "y": 90
     },
-    "facing=north,half=lower": {
+    "facing=north,half=lower,open=false": {
       "model": "cbmnfieldlab:block/pokemon_field_lab_bottom",
       "y": 180
     },
-    "facing=east,half=lower": {
+    "facing=east,half=lower,open=false": {
       "model": "cbmnfieldlab:block/pokemon_field_lab_bottom",
       "y": 270
     },
-    "facing=south,half=upper": {
+    "facing=south,half=upper,open=false": {
       "model": "cbmnfieldlab:block/pokemon_field_lab_top"
     },
-    "facing=west,half=upper": {
+    "facing=west,half=upper,open=false": {
       "model": "cbmnfieldlab:block/pokemon_field_lab_top",
       "y": 90
     },
-    "facing=north,half=upper": {
+    "facing=north,half=upper,open=false": {
       "model": "cbmnfieldlab:block/pokemon_field_lab_top",
       "y": 180
     },
-    "facing=east,half=upper": {
+    "facing=east,half=upper,open=false": {
       "model": "cbmnfieldlab:block/pokemon_field_lab_top",
+      "y": 270
+    },
+    "facing=south,half=lower,open=true": {
+      "model": "cbmnfieldlab:block/pokemon_field_lab_bottom"
+    },
+    "facing=west,half=lower,open=true": {
+      "model": "cbmnfieldlab:block/pokemon_field_lab_bottom",
+      "y": 90
+    },
+    "facing=north,half=lower,open=true": {
+      "model": "cbmnfieldlab:block/pokemon_field_lab_bottom",
+      "y": 180
+    },
+    "facing=east,half=lower,open=true": {
+      "model": "cbmnfieldlab:block/pokemon_field_lab_bottom",
+      "y": 270
+    },
+    "facing=south,half=upper,open=true": {
+      "model": "cbmnfieldlab:block/pokemon_field_lab_top_on"
+    },
+    "facing=west,half=upper,open=true": {
+      "model": "cbmnfieldlab:block/pokemon_field_lab_top_on",
+      "y": 90
+    },
+    "facing=north,half=upper,open=true": {
+      "model": "cbmnfieldlab:block/pokemon_field_lab_top_on",
+      "y": 180
+    },
+    "facing=east,half=upper,open=true": {
+      "model": "cbmnfieldlab:block/pokemon_field_lab_top_on",
       "y": 270
     }
   }
