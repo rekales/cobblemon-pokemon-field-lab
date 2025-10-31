@@ -35,6 +35,18 @@ public class CommonConfigFabric extends MidnightConfig {
     @Entry(category = COMMON)
     public static boolean ENABLE_WEIGHT_QUEST = true;
 
+    @Entry(category = COMMON)
+    public static boolean ENABLE_DEX_NAME_QUEST = true;
+
+    @Entry(category = COMMON)
+    public static boolean ENABLE_REGION_QUEST = true;
+
+    @Entry(category = COMMON)
+    public static boolean ENABLE_BIOME_QUEST = true;
+
+    @Entry(category = COMMON)
+    public static boolean ENABLE_EVO_STAGE_QUEST = true;
+
     // Size quest bounds
     @Entry(category = COMMON, min = 0, max = 100)
     public static float SIZE_QUEST_LOWER_BOUND = 0.5F;
@@ -72,28 +84,32 @@ public class CommonConfigFabric extends MidnightConfig {
     static void loadConfigs() {
         MidnightConfig.init(PokemonFieldLab.MOD_ID, CommonConfigFabric.class);
 
-        CommonConfig.rerollTimeSeconds = CommonConfigFabric.REROLL_TIME_SECONDS;
+        CommonConfig.rerollTimeSeconds = REROLL_TIME_SECONDS;
 
-        CommonConfig.enableAbilityQuest = CommonConfigFabric.ENABLE_ABILITY_QUEST;
-        CommonConfig.enableSingleTypeQuest = CommonConfigFabric.ENABLE_SINGLE_TYPE_QUEST;
-        CommonConfig.enableDoubleTypeQuest = CommonConfigFabric.ENABLE_DOUBLE_TYPE_QUEST;
-        CommonConfig.enableNatureQuest = CommonConfigFabric.ENABLE_NATURE_QUEST;
-        CommonConfig.enableMoveQuest = CommonConfigFabric.ENABLE_MOVE_QUEST;
-        CommonConfig.enableSizeQuest = CommonConfigFabric.ENABLE_SIZE_QUEST;
-        CommonConfig.enableBaseStatQuest = CommonConfigFabric.ENABLE_BASE_STAT_QUEST;
-        CommonConfig.enableWeightQuest = CommonConfigFabric.ENABLE_WEIGHT_QUEST;
+        CommonConfig.enableAbilityQuest = ENABLE_ABILITY_QUEST;
+        CommonConfig.enableSingleTypeQuest = ENABLE_SINGLE_TYPE_QUEST;
+        CommonConfig.enableDoubleTypeQuest = ENABLE_DOUBLE_TYPE_QUEST;
+        CommonConfig.enableNatureQuest = ENABLE_NATURE_QUEST;
+        CommonConfig.enableMoveQuest = ENABLE_MOVE_QUEST;
+        CommonConfig.enableSizeQuest = ENABLE_SIZE_QUEST;
+        CommonConfig.enableBaseStatQuest = ENABLE_BASE_STAT_QUEST;
+        CommonConfig.enableWeightQuest = ENABLE_WEIGHT_QUEST;
+        CommonConfig.enableDexNameQuest = ENABLE_DEX_NAME_QUEST;
+        CommonConfig.enableRegionQuest = ENABLE_REGION_QUEST;
+        CommonConfig.enableBiomeQuest = ENABLE_BIOME_QUEST;
+        CommonConfig.enableEvoQuest = ENABLE_EVO_STAGE_QUEST;
 
-        CommonConfig.sizeQuestLowerBound = CommonConfigFabric.SIZE_QUEST_LOWER_BOUND;
-        CommonConfig.sizeQuestUpperBound = CommonConfigFabric.SIZE_QUEST_UPPER_BOUND;
+        CommonConfig.sizeQuestLowerBound = SIZE_QUEST_LOWER_BOUND;
+        CommonConfig.sizeQuestUpperBound = SIZE_QUEST_UPPER_BOUND;
 
-        CommonConfig.weightQuestLowerBound = CommonConfigFabric.WEIGHT_QUEST_LOWER_BOUND;
-        CommonConfig.weightQuestUpperBound = CommonConfigFabric.WEIGHT_QUEST_UPPER_BOUND;
-        CommonConfig.weightQuestMinGap = CommonConfigFabric.WEIGHT_QUEST_MIN_GAP;
-        CommonConfig.weightQuestMaxGap = CommonConfigFabric.WEIGHT_QUEST_MAX_GAP;
+        CommonConfig.weightQuestLowerBound = WEIGHT_QUEST_LOWER_BOUND;
+        CommonConfig.weightQuestUpperBound = WEIGHT_QUEST_UPPER_BOUND;
+        CommonConfig.weightQuestMinGap = WEIGHT_QUEST_MIN_GAP;
+        CommonConfig.weightQuestMaxGap = WEIGHT_QUEST_MAX_GAP;
 
-        CommonConfig.baseStatQuestLowerBound = CommonConfigFabric.BASE_STAT_QUEST_LOWER_BOUND;
-        CommonConfig.baseStatQuestUpperBound = CommonConfigFabric.BASE_STAT_QUEST_UPPER_BOUND;
-        CommonConfig.baseStatQuestMinGap = CommonConfigFabric.BASE_STAT_QUEST_MIN_GAP;
-        CommonConfig.baseStatQuestMaxGap = CommonConfigFabric.BASE_STAT_QUEST_MAX_GAP;
+        CommonConfig.baseStatQuestLowerBound = BASE_STAT_QUEST_LOWER_BOUND;
+        CommonConfig.baseStatQuestUpperBound = BASE_STAT_QUEST_UPPER_BOUND;
+        CommonConfig.baseStatQuestMinGap = BASE_STAT_QUEST_MIN_GAP;
+        CommonConfig.baseStatQuestMaxGap = BASE_STAT_QUEST_MAX_GAP;
     }
 }

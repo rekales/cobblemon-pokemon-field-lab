@@ -45,6 +45,22 @@ public class CommonConfigNeoForge {
             .comment("Enable weight quests")
             .define("enableWeightQuest", true);
 
+    private static final ModConfigSpec.BooleanValue ENABLE_DEX_NAME_QUEST = BUILDER
+            .comment("Enable pokedex name quests")
+            .define("enableMoveQuest", true);
+
+    private static final ModConfigSpec.BooleanValue ENABLE_REGION_QUEST = BUILDER
+            .comment("Enable region quests")
+            .define("enableSizeQuest", true);
+
+    private static final ModConfigSpec.BooleanValue ENABLE_BIOME_QUEST = BUILDER
+            .comment("Enable biome spawn quests")
+            .define("enableBaseStatQuest", true);
+
+    private static final ModConfigSpec.BooleanValue ENABLE_EVO_STAGE_QUEST = BUILDER
+            .comment("Enable evolution stage quests")
+            .define("enableWeightQuest", true);
+
     // Size quest bounds
     private static final ModConfigSpec.DoubleValue SIZE_QUEST_LOWER_BOUND = BUILDER
             .comment("Minimum size factor for size quests")
@@ -102,6 +118,11 @@ public class CommonConfigNeoForge {
         CommonConfig.enableSizeQuest = ENABLE_SIZE_QUEST.get();
         CommonConfig.enableBaseStatQuest = ENABLE_BASE_STAT_QUEST.get();
         CommonConfig.enableWeightQuest = ENABLE_WEIGHT_QUEST.get();
+        CommonConfig.enableDexNameQuest = ENABLE_DEX_NAME_QUEST.get();
+        CommonConfig.enableRegionQuest = ENABLE_REGION_QUEST.get();
+        CommonConfig.enableBiomeQuest = ENABLE_BIOME_QUEST.get();
+        CommonConfig.enableEvoQuest = ENABLE_EVO_STAGE_QUEST.get();
+
 
         CommonConfig.sizeQuestLowerBound = SIZE_QUEST_LOWER_BOUND.get().floatValue();
         CommonConfig.sizeQuestUpperBound = SIZE_QUEST_UPPER_BOUND.get().floatValue();
