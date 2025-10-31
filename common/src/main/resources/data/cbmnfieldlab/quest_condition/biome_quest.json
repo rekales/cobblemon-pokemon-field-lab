@@ -1,0 +1,15 @@
+{
+  "minecraft:plains": 1.0,
+  "minecraft:forest": 1.2,
+  "minecraft:desert": 1.0,
+  "minecraft:jungle": 1.3,
+  "minecraft:savanna": 1.1,
+  "minecraft:taiga": 1.2,
+  "minecraft:snowy_tundra": 1.5,
+  "minecraft:mountains": 1.5,
+  "minecraft:swamp": 1.2,
+  "minecraft:mushroom_fields": 2.0,
+  "minecraft:beach": 1.0,
+  "minecraft:river": 1.0,
+  "minecraft:sparse_jungle": 2.0
+}

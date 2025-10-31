@@ -1,5 +1,6 @@
 package com.kreidev.cbmnfieldlab.neoforge;
 
+import com.kreidev.cbmnfieldlab.data.ConditionDataLoader;
 import com.kreidev.cbmnfieldlab.data.RewardDataLoader;
 import com.kreidev.cbmnfieldlab.gui.FieldLabScreen;
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
@@ -31,5 +32,6 @@ public class PokemonFieldLabNeoForge {
 
     public static void onAddReloadListeners(AddReloadListenerEvent event) {
         event.addListener(RewardDataLoader.getInstance());
+        event.addListener(ConditionDataLoader.getInstance());
     }
 }
