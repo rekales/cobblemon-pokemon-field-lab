@@ -360,6 +360,7 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
         if (questPanelWidget != null) {
             this.questPanelWidget.updateQuestContainer(container);
         }
+        this.setPreviewPokemon(null);
     }
 
     @SuppressWarnings("SameParameterValue")
