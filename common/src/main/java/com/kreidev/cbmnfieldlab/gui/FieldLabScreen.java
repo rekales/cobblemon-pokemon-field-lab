@@ -61,7 +61,7 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
     @SuppressWarnings("unused")  // I wish there's a way to elegantly not need this
     public FieldLabScreen(FieldLabMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, Component.empty());
-        this.party = CobblemonClient.INSTANCE.getStorage().getMyParty();
+        this.party = CobblemonClient.INSTANCE.getStorage().getParty();
     }
 
     @Override
@@ -171,7 +171,7 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
 
             RenderHelperKtExt.drawScaledText(
                     guiGraphics, CobblemonResources.INSTANCE.getDEFAULT_LARGE(),
-                    TextKt.bold(pokemon.getDisplayName()),
+                    TextKt.bold(pokemon.getDisplayName(false)),
                     x+12, y+11.5, true
             );
 
@@ -327,6 +327,7 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
                     2F,
                     325F,
                     -10.0,
+                    false,
                     false
             );
         } else {

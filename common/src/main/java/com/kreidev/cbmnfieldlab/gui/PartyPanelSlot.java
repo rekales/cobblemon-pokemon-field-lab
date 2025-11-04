@@ -84,7 +84,7 @@ public class PartyPanelSlot extends Button implements CobblemonRenderable {
                 partialTicks,
                 4.5F,
                 true, true,
-                1F, 1F, 1F, 1F
+                1F, 1F, 1F, 1F, 0F, 0F
         );
         matrices.popPose();
 
