@@ -64,7 +64,7 @@ public class BiomeQuest extends Quest {
                     return specie.toLowerCase();
                 }).filter(Objects::nonNull)
                 .distinct()
-                .map(PokemonSpecies.INSTANCE::getByName)
+                .map(PokemonSpecies::getByName)
                 .toList();
     }
 
