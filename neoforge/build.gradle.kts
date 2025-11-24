@@ -50,6 +50,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${property("junit_version")}")
 
     modLocalRuntime("curse.maven:configured-457570:7076243")
+    modLocalRuntime("mezz.jei:jei-${property("minecraft_version")}-neoforge:${property("jei_version")}") { isTransitive = false }
 }
 
 tasks.getByName<Test>("test") {

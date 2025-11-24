@@ -3,7 +3,7 @@ plugins {
     id("java-library")
     kotlin("jvm") version("2.2.0")
 
-    id("dev.architectury.loom") version("1.9-SNAPSHOT") apply false
+    id("dev.architectury.loom") version("1.13-SNAPSHOT") apply false
     id("architectury-plugin") version("3.4-SNAPSHOT") apply false
 }
 
@@ -22,6 +22,7 @@ allprojects {
         maven("https://maven.impactdev.net/repository/development/")
         maven("https://maven.neoforged.net/releases")
         maven("https://thedarkcolour.github.io/KotlinForForge/")
+        maven("https://maven.blamejared.com") // JEI
     }
 
     tasks.getByName<Test>("test") {

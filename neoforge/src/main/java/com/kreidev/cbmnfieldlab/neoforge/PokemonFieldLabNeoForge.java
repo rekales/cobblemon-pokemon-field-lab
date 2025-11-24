@@ -1,5 +1,6 @@
 package com.kreidev.cbmnfieldlab.neoforge;
 
+import com.cobblemon.mod.common.item.group.CobblemonItemGroups;
 import com.kreidev.cbmnfieldlab.PokemonFieldLabClient;
 import com.kreidev.cbmnfieldlab.data.ConditionDataLoader;
 import com.kreidev.cbmnfieldlab.data.RewardDataLoader;
@@ -12,6 +13,7 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.MOD_ID;
 
@@ -23,6 +25,7 @@ public class PokemonFieldLabNeoForge {
         PokemonFieldLab.init();
         PokemonFieldLabClient.initClient();
         NeoForge.EVENT_BUS.addListener(PokemonFieldLabNeoForge::onAddReloadListeners);
+        modEventBus.addListener(PokemonFieldLabNeoForge::buildContents);
         modEventBus.addListener(PokemonFieldLabNeoForge::onRegisterMenuScreens);
         modEventBus.addListener(CommonConfigNeoForge::onLoad);
         modEventBus.addListener(CommonConfigNeoForge::onReload);
@@ -35,5 +38,11 @@ public class PokemonFieldLabNeoForge {
     public static void onAddReloadListeners(AddReloadListenerEvent event) {
         event.addListener(RewardDataLoader.getInstance());
         event.addListener(ConditionDataLoader.getInstance());
+    }
+
+    public static void buildContents(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey() == CobblemonItemGroups.getBLOCKS_KEY()) {
+            event.accept(PokemonFieldLab.FIELD_LAB_BLOCK_ITEM.get());
+        }
     }
 }

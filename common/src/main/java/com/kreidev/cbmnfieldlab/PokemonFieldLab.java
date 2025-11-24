@@ -5,9 +5,7 @@ import com.kreidev.cbmnfieldlab.network.FieldLabNetworkManager;
 import com.kreidev.cbmnfieldlab.quest.QuestManager;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
 import com.mojang.logging.LogUtils;
-import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.LifecycleEvent;
-import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.registry.menu.MenuRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -66,14 +64,8 @@ public class PokemonFieldLab {
         BLOCK_ENTITIES.register();
         ITEMS.register();
         MENUS.register();
-        registerToCreativeTab();
 
         LifecycleEvent.SERVER_STARTING.register(PokemonFieldLab::onServerStarting);
-
-        PlayerEvent.DROP_ITEM.register((player, itemEntity)->{
-
-            return EventResult.pass();
-        });
 
         QuestTypes.init();
         FieldLabNetworkManager.registerPackets();
@@ -91,10 +83,6 @@ public class PokemonFieldLab {
                     new SavedData.Factory<>(QuestManager::new, QuestManager::new, null), "cobblemon_field_lab_data"
             );
         }
-    }
-
-    private static void registerToCreativeTab() {
-//        CreativeTabRegistry.append(CreativeModeTabs.INGREDIENTS, PFL_BLOCK_ITEM.get());
     }
 
     public static ResourceLocation resLoc(String path, Object... args) {
