@@ -54,7 +54,7 @@ public class RegionQuest extends Quest {
         if (dex == null) return false;
 
         for (PokedexEntry entry : dex.getEntries()) {
-            if (PokemonSpecies.INSTANCE.getByIdentifier(entry.getSpeciesId()) == pokemon.getSpecies()) return true;
+            if (PokemonSpecies.getByIdentifier(entry.getSpeciesId()) == pokemon.getSpecies()) return true;
         }
         return false;
     }

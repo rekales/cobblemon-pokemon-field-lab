@@ -50,13 +50,13 @@ public class WeightQuest extends Quest {
 
     @Override
     public boolean isEligible(@NotNull Pokemon pokemon) {
-        float weight = pokemon.getForm().getWeight();
+        float weight = pokemon.getSpecies().getWeight();
         return this.lowerWeight < weight && weight < this.upperWeight;
     }
 
     @Override
     public String getModifierString() {
-        return String.format("%.2f", this.lowerWeight) + "-" + String.format("%.2f", this.upperWeight);
+        return String.format("%.2f", this.lowerWeight/10) + "-" + String.format("%.2f", this.upperWeight/10);
     }
 
     public float getLowerWeight() {

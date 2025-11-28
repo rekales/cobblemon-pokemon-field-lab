@@ -28,7 +28,7 @@ public class NatureQuest extends Quest {
     // Random Quest
     public NatureQuest(ServerLevel level) {
         super(level, CommonConfig.natureQuestDifficulty);
-        this.nature = Natures.INSTANCE.getRandomNature();
+        this.nature = Natures.getRandomNature();
     }
 
     @SuppressWarnings("unused")

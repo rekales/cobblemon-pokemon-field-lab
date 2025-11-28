@@ -3,6 +3,7 @@ package com.kreidev.cbmnfieldlab.quest.type;
 import com.cobblemon.mod.common.api.types.ElementalType;
 import com.cobblemon.mod.common.api.types.ElementalTypes;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.common.pokemon.Species;
 import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
@@ -31,7 +32,7 @@ public class DoubleTypeQuest extends Quest {
     // Random Quest
     public DoubleTypeQuest(ServerLevel level) {
         super(level, CommonConfig.doubleTypeQuestDifficulty);
-        List<ElementalType> types = ElementalTypes.INSTANCE.all();
+        List<ElementalType> types = ElementalTypes.all();
         this.firstType = types.get(level.getRandom().nextInt(types.size()));
         this.secondType = types.get(level.getRandom().nextInt(types.size()));
     }
@@ -51,17 +52,9 @@ public class DoubleTypeQuest extends Quest {
 
     @Override
     public boolean isEligible(@NotNull Pokemon pokemon) {
-        // It's janky-ass shit I know
-        for (ElementalType eType : pokemon.getTypes()) {
-            if (this.firstType == eType) {
-                for (ElementalType fType : pokemon.getTypes()) {
-                    if (this.secondType == fType) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        Species specie = pokemon.getSpecies();
+        return (this.firstType == specie.getPrimaryType() && this.secondType == specie.getSecondaryType())
+                || (this.secondType == specie.getPrimaryType() && this.firstType == specie.getSecondaryType());
     }
 
     @Override

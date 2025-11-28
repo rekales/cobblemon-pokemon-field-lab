@@ -108,23 +108,23 @@ public class CommonConfigFabric extends MidnightConfig {
     public static float EVO_QUEST_DIFFICULTY = CommonConfig.evoQuestDifficulty;
 
     // Size quest bounds
-    @Entry(category = COMMON, min = 0, max = 100)
+    @Entry(category = COMMON, min = 0, max = 1000)
     public static float SIZE_QUEST_LOWER_BOUND = CommonConfig.sizeQuestLowerBound;
 
-    @Entry(category = COMMON, min = 0, max = 100)
+    @Entry(category = COMMON, min = 0, max = 1000)
     public static float SIZE_QUEST_UPPER_BOUND = CommonConfig.sizeQuestUpperBound;
 
     // Weight quest bounds
-    @Entry(category = COMMON, min = 0, max = 100)
+    @Entry(category = COMMON, min = 0, max = 1000)
     public static float WEIGHT_QUEST_LOWER_BOUND = CommonConfig.weightQuestLowerBound;
 
-    @Entry(category = COMMON, min = 0, max = 100)
+    @Entry(category = COMMON, min = 0, max = 1000)
     public static float WEIGHT_QUEST_UPPER_BOUND = CommonConfig.weightQuestUpperBound;
 
-    @Entry(category = COMMON, min = 0, max = 100)
+    @Entry(category = COMMON, min = 0, max = 1000)
     public static float WEIGHT_QUEST_MIN_GAP = CommonConfig.weightQuestMinGap;
 
-    @Entry(category = COMMON, min = 0, max = 100)
+    @Entry(category = COMMON, min = 0, max = 1000)
     public static float WEIGHT_QUEST_MAX_GAP = CommonConfig.weightQuestMaxGap;
 
     // Base stat quest bounds

@@ -43,13 +43,13 @@ public class CommonConfig {
     public static float biomeQuestDifficulty = 1.0F;
     public static float evoQuestDifficulty = 1.0F;
 
-    public static float sizeQuestLowerBound = 0.5F;
-    public static float sizeQuestUpperBound = 2F;
+    public static float sizeQuestLowerBound = 5F;
+    public static float sizeQuestUpperBound = 20F;
 
-    public static float weightQuestLowerBound = 0.5F;
-    public static float weightQuestUpperBound = 2F;
-    public static float weightQuestMinGap = 0.5F;
-    public static float weightQuestMaxGap = 1F;
+    public static float weightQuestLowerBound = 10F;
+    public static float weightQuestUpperBound = 600F;
+    public static float weightQuestMinGap = 20F;
+    public static float weightQuestMaxGap = 80F;
 
     public static int baseStatQuestLowerBound = 200;
     public static int baseStatQuestUpperBound = 400;

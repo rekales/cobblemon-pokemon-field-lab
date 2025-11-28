@@ -40,7 +40,7 @@ public class CommonConfigNeoForge {
 
     private static final ModConfigSpec.IntValue MAJOR_REWARD_MAX_ITEMS = BUILDER
             .comment("Maximum number of items given for major quest rewards")
-            .defineInRange("majorRewardMaxItems", CommonConfig.minorRewardMaxItems, 1, 100);
+            .defineInRange("majorRewardMaxItems", CommonConfig.majorRewardMaxItems, 1, 100);
 
     // Quest type toggles
     private static final ModConfigSpec.BooleanValue ENABLE_ABILITY_QUEST = BUILDER
@@ -143,28 +143,28 @@ public class CommonConfigNeoForge {
     // Size quest bounds
     private static final ModConfigSpec.DoubleValue SIZE_QUEST_LOWER_BOUND = BUILDER
             .comment("Minimum size factor for size quests")
-            .defineInRange("sizeQuestLowerBound", CommonConfig.sizeQuestLowerBound, 0.0D, 100.0D);
+            .defineInRange("sizeQuestLowerBound", CommonConfig.sizeQuestLowerBound, 0.0D, 1000.0D);
 
     private static final ModConfigSpec.DoubleValue SIZE_QUEST_UPPER_BOUND = BUILDER
             .comment("Maximum size factor for size quests")
-            .defineInRange("sizeQuestUpperBound", CommonConfig.sizeQuestUpperBound, 0.0D, 100.0D);
+            .defineInRange("sizeQuestUpperBound", CommonConfig.sizeQuestUpperBound, 0.0D, 1000.0D);
 
     // Weight quest bounds
     private static final ModConfigSpec.DoubleValue WEIGHT_QUEST_LOWER_BOUND = BUILDER
             .comment("Minimum weight factor for weight quests")
-            .defineInRange("weightQuestLowerBound", CommonConfig.weightQuestLowerBound, 0.0D, 100.0D);
+            .defineInRange("weightQuestLowerBound", CommonConfig.weightQuestLowerBound, 0.0D, 1000.0D);
 
     private static final ModConfigSpec.DoubleValue WEIGHT_QUEST_UPPER_BOUND = BUILDER
             .comment("Maximum weight factor for weight quests")
-            .defineInRange("weightQuestUpperBound", CommonConfig.weightQuestUpperBound, 0.0D, 100.0D);
+            .defineInRange("weightQuestUpperBound", CommonConfig.weightQuestUpperBound, 0.0D, 1000.0D);
 
     private static final ModConfigSpec.DoubleValue WEIGHT_QUEST_MIN_GAP = BUILDER
             .comment("Minimum gap between lower and upper weight bounds")
-            .defineInRange("weightQuestMinGap", CommonConfig.weightQuestMinGap, 0.0D, 100.0D);
+            .defineInRange("weightQuestMinGap", CommonConfig.weightQuestMinGap, 0.0D, 1000.0D);
 
     private static final ModConfigSpec.DoubleValue WEIGHT_QUEST_MAX_GAP = BUILDER
             .comment("Maximum gap between lower and upper weight bounds")
-            .defineInRange("weightQuestMaxGap", CommonConfig.weightQuestMaxGap, 0.0D, 100.0D);
+            .defineInRange("weightQuestMaxGap", CommonConfig.weightQuestMaxGap, 0.0D, 1000.0D);
 
     // Base stat quest bounds
     private static final ModConfigSpec.IntValue BASE_STAT_QUEST_LOWER_BOUND = BUILDER
