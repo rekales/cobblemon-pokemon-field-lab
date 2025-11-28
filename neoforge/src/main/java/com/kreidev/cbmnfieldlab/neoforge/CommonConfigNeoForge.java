@@ -4,183 +4,184 @@ import com.kreidev.cbmnfieldlab.CommonConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
+// NOTE: setting default values like this could probably cause issues
 public class CommonConfigNeoForge {
 
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
     private static final ModConfigSpec.IntValue REROLL_TIME_SECONDS = BUILDER
             .comment("Time before a quest reroll becomes available (seconds)")
-            .defineInRange("rerollTimeSeconds", 300, 1, 86400);
+            .defineInRange("rerollTimeSeconds", CommonConfig.rerollTimeSeconds, 1, 86400);
 
     // Quest reward bounds
     private static final ModConfigSpec.DoubleValue INDIV_REWARD_VALUE_SCALE = BUILDER
             .comment("Scaling multiplier for individual quest reward value")
-            .defineInRange("indivRewardValueScale", 2.0D, 0.01D, 1000.0D);
+            .defineInRange("indivRewardValueScale", CommonConfig.indivRewardValueScale, 0.01D, 1000.0D);
 
     private static final ModConfigSpec.DoubleValue MINOR_REWARD_VALUE = BUILDER
             .comment("Base reward value for minor quests")
-            .defineInRange("minorRewardValue", 4.0D, 0.01D, 1000.0D);
+            .defineInRange("minorRewardValue", CommonConfig.minorRewardValue, 0.01D, 1000.0D);
 
     private static final ModConfigSpec.IntValue MINOR_REWARD_MIN_ITEMS = BUILDER
             .comment("Minimum number of items given for minor quest rewards")
-            .defineInRange("minorRewardMinItems", 1, 1, 100);
+            .defineInRange("minorRewardMinItems", CommonConfig.minorRewardMinItems, 1, 100);
 
     private static final ModConfigSpec.IntValue MINOR_REWARD_MAX_ITEMS = BUILDER
             .comment("Maximum number of items given for minor quest rewards")
-            .defineInRange("minorRewardMaxItems", 2, 1, 100);
+            .defineInRange("minorRewardMaxItems", CommonConfig.minorRewardMaxItems, 1, 100);
 
     private static final ModConfigSpec.DoubleValue MAJOR_REWARD_VALUE = BUILDER
             .comment("Base reward value for major quests")
-            .defineInRange("majorRewardValue", 8.0D, 0.01D, 1000.0D);
+            .defineInRange("majorRewardValue", CommonConfig.majorRewardValue, 0.01D, 1000.0D);
 
     private static final ModConfigSpec.IntValue MAJOR_REWARD_MIN_ITEMS = BUILDER
             .comment("Minimum number of items given for major quest rewards")
-            .defineInRange("majorRewardMinItems", 3, 1, 100);
+            .defineInRange("majorRewardMinItems", CommonConfig.majorRewardMinItems, 1, 100);
 
     private static final ModConfigSpec.IntValue MAJOR_REWARD_MAX_ITEMS = BUILDER
             .comment("Maximum number of items given for major quest rewards")
-            .defineInRange("majorRewardMaxItems", 6, 1, 100);
+            .defineInRange("majorRewardMaxItems", CommonConfig.minorRewardMaxItems, 1, 100);
 
     // Quest type toggles
     private static final ModConfigSpec.BooleanValue ENABLE_ABILITY_QUEST = BUILDER
             .comment("Enable ability quests")
-            .define("enableAbilityQuest", true);
+            .define("enableAbilityQuest", CommonConfig.enableAbilityQuest);
 
     private static final ModConfigSpec.BooleanValue ENABLE_SINGLE_TYPE_QUEST = BUILDER
             .comment("Enable single-type quests")
-            .define("enableSingleTypeQuest", true);
+            .define("enableSingleTypeQuest", CommonConfig.enableSingleTypeQuest);
 
     private static final ModConfigSpec.BooleanValue ENABLE_DOUBLE_TYPE_QUEST = BUILDER
             .comment("Enable double-type quests")
-            .define("enableDoubleTypeQuest", true);
+            .define("enableDoubleTypeQuest", CommonConfig.enableDoubleTypeQuest);
 
     private static final ModConfigSpec.BooleanValue ENABLE_NATURE_QUEST = BUILDER
             .comment("Enable nature quests")
-            .define("enableNatureQuest", true);
+            .define("enableNatureQuest", CommonConfig.enableNatureQuest);
 
     private static final ModConfigSpec.BooleanValue ENABLE_MOVE_QUEST = BUILDER
             .comment("Enable move quests")
-            .define("enableMoveQuest", true);
+            .define("enableMoveQuest", CommonConfig.enableMoveQuest);
 
     private static final ModConfigSpec.BooleanValue ENABLE_SIZE_QUEST = BUILDER
             .comment("Enable size quests")
-            .define("enableSizeQuest", true);
+            .define("enableSizeQuest", CommonConfig.enableSizeQuest);
 
     private static final ModConfigSpec.BooleanValue ENABLE_BASE_STAT_QUEST = BUILDER
             .comment("Enable base stat total quests")
-            .define("enableBaseStatQuest", true);
+            .define("enableBaseStatQuest", CommonConfig.enableBaseStatQuest);
 
     private static final ModConfigSpec.BooleanValue ENABLE_WEIGHT_QUEST = BUILDER
             .comment("Enable weight quests")
-            .define("enableWeightQuest", true);
+            .define("enableWeightQuest", CommonConfig.enableWeightQuest);
 
     private static final ModConfigSpec.BooleanValue ENABLE_DEX_NAME_QUEST = BUILDER
             .comment("Enable pokedex name quests")
-            .define("enableMoveQuest", true);
+            .define("enableDexNameQuest", CommonConfig.enableDexNameQuest);
 
     private static final ModConfigSpec.BooleanValue ENABLE_REGION_QUEST = BUILDER
             .comment("Enable region quests")
-            .define("enableSizeQuest", true);
+            .define("enableRegionQuest", CommonConfig.enableRegionQuest);
 
     private static final ModConfigSpec.BooleanValue ENABLE_BIOME_QUEST = BUILDER
             .comment("Enable biome spawn quests")
-            .define("enableBaseStatQuest", true);
+            .define("enableBiomeQuest", CommonConfig.enableBiomeQuest);
 
     private static final ModConfigSpec.BooleanValue ENABLE_EVO_STAGE_QUEST = BUILDER
             .comment("Enable evolution stage quests")
-            .define("enableWeightQuest", true);
+            .define("enableEvoQuest", CommonConfig.enableEvoQuest);
 
     // Quest difficulty multipliers
     private static final ModConfigSpec.DoubleValue ABILITY_QUEST_DIFFICULTY = BUILDER
             .comment("Ability quest difficulty scale")
-            .defineInRange("abilityQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+            .defineInRange("abilityQuestDifficulty", CommonConfig.abilityQuestDifficulty, 0.01D, 1000.0D);
 
     private static final ModConfigSpec.DoubleValue SINGLE_TYPE_QUEST_DIFFICULTY = BUILDER
             .comment("Single-type quest difficulty scale")
-            .defineInRange("singleTypeQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+            .defineInRange("singleTypeQuestDifficulty", CommonConfig.singleTypeQuestDifficulty, 0.01D, 1000.0D);
 
     private static final ModConfigSpec.DoubleValue DOUBLE_TYPE_QUEST_DIFFICULTY = BUILDER
             .comment("Double-type quest difficulty scale")
-            .defineInRange("doubleTypeQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+            .defineInRange("doubleTypeQuestDifficulty", CommonConfig.doubleTypeQuestDifficulty, 0.01D, 1000.0D);
 
     private static final ModConfigSpec.DoubleValue NATURE_QUEST_DIFFICULTY = BUILDER
             .comment("Nature quest difficulty scale")
-            .defineInRange("natureQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+            .defineInRange("natureQuestDifficulty", CommonConfig.natureQuestDifficulty, 0.01D, 1000.0D);
 
     private static final ModConfigSpec.DoubleValue MOVE_QUEST_DIFFICULTY = BUILDER
             .comment("Move quest difficulty scale")
-            .defineInRange("moveQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+            .defineInRange("moveQuestDifficulty", CommonConfig.moveQuestDifficulty, 0.01D, 1000.0D);
 
     private static final ModConfigSpec.DoubleValue SIZE_QUEST_DIFFICULTY = BUILDER
             .comment("Size quest difficulty scale")
-            .defineInRange("sizeQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+            .defineInRange("sizeQuestDifficulty", CommonConfig.sizeQuestDifficulty, 0.01D, 1000.0D);
 
     private static final ModConfigSpec.DoubleValue BASE_STAT_QUEST_DIFFICULTY = BUILDER
             .comment("Base stat quest difficulty scale")
-            .defineInRange("baseStatQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+            .defineInRange("baseStatQuestDifficulty", CommonConfig.baseStatQuestDifficulty, 0.01D, 1000.0D);
 
     private static final ModConfigSpec.DoubleValue WEIGHT_QUEST_DIFFICULTY = BUILDER
             .comment("Weight quest difficulty scale")
-            .defineInRange("weightQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+            .defineInRange("weightQuestDifficulty", CommonConfig.weightQuestDifficulty, 0.01D, 1000.0D);
 
     private static final ModConfigSpec.DoubleValue DEX_NAME_QUEST_DIFFICULTY = BUILDER
             .comment("Dex name quest difficulty scale")
-            .defineInRange("dexNameQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+            .defineInRange("dexNameQuestDifficulty", CommonConfig.dexNameQuestDifficulty, 0.01D, 1000.0D);
 
     private static final ModConfigSpec.DoubleValue REGION_QUEST_DIFFICULTY = BUILDER
             .comment("Region quest difficulty scale")
-            .defineInRange("regionQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+            .defineInRange("regionQuestDifficulty", CommonConfig.regionQuestDifficulty, 0.01D, 1000.0D);
 
     private static final ModConfigSpec.DoubleValue BIOME_QUEST_DIFFICULTY = BUILDER
             .comment("Biome quest difficulty scale")
-            .defineInRange("biomeQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+            .defineInRange("biomeQuestDifficulty", CommonConfig.biomeQuestDifficulty, 0.01D, 1000.0D);
 
     private static final ModConfigSpec.DoubleValue EVO_QUEST_DIFFICULTY = BUILDER
             .comment("Evolution quest difficulty scale")
-            .defineInRange("evoQuestDifficulty", 1.0D, 0.01D, 1000.0D);
+            .defineInRange("evoQuestDifficulty", CommonConfig.evoQuestDifficulty, 0.01D, 1000.0D);
 
     // Size quest bounds
     private static final ModConfigSpec.DoubleValue SIZE_QUEST_LOWER_BOUND = BUILDER
             .comment("Minimum size factor for size quests")
-            .defineInRange("sizeQuestLowerBound", 0.5D, 0.0D, 100.0D);
+            .defineInRange("sizeQuestLowerBound", CommonConfig.sizeQuestLowerBound, 0.0D, 100.0D);
 
     private static final ModConfigSpec.DoubleValue SIZE_QUEST_UPPER_BOUND = BUILDER
             .comment("Maximum size factor for size quests")
-            .defineInRange("sizeQuestUpperBound", 2.0D, 0.0D, 100.0D);
+            .defineInRange("sizeQuestUpperBound", CommonConfig.sizeQuestUpperBound, 0.0D, 100.0D);
 
     // Weight quest bounds
     private static final ModConfigSpec.DoubleValue WEIGHT_QUEST_LOWER_BOUND = BUILDER
             .comment("Minimum weight factor for weight quests")
-            .defineInRange("weightQuestLowerBound", 0.5D, 0.0D, 100.0D);
+            .defineInRange("weightQuestLowerBound", CommonConfig.weightQuestLowerBound, 0.0D, 100.0D);
 
     private static final ModConfigSpec.DoubleValue WEIGHT_QUEST_UPPER_BOUND = BUILDER
             .comment("Maximum weight factor for weight quests")
-            .defineInRange("weightQuestUpperBound", 2.0D, 0.0D, 100.0D);
+            .defineInRange("weightQuestUpperBound", CommonConfig.weightQuestUpperBound, 0.0D, 100.0D);
 
     private static final ModConfigSpec.DoubleValue WEIGHT_QUEST_MIN_GAP = BUILDER
             .comment("Minimum gap between lower and upper weight bounds")
-            .defineInRange("weightQuestMinGap", 0.5D, 0.0D, 100.0D);
+            .defineInRange("weightQuestMinGap", CommonConfig.weightQuestMinGap, 0.0D, 100.0D);
 
     private static final ModConfigSpec.DoubleValue WEIGHT_QUEST_MAX_GAP = BUILDER
             .comment("Maximum gap between lower and upper weight bounds")
-            .defineInRange("weightQuestMaxGap", 1.0D, 0.0D, 100.0D);
+            .defineInRange("weightQuestMaxGap", CommonConfig.weightQuestMaxGap, 0.0D, 100.0D);
 
     // Base stat quest bounds
     private static final ModConfigSpec.IntValue BASE_STAT_QUEST_LOWER_BOUND = BUILDER
             .comment("Minimum total base stat value for base stat quests")
-            .defineInRange("baseStatQuestLowerBound", 200, 0, 2000);
+            .defineInRange("baseStatQuestLowerBound", CommonConfig.baseStatQuestLowerBound, 0, 2000);
 
     private static final ModConfigSpec.IntValue BASE_STAT_QUEST_UPPER_BOUND = BUILDER
             .comment("Maximum total base stat value for base stat quests")
-            .defineInRange("baseStatQuestUpperBound", 400, 0, 2000);
+            .defineInRange("baseStatQuestUpperBound", CommonConfig.baseStatQuestUpperBound, 0, 2000);
 
     private static final ModConfigSpec.IntValue BASE_STAT_QUEST_MIN_GAP = BUILDER
             .comment("Minimum difference between lower and upper base stat bounds")
-            .defineInRange("baseStatQuestMinGap", 30, 0, 2000);
+            .defineInRange("baseStatQuestMinGap", CommonConfig.baseStatQuestMinGap, 0, 2000);
 
     private static final ModConfigSpec.IntValue BASE_STAT_QUEST_MAX_GAP = BUILDER
             .comment("Maximum difference between lower and upper base stat bounds")
-            .defineInRange("baseStatQuestMaxGap", 80, 0, 2000);
+            .defineInRange("baseStatQuestMaxGap", CommonConfig.baseStatQuestMaxGap, 0, 2000);
 
 
     static final ModConfigSpec SPEC = BUILDER.build();
