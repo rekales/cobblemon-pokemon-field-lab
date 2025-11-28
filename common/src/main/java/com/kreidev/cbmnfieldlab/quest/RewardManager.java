@@ -37,8 +37,7 @@ public class RewardManager {
         QuestRewardEntry rewardEntry = indivRewards.get(randomSource.nextInt(indivRewards.size()));
         float value = difficulty * CommonConfig.indivRewardValueScale;
         int amount = rewardEntry.minCount();
-        value -= rewardEntry.cost()*amount;
-        while (amount < rewardEntry.maxCount() && value < rewardEntry.cost()*amount) {
+        while (amount < rewardEntry.maxCount() && value > rewardEntry.cost()*amount) {
             amount++;
         }
 
