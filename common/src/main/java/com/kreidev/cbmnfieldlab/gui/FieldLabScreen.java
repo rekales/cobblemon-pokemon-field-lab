@@ -41,6 +41,7 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
 
     public static final ResourceLocation BASE_RES = cobblemonResource("textures/gui/pc/pc_base.png");
     public static final ResourceLocation PORTRAIT_BACKGROUND_RES = cobblemonResource("textures/gui/pc/portrait_background.png");
+    public static final ResourceLocation INFO_BOX_RES = cobblemonResource("textures/gui/pc/info_box.png");
     public static final ResourceLocation TOP_SPACER_RES = cobblemonResource("textures/gui/pc/pc_spacer_top.png");
     public static final ResourceLocation BOTTOM_SPACER_RES = cobblemonResource("textures/gui/pc/pc_spacer_bottom.png");
     public static final ResourceLocation RIGHT_SPACER_RES = cobblemonResource("textures/gui/pc/pc_spacer_right.png");
@@ -100,6 +101,9 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
 
         // Render Base Resource
         GuiUtilsKt.blitk(matrices, BASE_RES, x, y, PCGUI.BASE_HEIGHT, PCGUI.BASE_WIDTH);
+
+        // Render Info Box
+        GuiUtilsKt.blitk(matrices, INFO_BOX_RES, x+9, y+128, PCGUI.INFO_BOX_HEIGHT, PCGUI.INFO_BOX_WIDTH);
 
         // Render Info Labels
         RenderHelperKtExt.drawScaledText(
