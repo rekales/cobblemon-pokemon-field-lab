@@ -1,8 +1,9 @@
 package com.kreidev.cbmnfieldlab.quest.type;
 
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.cobblemon.mod.common.api.types.ElementalType;
-import com.cobblemon.mod.common.api.types.ElementalTypes;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.common.pokemon.Species;
 import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
@@ -14,7 +15,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 // Not to be confused with QuestType
 public class TypeQuest extends Quest {
@@ -30,7 +34,15 @@ public class TypeQuest extends Quest {
     // Random Quest
     public TypeQuest(ServerLevel level) {
         super(level, CommonConfig.singleTypeQuestDifficulty);
-        List<ElementalType> types = ElementalTypes.INSTANCE.all();
+
+        Set<ElementalType> typeSet = new HashSet<>();
+        for (Species specie : PokemonSpecies.getSpecies()) {
+            typeSet.add(specie.getPrimaryType());
+            typeSet.add(specie.getSecondaryType());
+        }
+
+        // TODO: cache
+        List<ElementalType> types = new ArrayList<>(typeSet);
         this.elementalType = types.get(level.getRandom().nextInt(types.size()));
     }
 

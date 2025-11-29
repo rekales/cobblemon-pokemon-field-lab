@@ -26,7 +26,7 @@ public class DexNameQuest extends Quest {
     // Random Quest
     public DexNameQuest(ServerLevel level) {
         super(level, CommonConfig.dexNameQuestDifficulty);
-        this.name = PokemonSpecies.INSTANCE.random().getName();
+        this.name = PokemonSpecies.random().getName();
     }
 
     @SuppressWarnings("unused")
@@ -42,7 +42,7 @@ public class DexNameQuest extends Quest {
 
     @Override
     public boolean isEligible(@NotNull Pokemon pokemon) {
-        return PokemonSpecies.INSTANCE.getByName(this.name.toLowerCase()) == pokemon.getSpecies();
+        return PokemonSpecies.getByName(this.name.toLowerCase()) == pokemon.getSpecies();
     }
 
     @Override

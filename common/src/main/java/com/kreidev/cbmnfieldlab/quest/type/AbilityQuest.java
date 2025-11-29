@@ -30,7 +30,7 @@ public class AbilityQuest extends Quest {
     // Random Quest
     public AbilityQuest(ServerLevel level) {
         super(level, CommonConfig.abilityQuestDifficulty);
-        List<AbilityTemplate> abilities = Abilities.INSTANCE.all();
+        List<AbilityTemplate> abilities = Abilities.all();
         this.ability = abilities.get(level.getRandom().nextInt(abilities.size()));
     }
 

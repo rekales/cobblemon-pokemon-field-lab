@@ -1,7 +1,7 @@
 package com.kreidev.cbmnfieldlab.quest.type;
 
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.cobblemon.mod.common.api.types.ElementalType;
-import com.cobblemon.mod.common.api.types.ElementalTypes;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.Species;
 import com.kreidev.cbmnfieldlab.CommonConfig;
@@ -15,7 +15,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class DoubleTypeQuest extends Quest {
 
@@ -32,7 +35,15 @@ public class DoubleTypeQuest extends Quest {
     // Random Quest
     public DoubleTypeQuest(ServerLevel level) {
         super(level, CommonConfig.doubleTypeQuestDifficulty);
-        List<ElementalType> types = ElementalTypes.all();
+
+        Set<ElementalType> typeSet = new HashSet<>();
+        for (Species specie : PokemonSpecies.getSpecies()) {
+            typeSet.add(specie.getPrimaryType());
+            typeSet.add(specie.getSecondaryType());
+        }
+
+        // TODO: cache
+        List<ElementalType> types = new ArrayList<>(typeSet);
         this.firstType = types.get(level.getRandom().nextInt(types.size()));
         this.secondType = types.get(level.getRandom().nextInt(types.size()));
     }

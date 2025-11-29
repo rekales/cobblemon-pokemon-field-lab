@@ -2,9 +2,11 @@ package com.kreidev.cbmnfieldlab.quest.type;
 
 import com.cobblemon.mod.common.api.moves.Move;
 import com.cobblemon.mod.common.api.moves.MoveTemplate;
-import com.cobblemon.mod.common.api.moves.Moves;
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.common.pokemon.Species;
 import com.kreidev.cbmnfieldlab.CommonConfig;
+import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
@@ -15,7 +17,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MoveQuest extends Quest {
 
@@ -30,7 +35,14 @@ public class MoveQuest extends Quest {
     // Random Quest
     public MoveQuest(ServerLevel level) {
         super(level, CommonConfig.moveQuestDifficulty);
-        List<MoveTemplate> moves = Moves.INSTANCE.all();
+
+        Set<MoveTemplate> moveSet = new HashSet<>();
+        for (Species specie : PokemonSpecies.getSpecies()) {
+            moveSet.addAll(specie.getMoves().getAllLegalMoves());
+        }
+
+        // TODO: cache
+        List<MoveTemplate> moves = new ArrayList<>(moveSet);
         this.move = moves.get(level.getRandom().nextInt(moves.size()));
     }
 
@@ -47,6 +59,7 @@ public class MoveQuest extends Quest {
 
     @Override
     public boolean isEligible(@NotNull Pokemon pokemon) {
+        PokemonFieldLab.LOGGER.info(pokemon.getSpecies().getMoves().getAllLegalMoves().toString());
         for (Move move : pokemon.getMoveSet().getMoves()) {
             if (this.move == move.getTemplate()) return true;
         }
