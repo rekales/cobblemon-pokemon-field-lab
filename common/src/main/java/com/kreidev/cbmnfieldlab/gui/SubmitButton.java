@@ -1,11 +1,13 @@
 package com.kreidev.cbmnfieldlab.gui;
 
+import com.cobblemon.mod.common.CobblemonSounds;
 import com.cobblemon.mod.common.api.gui.GuiUtilsKt;
 import com.cobblemon.mod.common.api.text.TextKt;
 import com.cobblemon.mod.common.client.CobblemonResources;
 import com.cobblemon.mod.common.client.gui.CobblemonRenderable;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -39,5 +41,7 @@ public class SubmitButton extends Button implements CobblemonRenderable {
     }
 
     @Override
-    public void playDownSound(SoundManager soundManager) {}
+    public void playDownSound(SoundManager soundManager) {
+        soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.GUI_CLICK, 1.0F));
+    }
 }

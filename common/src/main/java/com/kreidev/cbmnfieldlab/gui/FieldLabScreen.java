@@ -67,6 +67,8 @@ public class FieldLabScreen extends AbstractContainerScreen<FieldLabMenu> {
 
     @Override
     protected void init() {
+        playSound(CobblemonSounds.PC_ON);
+
         int x = (width - PCGUI.BASE_WIDTH) / 2;
         int y = (height - PCGUI.BASE_HEIGHT) / 2;
 

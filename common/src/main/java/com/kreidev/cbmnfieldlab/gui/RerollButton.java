@@ -1,11 +1,13 @@
 package com.kreidev.cbmnfieldlab.gui;
 
+import com.cobblemon.mod.common.CobblemonSounds;
 import com.cobblemon.mod.common.client.gui.CobblemonRenderable;
 import com.kreidev.cbmnfieldlab.CommonConfig;
 import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -69,5 +71,7 @@ public class RerollButton extends Button implements CobblemonRenderable {
     }
 
     @Override
-    public void playDownSound(SoundManager soundManager) {}
+    public void playDownSound(SoundManager soundManager) {
+        soundManager.play(SimpleSoundInstance.forUI(CobblemonSounds.GUI_CLICK, 1.0F));
+    }
 }
