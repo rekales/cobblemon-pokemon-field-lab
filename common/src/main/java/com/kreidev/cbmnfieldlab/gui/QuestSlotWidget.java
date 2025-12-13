@@ -95,6 +95,10 @@ public class QuestSlotWidget extends SoundlessWidget implements CobblemonRendera
         );
         guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 
+        if (isHovering(this.getX()+143, this.getY()+5, mouseX, mouseY)) {
+            guiGraphics.renderTooltip(Minecraft.getInstance().font, quest.getReward(), mouseX, mouseY);
+        }
+
 
         this.rerollButton.render(guiGraphics, mouseX, mouseY, delta);
 
@@ -119,5 +123,13 @@ public class QuestSlotWidget extends SoundlessWidget implements CobblemonRendera
 
         // TODO: remove quest and add a loading icon while waiting for a refresh
         NetworkManager.sendToServer(new RerollPacket(this.index));
+    }
+
+    private static boolean isHovering(
+            int x, int y,
+            double mouseX, double mouseY
+    ) {
+        return mouseX >= x && mouseX < x + 16
+                && mouseY >= y && mouseY < y + 16;
     }
 }

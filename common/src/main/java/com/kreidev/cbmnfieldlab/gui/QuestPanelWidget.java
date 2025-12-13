@@ -93,6 +93,10 @@ public class QuestPanelWidget extends SoundlessWidget {
         );
         guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 
+        if (isHovering(this.getX()+147, this.getY()+146, mouseX, mouseY)) {
+            guiGraphics.renderTooltip(Minecraft.getInstance().font, displayedItem, mouseX, mouseY);
+        }
+
         this.qs1.render(guiGraphics, mouseX, mouseY, delta);
         this.qs2.render(guiGraphics, mouseX, mouseY, delta);
         this.qs3.render(guiGraphics, mouseX, mouseY, delta);
@@ -114,5 +118,13 @@ public class QuestPanelWidget extends SoundlessWidget {
         this.addWidget(this.qs1);
         this.addWidget(this.qs2);
         this.addWidget(this.qs3);
+    }
+
+    private static boolean isHovering(
+            int x, int y,
+            double mouseX, double mouseY
+    ) {
+        return mouseX >= x && mouseX < x + 16
+                && mouseY >= y && mouseY < y + 16;
     }
 }
