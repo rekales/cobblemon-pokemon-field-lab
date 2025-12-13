@@ -88,7 +88,14 @@ public class QuestManager extends SavedData {
         if (quest == null) return false;
         if (quest.getTimeStamp()+CommonConfig.rerollTimeSeconds > player.level().getGameTime()) return false;
 
-        boolean success = container.replaceQuest(index, Quest.getRandomQuest((ServerLevel) player.level()));
+        Quest newQuest = Quest.getRandomQuest((ServerLevel) player.level());
+        QuestType<?> oldType = quest.getType();
+        for (int i = 0; i<3; i++) {  // 3 attempts to get a unique quest type
+            if (newQuest.getType() != oldType) break;
+            newQuest = Quest.getRandomQuest((ServerLevel) player.level());
+        }
+        boolean success = container.replaceQuest(index, newQuest);
+
         NetworkManager.sendToPlayer(player, new RefreshScreenPacket(container));
         INSTANCE.setDirty();
         return success;
