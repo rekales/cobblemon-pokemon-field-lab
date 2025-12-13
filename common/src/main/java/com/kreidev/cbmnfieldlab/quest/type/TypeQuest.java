@@ -38,7 +38,9 @@ public class TypeQuest extends Quest {
         Set<ElementalType> typeSet = new HashSet<>();
         for (Species specie : PokemonSpecies.getSpecies()) {
             typeSet.add(specie.getPrimaryType());
-            typeSet.add(specie.getSecondaryType());
+            if (specie.getSecondaryType() != null) {
+                typeSet.add(specie.getSecondaryType());
+            }
         }
 
         // TODO: cache
