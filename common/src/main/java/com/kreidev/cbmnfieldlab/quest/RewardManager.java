@@ -1,13 +1,11 @@
 package com.kreidev.cbmnfieldlab.quest;
 
-import com.kreidev.cbmnfieldlab.CommonConfig;
+import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import org.apache.commons.lang3.tuple.MutablePair;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class RewardManager {
 
@@ -33,87 +31,137 @@ public class RewardManager {
         majorRewards.clear();
     }
 
+//    public static void checkChances(RandomSource randomSource) {
+//        PokemonFieldLab.LOGGER.info("{}", indivRewards);
+//        PokemonFieldLab.LOGGER.info("--------------------");
+//
+//        List<QuestRewardEntry> sortedEntries = indivRewards.stream()
+//                .sorted(Comparator.comparingInt(QuestRewardEntry::weight))
+//                .toList();
+//
+//        int items = 50000;
+//
+//        Map<Item, Integer> rewardOdds = new HashMap<>();
+//
+//        for (int i=0; i<items; i++) {
+//            int totalWeight = 0;
+//            for (QuestRewardEntry entry : sortedEntries) {
+//                totalWeight += entry.weight();
+//            }
+//
+//            QuestRewardEntry randomEntry = sortedEntries.getFirst();
+//            int rand = randomSource.nextInt(totalWeight);
+//            for (QuestRewardEntry entry : sortedEntries) {
+//                if (rand < entry.weight()) {
+//                    randomEntry = entry;
+//                    break;
+//                }
+//                rand -= entry.weight();
+//            }
+//
+//            Integer odds = rewardOdds.get(randomEntry.item());
+//            if (odds == null) {
+//                odds = 0;
+//            }
+//            rewardOdds.put(randomEntry.item(), odds + 1);
+//        }
+//
+//        PokemonFieldLab.LOGGER.info("{}", rewardOdds.entrySet().stream()
+//                .sorted(Map.Entry.comparingByValue())
+//                .peek(entry -> PokemonFieldLab.LOGGER.info(entry+""))
+//                .toList());
+//        PokemonFieldLab.LOGGER.info("====================");
+//    }
+
     public static ItemStack getIndivReward(RandomSource randomSource, float difficulty) {
-        QuestRewardEntry rewardEntry = indivRewards.get(randomSource.nextInt(indivRewards.size()));
-        float value = difficulty * CommonConfig.indivRewardValueScale;
-        int amount = rewardEntry.minCount();
-        while (amount < rewardEntry.maxCount() && value > rewardEntry.cost()*amount) {
-            amount++;
+        List<QuestRewardEntry> sortedEntries = indivRewards.stream()  // Just to make sure
+                .sorted(Comparator.comparingInt(QuestRewardEntry::weight))
+                .toList();
+
+        int totalWeight = 0;
+        for (QuestRewardEntry entry : sortedEntries) {
+            totalWeight += entry.weight();
         }
 
-        return new ItemStack(rewardEntry.item(), amount);
+        QuestRewardEntry randomEntry = sortedEntries.getFirst();
+        int rand = randomSource.nextInt(totalWeight);
+        for (QuestRewardEntry entry : sortedEntries) {
+            if (rand < entry.weight()) {
+                randomEntry = entry;
+                break;
+            }
+            rand -= entry.weight();
+        }
+
+        int amount = randomSource.nextInt(randomEntry.minCount(), randomEntry.maxCount()+1);
+        return new ItemStack(randomEntry.item(), amount);
     }
 
     public static List<ItemStack> getMinorRewards(RandomSource randomSource) {
-        // Get a random sample from the list of possible rewards
-        int items = Math.min(CommonConfig.minorRewardMinItems, minorRewards.size());
-        int maxItems = Math.min(CommonConfig.minorRewardMaxItems, minorRewards.size());
-        items = items <= maxItems ? items : randomSource.nextInt(items, maxItems);
+        // NOTE: Same alg with indivRewards but a list of 1-3 items, temp
+        // TODO: change to no longer need a datapack
 
-        List<QuestRewardEntry> sample = new ArrayList<>(minorRewards);
-        Collections.shuffle(sample);
-        sample = sample.subList(0, items);
-        List<MutablePair<Integer, QuestRewardEntry>> entries = sample.stream()
-                .map(entry->new MutablePair<>(entry.minCount(), entry))
+        List<QuestRewardEntry> sortedEntries = minorRewards.stream()  // Just to make sure
+                .sorted(Comparator.comparingInt(QuestRewardEntry::weight))
                 .toList();
 
-        // Set entry amounts
-        double totalCost = entries.stream()
-                .mapToDouble(pair->pair.getLeft()*pair.getRight().cost())
-                .sum();
-        while (totalCost < CommonConfig.minorRewardValue) {
-            List<MutablePair<Integer, QuestRewardEntry>> availableEntries = entries.stream()
-                    .filter(pair->pair.getLeft()<pair.getRight().maxCount())
-                    .toList();
+        int items = randomSource.nextInt(1, 3);
+        List<ItemStack> rewardList = new ArrayList<>();
 
-            if (availableEntries.isEmpty()) break;
-            MutablePair<Integer, QuestRewardEntry> availablePair = availableEntries.get(randomSource.nextInt(availableEntries.size()));
-            availablePair.setLeft(availablePair.getLeft()+1);
+        for (int i=0; i<items; i++) {
+            int totalWeight = 0;
+            for (QuestRewardEntry entry : sortedEntries) {
+                totalWeight += entry.weight();
+            }
 
-            totalCost = entries.stream()
-                    .mapToDouble(pair->pair.getLeft()*pair.getRight().cost())
-                    .sum();
+            QuestRewardEntry randomEntry = sortedEntries.getFirst();
+            int rand = randomSource.nextInt(totalWeight);
+            for (QuestRewardEntry entry : sortedEntries) {
+                if (rand < entry.weight()) {
+                    randomEntry = entry;
+                    break;
+                }
+                rand -= entry.weight();
+            }
+
+            int amount = randomSource.nextInt(randomEntry.minCount(), randomEntry.maxCount()+1);
+            rewardList.add(new ItemStack(randomEntry.item(), amount));
         }
 
-        return entries.stream()
-                .map(pair->new ItemStack(pair.getRight().item(), pair.getLeft()))
-                .toList();
+        return rewardList;
     }
 
     public static List<ItemStack> getMajorRewards(RandomSource randomSource) {
-        // Get a random sample from the list of possible rewards
-        int items = Math.min(CommonConfig.majorRewardMinItems, majorRewards.size());
-        int maxItems = Math.min(CommonConfig.majorRewardMaxItems, majorRewards.size());
-        items = items <= maxItems ? items : randomSource.nextInt(items, maxItems);
+        // NOTE: Same alg with indivRewards but a list of 4-6 items
 
-        List<QuestRewardEntry> sample = new ArrayList<>(majorRewards);
-        Collections.shuffle(sample);
-        sample = sample.subList(0, items);
-        List<MutablePair<Integer, QuestRewardEntry>> entries = sample.stream()
-                .map(entry->new MutablePair<>(entry.minCount(), entry))
+        List<QuestRewardEntry> sortedEntries = majorRewards.stream()  // Just to make sure
+                .sorted(Comparator.comparingInt(QuestRewardEntry::weight))
                 .toList();
 
-        // Set entry amounts
-        double totalCost = entries.stream()
-                .mapToDouble(pair->pair.getLeft()*pair.getRight().cost())
-                .sum();
-        while (totalCost < CommonConfig.majorRewardValue) {
-            List<MutablePair<Integer, QuestRewardEntry>> availableEntries = entries.stream()
-                    .filter(pair->pair.getLeft()<pair.getRight().maxCount())
-                    .toList();
+        int items = randomSource.nextInt(4, 6);
+        List<ItemStack> rewardList = new ArrayList<>();
 
-            if (availableEntries.isEmpty()) break;
-            MutablePair<Integer, QuestRewardEntry> availablePair = availableEntries.get(randomSource.nextInt(availableEntries.size()));
-            availablePair.setLeft(availablePair.getLeft()+1);
+        for (int i=0; i<items; i++) {
+            int totalWeight = 0;
+            for (QuestRewardEntry entry : sortedEntries) {
+                totalWeight += entry.weight();
+            }
 
-            totalCost = entries.stream()
-                    .mapToDouble(pair->pair.getLeft()*pair.getRight().cost())
-                    .sum();
+            QuestRewardEntry randomEntry = sortedEntries.getFirst();
+            int rand = randomSource.nextInt(totalWeight);
+            for (QuestRewardEntry entry : sortedEntries) {
+                if (rand < entry.weight()) {
+                    randomEntry = entry;
+                    break;
+                }
+                rand -= entry.weight();
+            }
+
+            int amount = randomSource.nextInt(randomEntry.minCount(), randomEntry.maxCount()+1);
+            rewardList.add(new ItemStack(randomEntry.item(), amount));
         }
 
-        return entries.stream()
-                .map(pair->new ItemStack(pair.getRight().item(), pair.getLeft()))
-                .toList();
+        return rewardList;
     }
 
 }

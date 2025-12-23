@@ -6,12 +6,12 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
 
-public record QuestRewardEntry(Item item, int minCount, int maxCount, float cost) {
+public record QuestRewardEntry(Item item, int minCount, int maxCount, int weight) {
 
     public static final MapCodec<QuestRewardEntry> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(QuestRewardEntry::item),
             Codec.INT.fieldOf("min_count").forGetter(QuestRewardEntry::minCount),
             Codec.INT.fieldOf("max_count").forGetter(QuestRewardEntry::maxCount),
-            Codec.FLOAT.fieldOf("cost").forGetter(QuestRewardEntry::cost)
+            Codec.INT.fieldOf("weight").forGetter(QuestRewardEntry::weight)
     ).apply(instance, QuestRewardEntry::new));
 }
