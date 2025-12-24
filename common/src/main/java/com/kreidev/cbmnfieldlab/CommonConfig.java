@@ -2,16 +2,10 @@ package com.kreidev.cbmnfieldlab;
 
 public class CommonConfig {
     // NOTE: no getter/setter crap, just be mindful when to when it gets set.
-    // TODO: use this values for defaults instead of setting individually per platform
-    // TODO: organize configs on both platforms
 
     public static int rerollTimeSeconds = 300;
 
     public static float indivRewardValueScale = 2.0F;
-
-    public static float minorRewardValue = 4.0F;
-    public static int minorRewardMinItems = 1;
-    public static int minorRewardMaxItems = 2;
 
     public static int minorRewardMinXP = 5000;
     public static int minorRewardMaxXP = 12000;

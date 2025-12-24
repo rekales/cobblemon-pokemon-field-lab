@@ -40,11 +40,6 @@ public class RewardDataLoader extends SimpleJsonResourceReloadListener {
                             .getOrThrow();
                     RewardManager.addIndivRewards(rewards);
                     LOGGER.info("Loaded individual quest rewards");
-                } else if (id.equals(resLoc("minor_quest_rewards"))) {
-                    List<QuestRewardEntry> rewards = LIST_CODEC.parse(JsonOps.INSTANCE, json)
-                            .getOrThrow();
-                    RewardManager.addMinorRewards(rewards);
-                    LOGGER.info("Loaded minor quest rewards");
                 } else if (id.equals(resLoc("major_quest_rewards"))) {
                     List<QuestRewardEntry> rewards = LIST_CODEC.parse(JsonOps.INSTANCE, json)
                             .getOrThrow();

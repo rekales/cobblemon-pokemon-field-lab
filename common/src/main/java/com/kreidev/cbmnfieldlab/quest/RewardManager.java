@@ -11,15 +11,10 @@ import java.util.*;
 public class RewardManager {
 
     private static final List<QuestRewardEntry> indivRewards = new ArrayList<>();
-    private static final List<QuestRewardEntry> minorRewards = new ArrayList<>();
     private static final List<QuestRewardEntry> majorRewards = new ArrayList<>();
 
     public static void addIndivRewards(List<QuestRewardEntry> rewards) {
         indivRewards.addAll(rewards);
-    }
-
-    public static void addMinorRewards(List<QuestRewardEntry> rewards) {
-        minorRewards.addAll(rewards);
     }
 
     public static void addMajorRewards(List<QuestRewardEntry> rewards) {
@@ -28,7 +23,6 @@ public class RewardManager {
 
     public static void clearAll() {
         indivRewards.clear();
-        minorRewards.clear();
         majorRewards.clear();
     }
 

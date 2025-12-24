@@ -18,28 +18,24 @@ public class CommonConfigNeoForge {
             .comment("Scaling multiplier for individual quest reward value")
             .defineInRange("indivRewardValueScale", CommonConfig.indivRewardValueScale, 0.01D, 1000.0D);
 
-    private static final ModConfigSpec.DoubleValue MINOR_REWARD_VALUE = BUILDER
-            .comment("Base reward value for minor quests")
-            .defineInRange("minorRewardValue", CommonConfig.minorRewardValue, 0.01D, 1000.0D);
+    private static final ModConfigSpec.IntValue MINOR_REWARD_MIN_XP = BUILDER
+            .comment("Minimum amount of xp for minor rewards")
+            .defineInRange("minorRewardMinXP", CommonConfig.minorRewardMinXP, 1, 400000);
 
-    private static final ModConfigSpec.IntValue MINOR_REWARD_MIN_ITEMS = BUILDER
-            .comment("Minimum number of items given for minor quest rewards")
-            .defineInRange("minorRewardMinItems", CommonConfig.minorRewardMinItems, 1, 100);
-
-    private static final ModConfigSpec.IntValue MINOR_REWARD_MAX_ITEMS = BUILDER
-            .comment("Maximum number of items given for minor quest rewards")
-            .defineInRange("minorRewardMaxItems", CommonConfig.minorRewardMaxItems, 1, 100);
+    private static final ModConfigSpec.IntValue MINOR_REWARD_MAX_XP = BUILDER
+            .comment("Maximum amount of xp for minor rewards")
+            .defineInRange("minorRewardMaxXP", CommonConfig.minorRewardMaxXP, 1, 400000);
 
     private static final ModConfigSpec.DoubleValue MAJOR_REWARD_VALUE = BUILDER
-            .comment("Base reward value for major quests")
+            .comment("Base reward value for major rewards")
             .defineInRange("majorRewardValue", CommonConfig.majorRewardValue, 0.01D, 1000.0D);
 
     private static final ModConfigSpec.IntValue MAJOR_REWARD_MIN_ITEMS = BUILDER
-            .comment("Minimum number of items given for major quest rewards")
+            .comment("Minimum number of items given for major rewards")
             .defineInRange("majorRewardMinItems", CommonConfig.majorRewardMinItems, 1, 100);
 
     private static final ModConfigSpec.IntValue MAJOR_REWARD_MAX_ITEMS = BUILDER
-            .comment("Maximum number of items given for major quest rewards")
+            .comment("Maximum number of items given for major rewards")
             .defineInRange("majorRewardMaxItems", CommonConfig.majorRewardMaxItems, 1, 100);
 
     // Quest type toggles
@@ -190,9 +186,8 @@ public class CommonConfigNeoForge {
         CommonConfig.rerollTimeSeconds = REROLL_TIME_SECONDS.get();
 
         CommonConfig.indivRewardValueScale = INDIV_REWARD_VALUE_SCALE.get().floatValue();
-        CommonConfig.minorRewardValue = MINOR_REWARD_VALUE.get().floatValue();
-        CommonConfig.minorRewardMinItems = MINOR_REWARD_MIN_ITEMS.get();
-        CommonConfig.minorRewardMaxItems = MINOR_REWARD_MAX_ITEMS.get();
+        CommonConfig.minorRewardMinXP = MINOR_REWARD_MIN_XP.get();
+        CommonConfig.minorRewardMaxXP = MINOR_REWARD_MAX_XP.get();
         CommonConfig.majorRewardValue = MAJOR_REWARD_VALUE.get().floatValue();
         CommonConfig.majorRewardMinItems = MAJOR_REWARD_MIN_ITEMS.get();
         CommonConfig.majorRewardMaxItems = MAJOR_REWARD_MAX_ITEMS.get();

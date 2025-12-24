@@ -1,5 +1,0 @@
-[
-  { "item": "cobblemon:exp_candy_s", "min_count": 1, "max_count": 12, "weight": 60 },
-  { "item": "cobblemon:exp_candy_m", "min_count": 1, "max_count": 8, "weight": 40 },
-  { "item": "cobblemon:exp_candy_l", "min_count": 1, "max_count": 5, "weight": 10 }
-]

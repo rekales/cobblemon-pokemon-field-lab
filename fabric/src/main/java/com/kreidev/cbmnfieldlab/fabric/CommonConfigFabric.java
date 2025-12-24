@@ -15,14 +15,11 @@ public class CommonConfigFabric extends MidnightConfig {
     @Entry(category = COMMON, min = 0.01, max = 1000)
     public static float INDIV_REWARD_VALUE_SCALE = CommonConfig.indivRewardValueScale;
 
-    @Entry(category = COMMON, min = 0.01, max = 1000)
-    public static float MINOR_REWARD_VALUE = CommonConfig.minorRewardValue;
+    @Entry(category = COMMON, min = 1, max = 400000)
+    public static int MINOR_REWARD_MIN_XP = CommonConfig.minorRewardMinXP;
 
-    @Entry(category = COMMON, min = 1, max = 100)
-    public static int MINOR_REWARD_MIN_ITEMS = CommonConfig.minorRewardMinItems;
-
-    @Entry(category = COMMON, min = 1, max = 100)
-    public static int MINOR_REWARD_MAX_ITEMS = CommonConfig.minorRewardMaxItems;
+    @Entry(category = COMMON, min = 1, max = 400000)
+    public static int MINOR_REWARD_MAX_XP = CommonConfig.minorRewardMaxXP;
 
     @Entry(category = COMMON, min = 0.01, max = 1000)
     public static float MAJOR_REWARD_VALUE = CommonConfig.majorRewardValue;
@@ -147,9 +144,8 @@ public class CommonConfigFabric extends MidnightConfig {
         CommonConfig.rerollTimeSeconds = REROLL_TIME_SECONDS;
 
         CommonConfig.indivRewardValueScale = INDIV_REWARD_VALUE_SCALE;
-        CommonConfig.minorRewardValue = MINOR_REWARD_VALUE;
-        CommonConfig.minorRewardMinItems = MINOR_REWARD_MIN_ITEMS;
-        CommonConfig.minorRewardMaxItems = MINOR_REWARD_MAX_ITEMS;
+        CommonConfig.minorRewardMinXP = MINOR_REWARD_MIN_XP;
+        CommonConfig.minorRewardMaxXP = MINOR_REWARD_MAX_XP;
         CommonConfig.majorRewardValue = MAJOR_REWARD_VALUE;
         CommonConfig.majorRewardMinItems = MAJOR_REWARD_MIN_ITEMS;
         CommonConfig.majorRewardMaxItems = MAJOR_REWARD_MAX_ITEMS;
