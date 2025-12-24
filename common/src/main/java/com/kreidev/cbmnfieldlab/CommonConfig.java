@@ -13,8 +13,11 @@ public class CommonConfig {
     public static int minorRewardMinItems = 1;
     public static int minorRewardMaxItems = 2;
 
+    public static int minorRewardMinXP = 5000;
+    public static int minorRewardMaxXP = 12000;
+
     public static float majorRewardValue = 8.0F;
-    public static int majorRewardMinItems = 3;
+    public static int majorRewardMinItems = 4;
     public static int majorRewardMaxItems = 6;
 
     public static boolean enableAbilityQuest = true;

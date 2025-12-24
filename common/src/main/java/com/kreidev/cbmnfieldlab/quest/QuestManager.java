@@ -23,7 +23,7 @@ import java.util.*;
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.LOGGER;
 
 // NOTE: maybe let's separate the SavedData subclass to another class instead of using the QuestManager?
-@SuppressWarnings("UnusedReturnValue")
+@SuppressWarnings("unused")
 public class QuestManager extends SavedData {
 
     public static final Codec<Map<UUID, PlayerQuestContainer>> CODEC =
@@ -106,6 +106,7 @@ public class QuestManager extends SavedData {
         return container.hasQuest(quest);
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public static boolean submitPokemon(@NotNull ServerPlayer player, @NotNull Pokemon pokemon) {
         PlayerQuestContainer container = getQuestContainer(player);
 
@@ -125,7 +126,6 @@ public class QuestManager extends SavedData {
         if ((preFinishedQuests%3)+completedQuests >= 9) {  // Major reward check
             for (ItemStack stack : container.getNextMajorRewards()) {
                 player.getInventory().placeItemBackInInventory(stack);
-                LOGGER.info(stack+"");
             }
             container.replaceMajorRewards(RewardManager.getMajorRewards(player.level().getRandom()));
         }
@@ -133,7 +133,6 @@ public class QuestManager extends SavedData {
         if ((preFinishedQuests%3)+completedQuests >= 3) {  // Minor reward check
             for (ItemStack stack : container.getNextMinorRewards()) {
                 player.getInventory().placeItemBackInInventory(stack);
-                LOGGER.info(stack+"");
             }
             container.replaceMinorRewards(RewardManager.getMinorRewards(player.level().getRandom()));
         }
