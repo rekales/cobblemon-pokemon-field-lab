@@ -93,13 +93,13 @@ public class QuestPanelWidget extends SoundlessWidget {
         );
         guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 
-        if (isHovering(this.getX()+147, this.getY()+146, mouseX, mouseY)) {
-            guiGraphics.renderTooltip(Minecraft.getInstance().font, displayedItem, mouseX, mouseY);
-        }
-
         this.qs1.render(guiGraphics, mouseX, mouseY, delta);
         this.qs2.render(guiGraphics, mouseX, mouseY, delta);
         this.qs3.render(guiGraphics, mouseX, mouseY, delta);
+
+        if (isHovering(this.getX()+147, this.getY()+146, mouseX, mouseY)) {
+            guiGraphics.renderTooltip(Minecraft.getInstance().font, displayedItem, mouseX, mouseY);
+        }
     }
 
     // Could've just recreated the whole quest panel object but eh I already made this.
