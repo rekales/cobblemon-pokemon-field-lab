@@ -1,5 +1,6 @@
 package com.kreidev.cbmnfieldlab.quest.type;
 
+import com.cobblemon.mod.common.Cobblemon;
 import com.cobblemon.mod.common.api.pokedex.Dexes;
 import com.cobblemon.mod.common.api.pokedex.def.PokedexDef;
 import com.cobblemon.mod.common.api.pokedex.entry.PokedexEntry;
@@ -34,6 +35,8 @@ public class RegionQuest extends Quest {
     public RegionQuest(ServerLevel level) {
         super(level, CommonConfig.regionQuestDifficulty);
         List<ResourceLocation> dexes = new ArrayList<>(Dexes.INSTANCE.getDexEntryMap().keySet());
+        dexes.remove(ResourceLocation.fromNamespaceAndPath(Cobblemon.MODID, "national"));
+        dexes.remove(ResourceLocation.fromNamespaceAndPath(Cobblemon.MODID, "unknown"));
         this.region = dexes.get(level.getRandom().nextInt(dexes.size()));
     }
 
