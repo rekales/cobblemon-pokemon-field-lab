@@ -4,8 +4,10 @@ import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
@@ -38,6 +40,11 @@ public class FieldLabBlockEntity extends BlockEntity {
             boolean currentState = blockState.getValue(FieldLabBlock.OPEN);
             if (currentState!=newState) {
                 level.setBlockAndUpdate(blockPos, blockState.setValue(FieldLabBlock.OPEN, newState));
+            }
+
+            // TODO: remove at the next major version along with the property
+            if (be.getBlockState().getValue(FieldLabBlock.HALF) == DoubleBlockHalf.UPPER) {
+                level.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 3);
             }
         }
     }

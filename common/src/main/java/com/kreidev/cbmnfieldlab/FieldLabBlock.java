@@ -27,7 +27,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -74,12 +73,14 @@ public class FieldLabBlock extends BaseEntityBlock {
     public static final VoxelShape WEST_AABB = SHAPER.get(Direction.WEST);
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
     public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 
     public FieldLabBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
+                .setValue(HALF, DoubleBlockHalf.LOWER)
                 .setValue(OPEN, false)
         );
     }
@@ -161,6 +162,7 @@ public class FieldLabBlock extends BaseEntityBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
+        builder.add(HALF);
         builder.add(OPEN);
     }
 
@@ -172,6 +174,7 @@ public class FieldLabBlock extends BaseEntityBlock {
         if (blockPos.getY() < level.getMaxBuildHeight()-1 && level.getBlockState(blockPos.above()).canBeReplaced(blockPlaceContext)) {
             return this.defaultBlockState()
                     .setValue(FACING, blockPlaceContext.getHorizontalDirection())
+                    .setValue(HALF, DoubleBlockHalf.LOWER)
                     .setValue(OPEN, false);
         } else {
             return null;
