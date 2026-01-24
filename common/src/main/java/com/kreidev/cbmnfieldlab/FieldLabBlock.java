@@ -3,10 +3,12 @@ package com.kreidev.cbmnfieldlab;
 import com.kreidev.cbmnfieldlab.gui.FieldLabMenu;
 import com.kreidev.cbmnfieldlab.quest.PlayerQuestContainer;
 import com.kreidev.cbmnfieldlab.quest.QuestManager;
+import com.kreidev.cbmnfieldlab.util.VoxelShaper;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -39,85 +41,37 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static com.kreidev.cbmnfieldlab.PokemonFieldLab.*;
 
 // Some parts are based from DoorBlock, some from PCBlock
+@MethodsReturnNonnullByDefault
 public class FieldLabBlock extends BaseEntityBlock {
 
     public static final MapCodec<FieldLabBlock> CODEC = simpleCodec(FieldLabBlock::new);
 
-    public static final VoxelShape NORTH_AABB_TOP = Shapes.or(
-            Block.box(2, 0, 10, 14, 1, 13),
-            Block.box(2, 2, 9, 14, 13, 9),
-            Block.box(2, 13, 1, 14, 15, 14),
-            Block.box(2, 0, 1, 14, 2, 10),
-            Block.box(1, 0, 1, 2, 14, 13),
-            Block.box(14, 0, 1, 15, 14, 13),
-            Block.box(2, 0, 0, 14, 15, 1)
-    );
-    public static final VoxelShape SOUTH_AABB_TOP = Shapes.or(
-            Block.box(2, 0, 3, 14, 1, 6),
-            Block.box(2, 2, 7, 14, 13, 7),
-            Block.box(2, 13, 2, 14, 15, 15),
-            Block.box(2, 0, 6, 14, 2, 15),
-            Block.box(14, 0, 3, 15, 14, 15),
-            Block.box(1, 0, 3, 2, 14, 15),
-            Block.box(2, 0, 15, 14, 15, 16)
-    );
-    public static final VoxelShape EAST_AABB_TOP = Shapes.or(
-            Block.box(3, 0, 2, 6, 1, 14),
-            Block.box(7, 2, 2, 7, 13, 14),
-            Block.box(2, 13, 2, 15, 15, 14),
-            Block.box(6, 0, 2, 15, 2, 14),
-            Block.box(3, 0, 1, 15, 14, 2),
-            Block.box(3, 0, 14, 15, 14, 15),
-            Block.box(15, 0, 2, 16, 15, 14)
-    );
-    public static final VoxelShape WEST_AABB_TOP = Shapes.or(
-            Block.box(10, 0, 2, 13, 1, 14),
-            Block.box(9, 2, 2, 9, 13, 14),
-            Block.box(1, 13, 2, 14, 15, 14),
-            Block.box(1, 0, 2, 10, 2, 14),
-            Block.box(1, 0, 14, 13, 14, 15),
-            Block.box(1, 0, 1, 13, 14, 2),
-            Block.box(0, 0, 2, 1, 15, 14)
-    );
+    // Raw cubes and non-optimal but should be fine since there should only be a few instances of this
+    private static final VoxelShaper SHAPER = VoxelShaper.forHorizontal(Shapes.or(
+            Block.box(7, 13, 12, 11, 14, 13),
+            Block.box(3, 3, 12, 15, 13, 15),
+            Block.box(7, 2, 1, 11, 3, 2),
+            Block.box(3, 0, 2, 15, 3, 12),
+            Block.box(4, 3, 3, 14, 4, 12),
+            Block.box(5, 4, 11, 13, 11, 12),
+            Block.box(5, 11, 10, 13, 12, 12),
+            Block.box(13, 4, 10, 14, 12, 12),
+            Block.box(4, 4, 10, 5, 12, 12),
+            Block.box(1, 4, 11, 3, 10, 14),
+            Block.box(0, 1, 5, 3, 2, 9),
+            Block.box(1, 2, 6, 3, 4, 8),
+            Block.box(2, 10, 13, 3, 17, 14)
+    ), Direction.SOUTH);
 
-    public static final VoxelShape NORTH_AABB_BOTTOM = Shapes.or(
-            Block.box(2, 8, 1, 14, 16, 12),
-            Block.box(2, 1, 2, 14, 8, 14),
-            Block.box(1, 1, 1, 2, 16, 13),
-            Block.box(14, 1, 1, 15, 16, 13),
-            Block.box(2, 0, 1, 14, 1, 13),
-            Block.box(2, 0, 0, 14, 16, 1)
-    );
-    public static final VoxelShape SOUTH_AABB_BOTTOM = Shapes.or(
-            Block.box(2, 8, 4, 14, 16, 15),
-            Block.box(2, 1, 2, 14, 8, 14),
-            Block.box(14, 1, 3, 15, 16, 15),
-            Block.box(1, 1, 3, 2, 16, 15),
-            Block.box(2, 0, 3, 14, 1, 15),
-            Block.box(2, 0, 15, 14, 16, 16)
-    );
-    public static final VoxelShape EAST_AABB_BOTTOM = Shapes.or(
-            Block.box(4, 8, 2, 15, 16, 14),
-            Block.box(2, 1, 2, 14, 8, 14),
-            Block.box(3, 1, 1, 15, 16, 2),
-            Block.box(3, 1, 14, 15, 16, 15),
-            Block.box(3, 0, 2, 15, 1, 14),
-            Block.box(15, 0, 2, 16, 16, 14)
-    );
-    public static final VoxelShape WEST_AABB_BOTTOM = Shapes.or(
-            Block.box(1, 8, 2, 12, 16, 14),
-            Block.box(2, 1, 2, 14, 8, 14),
-            Block.box(1, 1, 14, 13, 16, 15),
-            Block.box(1, 1, 1, 13, 16, 2),
-            Block.box(1, 0, 2, 13, 1, 14),
-            Block.box(0, 0, 2, 1, 16, 14)
-    );
+    public static final VoxelShape NORTH_AABB = SHAPER.get(Direction.NORTH);
+    public static final VoxelShape SOUTH_AABB = SHAPER.get(Direction.SOUTH);
+    public static final VoxelShape EAST_AABB = SHAPER.get(Direction.EAST);
+    public static final VoxelShape WEST_AABB = SHAPER.get(Direction.WEST);
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
@@ -138,7 +92,7 @@ public class FieldLabBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected @NotNull InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos blockPos, Player player, BlockHitResult blockHitResult) {
+    protected InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos blockPos, Player player, BlockHitResult blockHitResult) {
         if (level instanceof ServerLevel && player instanceof ServerPlayer serverPlayer) {
             MenuRegistry.openExtendedMenu(serverPlayer, new ExtendedMenuProvider() {
                 @Override
@@ -158,7 +112,7 @@ public class FieldLabBlock extends BaseEntityBlock {
                 }
 
                 @Override
-                public @NotNull Component getDisplayName() {
+                public Component getDisplayName() {
                     //noinspection NoTranslation
                     return Component.translatable("menu.%s.%s", MOD_ID, FIELD_LAB_NAME);
                 }
@@ -176,19 +130,19 @@ public class FieldLabBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected @NotNull VoxelShape getShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
+    protected VoxelShape getShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
         return switch (blockState.getValue(HALF)) {
             case DoubleBlockHalf.UPPER -> switch (blockState.getValue(FACING)) {
-                case Direction.NORTH -> NORTH_AABB_TOP;
-                case Direction.SOUTH -> SOUTH_AABB_TOP;
-                case Direction.EAST -> EAST_AABB_TOP;
-                default -> WEST_AABB_TOP;  // West, but the IDE complains about not including up and down
+                case Direction.NORTH -> NORTH_AABB;
+                case Direction.SOUTH -> SOUTH_AABB;
+                case Direction.EAST -> EAST_AABB;
+                default -> WEST_AABB;  // West, but the IDE complains about not including up and down
             };
             case DoubleBlockHalf.LOWER -> switch (blockState.getValue(FACING)) {
-                case Direction.NORTH -> NORTH_AABB_BOTTOM;
-                case Direction.SOUTH -> SOUTH_AABB_BOTTOM;
-                case Direction.EAST -> EAST_AABB_BOTTOM;
-                default -> WEST_AABB_BOTTOM;
+                case Direction.NORTH -> NORTH_AABB;
+                case Direction.SOUTH -> SOUTH_AABB;
+                case Direction.EAST -> EAST_AABB;
+                default -> WEST_AABB;
             };
         };
     }
@@ -256,12 +210,12 @@ public class FieldLabBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected @NotNull BlockState rotate(BlockState blockState, Rotation rotation) {
+    protected BlockState rotate(BlockState blockState, Rotation rotation) {
         return blockState.setValue(FACING, rotation.rotate(blockState.getValue(FACING)));
     }
 
     @Override
-    protected @NotNull BlockState mirror(BlockState blockState, Mirror mirror) {
+    protected BlockState mirror(BlockState blockState, Mirror mirror) {
         return blockState.rotate(mirror.getRotation(blockState.getValue(FACING)));
     }
 
