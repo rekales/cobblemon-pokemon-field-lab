@@ -48,7 +48,7 @@ public class PokemonFieldLab {
                     .pushReaction(PushReaction.BLOCK)
                     .strength(2F)
                     .noOcclusion()
-                    .lightLevel(state -> (state.getValue(FieldLabBlock.OPEN) && state.getValue(FieldLabBlock.HALF) == DoubleBlockHalf.UPPER) ? 10 : 0)
+                    .lightLevel(state -> state.getValue(FieldLabBlock.OPEN) ? 10 : 0)
             )
     );
     public static final RegistrySupplier<BlockEntityType<FieldLabBlockEntity>> FIELD_LAB_BLOCK_ENTITY = BLOCK_ENTITIES

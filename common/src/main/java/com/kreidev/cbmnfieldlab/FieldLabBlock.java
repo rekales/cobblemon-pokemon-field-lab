@@ -74,14 +74,12 @@ public class FieldLabBlock extends BaseEntityBlock {
     public static final VoxelShape WEST_AABB = SHAPER.get(Direction.WEST);
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-    public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
     public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 
     public FieldLabBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
-                .setValue(HALF, DoubleBlockHalf.LOWER)
                 .setValue(OPEN, false)
         );
     }
@@ -97,10 +95,7 @@ public class FieldLabBlock extends BaseEntityBlock {
             MenuRegistry.openExtendedMenu(serverPlayer, new ExtendedMenuProvider() {
                 @Override
                 public void saveExtraData(FriendlyByteBuf buf) {
-                    if (blockState.getValue(HALF) == DoubleBlockHalf.UPPER)
-                        buf.writeBlockPos(blockPos.below());
-                    else
-                        buf.writeBlockPos(blockPos);
+                    buf.writeBlockPos(blockPos);
 
                     CompoundTag tag = new CompoundTag();
                     DataResult<Tag> result = PlayerQuestContainer.CODEC.codec()
@@ -131,31 +126,12 @@ public class FieldLabBlock extends BaseEntityBlock {
 
     @Override
     protected VoxelShape getShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
-        return switch (blockState.getValue(HALF)) {
-            case DoubleBlockHalf.UPPER -> switch (blockState.getValue(FACING)) {
-                case Direction.NORTH -> NORTH_AABB;
-                case Direction.SOUTH -> SOUTH_AABB;
-                case Direction.EAST -> EAST_AABB;
-                default -> WEST_AABB;  // West, but the IDE complains about not including up and down
-            };
-            case DoubleBlockHalf.LOWER -> switch (blockState.getValue(FACING)) {
-                case Direction.NORTH -> NORTH_AABB;
-                case Direction.SOUTH -> SOUTH_AABB;
-                case Direction.EAST -> EAST_AABB;
-                default -> WEST_AABB;
-            };
+        return switch (blockState.getValue(FACING)) {
+            case Direction.NORTH -> NORTH_AABB;
+            case Direction.SOUTH -> SOUTH_AABB;
+            case Direction.EAST -> EAST_AABB;
+            default -> WEST_AABB;
         };
-    }
-
-    @Override
-    protected BlockState updateShape(BlockState blockState, Direction direction, BlockState blockState2, LevelAccessor levelAccessor, BlockPos blockPos, BlockPos blockPos2) {
-        DoubleBlockHalf doubleBlockHalf = blockState.getValue(HALF);
-        if (direction.getAxis() == Direction.Axis.Y && doubleBlockHalf == DoubleBlockHalf.LOWER == (direction == Direction.UP)) {
-            return blockState2.getBlock() instanceof FieldLabBlock && blockState2.getValue(HALF) != doubleBlockHalf ? blockState2.setValue(HALF, doubleBlockHalf) : Blocks.AIR.defaultBlockState();
-        } else {
-            return doubleBlockHalf == DoubleBlockHalf.LOWER && direction == Direction.DOWN && !blockState.canSurvive(levelAccessor, blockPos)
-                    ? Blocks.AIR.defaultBlockState() : super.updateShape(blockState, direction, blockState2, levelAccessor, blockPos, blockPos2);
-        }
     }
 
     @Override
@@ -163,16 +139,11 @@ public class FieldLabBlock extends BaseEntityBlock {
         BlockPos blockPosBelow = blockPos.below();
         BlockState blockStateBelow = levelReader.getBlockState(blockPosBelow);
 
-        if (blockState.getValue(HALF) == DoubleBlockHalf.LOWER) {
-            return blockStateBelow.isFaceSturdy(levelReader, blockPosBelow, Direction.UP);
-        } else {
-            return blockStateBelow.is(this);
-        }
+        return blockStateBelow.isFaceSturdy(levelReader, blockPosBelow, Direction.UP);
     }
 
     @Override
     public void setPlacedBy(Level level, BlockPos blockPos, BlockState blockState, @Nullable LivingEntity livingEntity, ItemStack itemStack) {
-        level.setBlock(blockPos.above(), blockState.setValue(HALF, DoubleBlockHalf.UPPER), 3);
         level.blockUpdated(blockPos, Blocks.AIR);
         blockState.updateNeighbourShapes(level, blockPos, 3);
     }
@@ -190,7 +161,6 @@ public class FieldLabBlock extends BaseEntityBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
-        builder.add(HALF);
         builder.add(OPEN);
     }
 
@@ -202,7 +172,6 @@ public class FieldLabBlock extends BaseEntityBlock {
         if (blockPos.getY() < level.getMaxBuildHeight()-1 && level.getBlockState(blockPos.above()).canBeReplaced(blockPlaceContext)) {
             return this.defaultBlockState()
                     .setValue(FACING, blockPlaceContext.getHorizontalDirection())
-                    .setValue(HALF, DoubleBlockHalf.LOWER)
                     .setValue(OPEN, false);
         } else {
             return null;
