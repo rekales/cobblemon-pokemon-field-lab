@@ -52,7 +52,7 @@ public class QuestPanelWidget extends SoundlessWidget {
             RenderHelperKt.drawScaledText(
                     guiGraphics, null, Component.literal("exp"),
                     this.getX() + 26 + 45*i, this.getY() + 143, 1F, 1F,
-                    Integer.MAX_VALUE, 0x003B6F26 + ((int)(255*alpha)<<24),
+                    Integer.MAX_VALUE, 0x00009CAE + ((int)(255*alpha)<<24),
                     true, false, null, null
             );
         }

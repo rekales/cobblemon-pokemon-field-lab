@@ -6,7 +6,6 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.Species;
 import com.kreidev.cbmnfieldlab.CommonConfig;
-import com.kreidev.cbmnfieldlab.PokemonFieldLab;
 import com.kreidev.cbmnfieldlab.quest.Quest;
 import com.kreidev.cbmnfieldlab.quest.QuestType;
 import com.kreidev.cbmnfieldlab.quest.QuestTypes;
@@ -59,7 +58,6 @@ public class MoveQuest extends Quest {
 
     @Override
     public boolean isEligible(@NotNull Pokemon pokemon) {
-        PokemonFieldLab.LOGGER.info(pokemon.getSpecies().getMoves().getAllLegalMoves().toString());
         for (Move move : pokemon.getMoveSet().getMoves()) {
             if (this.move == move.getTemplate()) return true;
         }
